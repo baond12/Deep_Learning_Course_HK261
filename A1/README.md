@@ -1,12 +1,13 @@
 # Assignment 1 - CNN vs Transformer
 
-Mục tiêu: so sánh CNN và Transformer trên **CIFAR-100 subset** với các chế độ
+Mục tiêu: so sánh CNN và Transformer trên **full CIFAR-100, 100 classes** với các chế độ
 from-scratch, pretrained freeze backbone/head-only, pretrained partial unfreeze và full
 fine-tune.
 
 ## Cấu trúc
 
-- `data.py`: CIFAR-100 subset, split train/validation/test, augmentation.
+- `prepare_data.py`: tải CIFAR-100 một lần vào `--data-dir`.
+- `data.py`: full CIFAR-100, split cân bằng train/validation/test theo class, augmentation.
 - `models.py`: ResNet18 và ViT-B/16 với các chế độ freeze/fine-tune.
 - `train.py`: training loop A1, lưu metric và hình phân tích.
 - `analyze_results.py`: tổng hợp `summary.csv`, tạo bar charts và `analysis.md`.
@@ -16,17 +17,18 @@ fine-tune.
 - `checkpoints/`: nơi lưu checkpoint tùy chọn; model files bị Git ignore.
 - `results/`: thư mục sinh kết quả sau khi train.
 
-## Dataset
+## Dataset và protocol
 
-Mặc định dùng 20 lớp đầu tiên của CIFAR-100:
+Mặc định dùng đủ 100 lớp của CIFAR-100:
 
-- Tối đa 500 ảnh train/lớp.
-- Tối đa 100 ảnh test/lớp.
-- 10% training subset làm validation.
+- Train: 400 ảnh/lớp, tổng 40,000 ảnh.
+- Validation: 100 ảnh/lớp, tổng 10,000 ảnh.
+- Test: 100 ảnh/lớp, tổng 10,000 ảnh.
 - Resize ảnh về `224 x 224`.
+- Split cân bằng theo class và tái lập bằng seed `42`.
 
-Subset là một phần dữ liệu được lấy theo quy tắc cố định để phù hợp GPU/Colab, nhưng
-vẫn phải ghi rõ protocol trong báo cáo.
+Dataset không được push lên GitHub. Tải CIFAR-100 một lần vào local/Google Drive,
+sau đó các lần train chỉ truyền lại cùng `--data-dir`.
 
 ## Smoke test
 
@@ -36,20 +38,32 @@ python A1/smoke_test.py
 
 ## Train
 
+Tải dataset một lần:
+
 ```bash
-python A1/train.py --experiments all --epochs 5 --batch-size 32 --device auto
+python A1/prepare_data.py --data-dir data
+```
+
+Sau đó train bằng đúng path đó:
+
+```bash
+python A1/train.py --data-dir data --experiments all --epochs 5 --batch-size 32 --device auto
 ```
 
 Trên Colab GPU:
 
 ```bash
-python A1/train.py --experiments all --epochs 5 --batch-size 32 --device cuda --progress
+python A1/train.py --data-dir /content/drive/MyDrive/Deep_Learning_Datasets --experiments all --epochs 5 --batch-size 32 --device cuda --progress
 ```
+
+Các tham số `--num-classes`, `--train-per-class`, `--val-per-class`, `--test-per-class`
+vẫn có thể dùng để chạy debug nhanh, nhưng protocol A1.1 chính thức là 100 classes,
+400/100/100 samples per class.
 
 Nếu muốn lưu checkpoint trên Colab/local nhưng không đẩy model lên GitHub:
 
 ```bash
-python A1/train.py --experiments all --epochs 5 --batch-size 32 --device cuda --progress --save-checkpoints
+python A1/train.py --data-dir /content/drive/MyDrive/Deep_Learning_Datasets --experiments all --epochs 5 --batch-size 32 --device cuda --progress --save-checkpoints
 ```
 
 Các file `.pt`, `.pth`, `.ckpt`, `.safetensors` trong `A1/checkpoints/` đã được ignore.

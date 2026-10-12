@@ -11,7 +11,7 @@ ROOT_DIR = Path(__file__).resolve().parents[1]
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
-from A1.data import build_cifar100_subset_loaders
+from A1.data import build_cifar100_balanced_loaders
 from A1.models import build_a1_model, count_parameters, parse_experiment_name
 from common.engine import collect_predictions, evaluate, fit_classifier
 from common.plots import (
@@ -41,15 +41,15 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--experiments", nargs="+", default=["all"], choices=["all", *EXPERIMENTS])
     parser.add_argument("--data-dir", type=str, default="data")
     parser.add_argument("--output-dir", type=str, default="A1/results")
-    parser.add_argument("--num-classes", type=int, default=20)
-    parser.add_argument("--max-train-per-class", type=int, default=500)
-    parser.add_argument("--max-test-per-class", type=int, default=100)
+    parser.add_argument("--num-classes", type=int, default=100)
+    parser.add_argument("--train-per-class", type=int, default=400)
+    parser.add_argument("--val-per-class", type=int, default=100)
+    parser.add_argument("--test-per-class", type=int, default=100)
     parser.add_argument("--image-size", type=int, default=224)
     parser.add_argument("--epochs", type=int, default=5)
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--learning-rate", type=float, default=1e-4)
     parser.add_argument("--weight-decay", type=float, default=1e-4)
-    parser.add_argument("--val-ratio", type=float, default=0.10)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--num-workers", type=int, default=2)
     parser.add_argument("--device", choices=["auto", "cpu", "cuda"], default="auto")
@@ -90,37 +90,36 @@ def main() -> None:
     device = get_device(args.device)
     print(f"device: {device}")
 
-    data = build_cifar100_subset_loaders(
+    data = build_cifar100_balanced_loaders(
         data_dir=args.data_dir,
         image_size=args.image_size,
         num_classes=args.num_classes,
-        max_train_per_class=args.max_train_per_class,
-        max_test_per_class=args.max_test_per_class,
-        val_ratio=args.val_ratio,
+        train_per_class=args.train_per_class,
+        val_per_class=args.val_per_class,
+        test_per_class=args.test_per_class,
         batch_size=args.batch_size,
         seed=args.seed,
         num_workers=args.num_workers,
-        download=True,
     )
     print(
-        f"CIFAR-100 subset: classes={len(data.class_names)}, train={data.train_size}, "
+        f"CIFAR-100 balanced full-class protocol: classes={len(data.class_names)}, train={data.train_size}, "
         f"val={data.val_size}, test={data.test_size}, image_size={data.image_size}"
     )
 
     histories: dict[str, list[dict[str, float]]] = {}
     summary_rows: list[dict[str, object]] = []
     metrics_payload: dict[str, object] = {
-        "dataset": "CIFAR-100 subset",
+        "dataset": "CIFAR-100 full 100-class balanced protocol",
         "class_names": data.class_names,
         "split": {
             "train": data.train_size,
             "validation": data.val_size,
             "test": data.test_size,
-            "val_ratio": args.val_ratio,
             "seed": args.seed,
             "num_classes": args.num_classes,
-            "max_train_per_class": args.max_train_per_class,
-            "max_test_per_class": args.max_test_per_class,
+            "train_per_class": args.train_per_class,
+            "val_per_class": args.val_per_class,
+            "test_per_class": args.test_per_class,
         },
         "training": {
             "epochs": args.epochs,

@@ -19,7 +19,7 @@ Các điểm từ slide được dùng để thiết kế A1:
 
 Thiết kế A1:
 
-- Dataset: CIFAR-100 subset 20 lớp, có ghi rõ subset protocol để phù hợp Colab T4.
+- Dataset: full CIFAR-100 100 lớp, split cân bằng theo class với 40,000 train, 10,000 validation và 10,000 test samples.
 - CNN: ResNet18.
 - Transformer: ViT-B/16.
 - Chế độ: from-scratch, pretrained freeze backbone/head-only, pretrained partial

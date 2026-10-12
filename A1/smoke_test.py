@@ -28,13 +28,13 @@ def main() -> None:
         model = build_a1_model(
             architecture=architecture,
             mode=mode,
-            num_classes=20,
+            num_classes=100,
             download_weights=False,
         )
         logits = smoke_forward(model, image_size=224, batch_size=2)
         total, trainable = count_parameters(model)
-        if tuple(logits.shape) != (2, 20):
-            raise AssertionError(f"{experiment}: expected logits (2, 20), got {tuple(logits.shape)}")
+        if tuple(logits.shape) != (2, 100):
+            raise AssertionError(f"{experiment}: expected logits (2, 100), got {tuple(logits.shape)}")
         if mode.startswith("pretrained") and "head" in mode and trainable >= total:
             raise AssertionError(f"{experiment}: head-only freeze did not reduce trainable params")
         print(f"OK {experiment}: logits={tuple(logits.shape)}, trainable={trainable}/{total}")

@@ -2,34 +2,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+import random
 
 import torch
-from torch.utils.data import DataLoader, Dataset, Subset, random_split
+from torch.utils.data import DataLoader, Dataset
 from torchvision import datasets, transforms
-
-
-CIFAR100_SUPERCLASS_HINT = [
-    "apple",
-    "aquarium_fish",
-    "baby",
-    "bear",
-    "beaver",
-    "bed",
-    "bee",
-    "beetle",
-    "bicycle",
-    "bottle",
-    "bowl",
-    "boy",
-    "bridge",
-    "bus",
-    "butterfly",
-    "camel",
-    "can",
-    "castle",
-    "caterpillar",
-    "cattle",
-]
 
 
 @dataclass(frozen=True)
@@ -44,7 +21,7 @@ class A1DataBundle:
     image_size: int
 
 
-class RemappedSubset(Dataset):
+class RemappedSelection(Dataset):
     def __init__(
         self,
         dataset: Dataset,
@@ -86,62 +63,112 @@ def build_transforms(image_size: int) -> tuple[transforms.Compose, transforms.Co
     return train_transform, eval_transform
 
 
-def select_balanced_indices(
-    targets: list[int],
-    selected_classes: list[int],
-    max_per_class: int | None,
-) -> list[int]:
-    counts = {cls: 0 for cls in selected_classes}
-    selected: list[int] = []
-    selected_set = set(selected_classes)
+def _indices_by_class(targets: list[int], selected_classes: list[int]) -> dict[int, list[int]]:
+    selected = set(selected_classes)
+    grouped = {class_id: [] for class_id in selected_classes}
     for index, target in enumerate(targets):
         target = int(target)
-        if target not in selected_set:
-            continue
-        if max_per_class is not None and counts[target] >= max_per_class:
-            continue
-        selected.append(index)
-        counts[target] += 1
-    return selected
+        if target in selected:
+            grouped[target].append(index)
+    return grouped
 
 
-def build_cifar100_subset_loaders(
+def _take_balanced_split(
+    targets: list[int],
+    selected_classes: list[int],
+    train_per_class: int,
+    val_per_class: int,
+    seed: int,
+) -> tuple[list[int], list[int]]:
+    grouped = _indices_by_class(targets, selected_classes)
+    train_indices: list[int] = []
+    val_indices: list[int] = []
+    required = train_per_class + val_per_class
+
+    for class_id in selected_classes:
+        class_indices = list(grouped[class_id])
+        if len(class_indices) < required:
+            raise ValueError(
+                f"class {class_id} has {len(class_indices)} train samples, "
+                f"but train_per_class + val_per_class = {required}"
+            )
+        rng = random.Random(seed + class_id)
+        rng.shuffle(class_indices)
+        train_indices.extend(class_indices[:train_per_class])
+        val_indices.extend(class_indices[train_per_class:required])
+
+    random.Random(seed).shuffle(train_indices)
+    random.Random(seed + 10_000).shuffle(val_indices)
+    return train_indices, val_indices
+
+
+def _take_balanced_indices(
+    targets: list[int],
+    selected_classes: list[int],
+    per_class: int,
+    seed: int,
+) -> list[int]:
+    grouped = _indices_by_class(targets, selected_classes)
+    selected_indices: list[int] = []
+    for class_id in selected_classes:
+        class_indices = list(grouped[class_id])
+        if len(class_indices) < per_class:
+            raise ValueError(
+                f"class {class_id} has {len(class_indices)} test samples, but per_class = {per_class}"
+            )
+        rng = random.Random(seed + class_id)
+        rng.shuffle(class_indices)
+        selected_indices.extend(class_indices[:per_class])
+    random.Random(seed + 20_000).shuffle(selected_indices)
+    return selected_indices
+
+
+def build_cifar100_balanced_loaders(
     data_dir: str | Path,
     image_size: int,
     num_classes: int,
-    max_train_per_class: int | None,
-    max_test_per_class: int | None,
-    val_ratio: float,
+    train_per_class: int,
+    val_per_class: int,
+    test_per_class: int,
     batch_size: int,
     seed: int,
     num_workers: int,
-    download: bool = True,
 ) -> A1DataBundle:
     root = Path(data_dir)
-    raw_train = datasets.CIFAR100(root=root, train=True, download=download, transform=None)
-    raw_test = datasets.CIFAR100(root=root, train=False, download=download, transform=None)
+    try:
+        raw_train = datasets.CIFAR100(root=root, train=True, download=False, transform=None)
+        raw_test = datasets.CIFAR100(root=root, train=False, download=False, transform=None)
+    except RuntimeError as exc:
+        raise RuntimeError(
+            "CIFAR-100 was not found under data_dir. Download it once with:\n"
+            f"  python A1/prepare_data.py --data-dir {root}\n"
+            "Then rerun train.py with the same --data-dir."
+        ) from exc
+
+    if not 1 <= num_classes <= len(raw_train.classes):
+        raise ValueError(f"num_classes must be between 1 and {len(raw_train.classes)}, got {num_classes}")
 
     selected_class_ids = list(range(num_classes))
     class_to_new = {class_id: new_id for new_id, class_id in enumerate(selected_class_ids)}
     class_names = [raw_train.classes[class_id] for class_id in selected_class_ids]
-    train_indices = select_balanced_indices(raw_train.targets, selected_class_ids, max_train_per_class)
-    test_indices = select_balanced_indices(raw_test.targets, selected_class_ids, max_test_per_class)
+    train_indices, val_indices = _take_balanced_split(
+        targets=raw_train.targets,
+        selected_classes=selected_class_ids,
+        train_per_class=train_per_class,
+        val_per_class=val_per_class,
+        seed=seed,
+    )
+    test_indices = _take_balanced_indices(
+        targets=raw_test.targets,
+        selected_classes=selected_class_ids,
+        per_class=test_per_class,
+        seed=seed,
+    )
 
     train_transform, eval_transform = build_transforms(image_size)
-    full_train = RemappedSubset(raw_train, train_indices, class_to_new, transform=train_transform)
-    full_val = RemappedSubset(raw_train, train_indices, class_to_new, transform=eval_transform)
-    test_set = RemappedSubset(raw_test, test_indices, class_to_new, transform=eval_transform)
-
-    val_size = int(len(full_train) * val_ratio)
-    train_size = len(full_train) - val_size
-    generator = torch.Generator().manual_seed(seed)
-    train_subset, val_subset_indices = random_split(
-        range(len(full_train)),
-        [train_size, val_size],
-        generator=generator,
-    )
-    train_set = Subset(full_train, list(train_subset.indices))
-    val_set = Subset(full_val, list(val_subset_indices.indices))
+    train_set = RemappedSelection(raw_train, train_indices, class_to_new, transform=train_transform)
+    val_set = RemappedSelection(raw_train, val_indices, class_to_new, transform=eval_transform)
+    test_set = RemappedSelection(raw_test, test_indices, class_to_new, transform=eval_transform)
 
     loader_kwargs = {
         "batch_size": batch_size,
@@ -157,8 +184,8 @@ def build_cifar100_subset_loaders(
         val_loader=val_loader,
         test_loader=test_loader,
         class_names=class_names,
-        train_size=train_size,
-        val_size=val_size,
+        train_size=len(train_set),
+        val_size=len(val_set),
         test_size=len(test_set),
         image_size=image_size,
     )

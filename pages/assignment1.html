@@ -48,14 +48,14 @@
           <article class="detail-card">
             <span class="card-label">Status</span>
             <h3>In progress</h3>
-            <p>Đã có code, protocol và report draft. Kết quả ViT pretrained cuối đang chờ chạy tiếp trên GPU/server.</p>
+            <p>Đã cập nhật protocol full CIFAR-100 100 lớp. Kết quả cần chạy lại theo split mới trên GPU/server.</p>
           </article>
           <article class="detail-card">
             <span class="card-label">Dataset</span>
-            <h3>CIFAR-100 subset</h3>
+            <h3>Full CIFAR-100, 100 classes</h3>
             <p>
-              Dùng 20 lớp đầu tiên, tối đa 500 ảnh train/lớp và 100 ảnh test/lớp để phù
-              hợp Colab T4. Split, license và lý do chọn được ghi trong A1.1.
+              Split cân bằng theo class: 400 ảnh train/lớp, 100 ảnh validation/lớp và
+              100 ảnh test/lớp. Dataset được tải riêng vào local path qua <code>--data-dir</code>.
             </p>
           </article>
           <article class="detail-card">

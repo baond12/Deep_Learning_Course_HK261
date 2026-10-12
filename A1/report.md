@@ -1,9 +1,9 @@
-# A1 - CNN vs Transformer trên CIFAR-100 subset
+# A1 - CNN vs Transformer trên full CIFAR-100
 
 ## 1. Chủ đề
 
 A1 so sánh CNN và Transformer trên một tập ảnh lớn hơn E1. Dataset chọn là
-**CIFAR-100 subset**, không trùng MNIST/Fashion-MNIST/CIFAR-10 đã dùng cho E1.
+**full CIFAR-100, 100 classes**, không trùng MNIST/Fashion-MNIST/CIFAR-10 đã dùng cho E1.
 
 ## 2. Dataset và license
 
@@ -11,16 +11,17 @@ Dataset gốc: CIFAR-100, gồm 60,000 ảnh màu `32 x 32`, 100 lớp, mỗi l�
 train và 100 ảnh test. Dataset được cung cấp công khai bởi Alex Krizhevsky cho mục đích
 nghiên cứu/học tập.
 
-Để phù hợp Colab T4 16GB, A1 dùng subset có kiểm soát:
+Protocol A1.1 dùng đủ 100 lớp nhưng giới hạn số mẫu mỗi lớp để split cân bằng và
+tái lập được:
 
-- Chọn 20 lớp đầu tiên trong CIFAR-100.
-- Train: tối đa 500 ảnh/lớp từ training set gốc.
-- Test: tối đa 100 ảnh/lớp từ test set gốc.
-- Tách 10% training subset làm validation bằng seed `42`.
+- Train: 400 ảnh/lớp từ training set gốc, tổng 40,000 ảnh.
+- Validation: 100 ảnh/lớp từ training set gốc, tổng 10,000 ảnh.
+- Test: 100 ảnh/lớp từ test set gốc, tổng 10,000 ảnh.
+- Split được thực hiện cân bằng theo class bằng seed `42`.
 
-Subset nghĩa là chỉ lấy một phần dữ liệu gốc theo quy tắc cố định, có ghi rõ số lớp, số
-ảnh mỗi lớp và seed để tái lập. Cách này giúp giảm thời gian train nhưng vẫn giữ bài toán
-khó hơn E1 vì có nhiều lớp hơn, ảnh RGB và nội dung đa dạng hơn.
+Dataset được tải một lần bằng `A1/prepare_data.py` vào `--data-dir`; các lần train sau
+chỉ đọc lại cùng path đó và không tự download lại. Thư mục dataset nằm ở local/Google Drive
+và không push lên GitHub.
 
 ## 3. Data pipeline và augmentation
 
@@ -71,6 +72,8 @@ Các thí nghiệm mặc định:
 
 - Epochs: 5.
 - Batch size: 32.
+- Num classes: 100.
+- Train/validation/test per class: 400/100/100.
 - Optimizer: Adam.
 - Learning rate: `1e-4`.
 - Weight decay: `1e-4`.
@@ -79,14 +82,22 @@ Các thí nghiệm mặc định:
 
 ## 7. Lệnh chạy
 
+Tải dataset một lần:
+
 ```bash
-python A1/train.py --experiments all --epochs 5 --batch-size 32 --device auto
+python A1/prepare_data.py --data-dir /path/to/cifar100
+```
+
+Train dùng lại cùng `--data-dir`:
+
+```bash
+python A1/train.py --data-dir /path/to/cifar100 --experiments all --epochs 5 --batch-size 32 --device auto
 ```
 
 Trên Google Colab GPU:
 
 ```bash
-python A1/train.py --experiments all --epochs 5 --batch-size 32 --device cuda --progress
+python A1/train.py --data-dir /path/to/cifar100 --experiments all --epochs 5 --batch-size 32 --device cuda --progress
 ```
 
 Smoke test không tải dataset/weights:
@@ -121,7 +132,7 @@ Phần báo cáo cuối cần bổ sung từ kết quả thật:
 1. Bảng `summary.csv`: accuracy, macro F1, thời gian, total/trainable parameters.
 2. Biểu đồ bar chart: test accuracy, macro F1, trainable parameters, training time.
 3. Learning curves: xem mô hình nào hội tụ nhanh/chậm, có overfit không.
-4. Confusion matrix và mẫu sai: chỉ ra các lớp CIFAR-100 subset dễ nhầm.
+4. Confusion matrix và mẫu sai: chỉ ra các lớp CIFAR-100 dễ nhầm.
 5. Thảo luận:
    - ResNet18 vs ViT-B/16 trên cùng split.
    - From-scratch vs pretrained.
@@ -138,4 +149,4 @@ ResNet18 có inductive bias không gian mạnh nên thường học tốt hơn k
 lớn. ViT-B/16 có attention toàn cục và thường cần pretrained weights hoặc dữ liệu lớn để
 phát huy tốt. Freeze-head thường nhanh và ít tốn bộ nhớ nhất nhưng khả năng thích nghi
 hạn chế; partial unfreeze cân bằng giữa chi phí và độ thích nghi; full fine-tune có khả
-năng đạt kết quả tốt hơn nhưng tốn compute và dễ overfit hơn trên subset nhỏ.
+năng đạt kết quả tốt hơn nhưng tốn compute và dễ overfit hơn.

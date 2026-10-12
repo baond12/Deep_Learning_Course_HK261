@@ -126,7 +126,7 @@ def make_markdown(rows: list[dict[str, object]]) -> str:
             "",
             "- Compare from-scratch vs pretrained within ResNet18 and ViT-B/16.",
             "- Check whether head-only freeze is fast but less adaptive than partial/full fine-tuning.",
-            "- Discuss whether ViT-B/16 benefits more from pretrained weights than ResNet18 on this subset.",
+            "- Discuss whether ViT-B/16 benefits more from pretrained weights than ResNet18 on full CIFAR-100.",
             "- Use confusion matrices and misclassified samples to name classes that are frequently confused.",
             "",
             "## Generated Figures",
