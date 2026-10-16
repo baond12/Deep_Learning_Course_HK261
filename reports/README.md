@@ -4,7 +4,8 @@
 
 - `exercises.pdf`: báo cáo chung E1–E3, bản PDF dùng để đọc và nộp bài.
 - `exercises.docx`: bản Word tương ứng để tải về và chỉnh sửa.
-- `assignment1.pdf`
+- `assignment1.pdf`: báo cáo Assignment 1, bản PDF dùng để đọc và nộp bài.
+- `assignment1.docx`: bản Word tương ứng để tải về và chỉnh sửa.
 - `assignment2.pdf`
 
 Không cần tách báo cáo E1, E2, E3 thành nhiều file; đề yêu cầu một báo cáo chung cho
@@ -14,4 +15,8 @@ Bản E1–E3 hiện tại được lấy từ `exercises_report_v01.pdf` và
 `exercises_report_v01.docx`. Landing page dùng đường dẫn ổn định
 `reports/exercises.pdf` và `reports/exercises.docx` để có thể cập nhật phiên bản
 báo cáo mà không phải đổi liên kết.
+
+Bản Assignment 1 hiện tại được lấy từ `assignment1_report_v01.pdf` và
+`assignment1_report_v01.docx`. Landing page dùng đường dẫn ổn định
+`reports/assignment1.pdf` và `reports/assignment1.docx`.
 
