@@ -25,6 +25,10 @@
 !python E3/train.py --experiments all --epochs 100 --batch-size 256 --device cuda --progress --probe-order --output-dir E3/results/sequence_v2
 ```
 
+Bộ `sequence_v2` đã có kết quả trong repo; khi chạy lại sau khi clone, đổi
+`--output-dir` sang thư mục mới (ví dụ `E3/results/sequence_v2_rerun`). Không xóa
+kết quả đã đối chiếu để chạy đè.
+
 Nếu không có GPU, kiểm tra offline bằng dữ liệu giả:
 
 ```bash

@@ -5,6 +5,12 @@ từ E1. `--experiments all` chỉ huấn luyện **8 cấu hình**: bốn cặp
 Hai baseline được đọc nguyên kết quả E1 đã có, không huấn luyện hay test lại.
 Pipeline sentiment minh họa vẫn chạy riêng, không thuộc kết quả MNIST của E3.
 
+Bộ `results/sequence_v2/` đã hoàn tất 8 cấu hình × 100 epoch, batch 256, seed 42.
+LSTM CNN-stem đạt test accuracy 99,37%; GRU CNN-stem đạt 99,27%.
+Đã đối chiếu 80.000 dự đoán, ma trận nhầm lẫn, history, snapshot baseline E1,
+hash split/mã nguồn và metadata tám checkpoint. Xem [phân tích kết quả](report.md).
+Checkpoint giữ tại thư mục nguồn của lượt chạy, không đưa vào Git.
+
 ## Biểu diễn chuỗi
 
 | Cách biểu diễn | Thứ tự / đặc trưng mỗi bước | T | D | Tên cấu hình |
@@ -68,6 +74,8 @@ lượt mà giữ `--seed 42`. Môi trường GPU, phiên bản thư viện và 
 thời gian baseline giữ như số đo lịch sử, không coi là phép đo tốc độ cùng thiết bị
 với lượt E3 mới. Tái sử dụng kết quả E1 bảo đảm cùng số liệu baseline trong báo cáo.
 
+Thư mục kết quả trên đã có dữ liệu: khi chạy lại, đổi `--output-dir` thành đường
+dẫn mới, ví dụ `E3/results/sequence_v2_seed43` cùng `--train-seed 43`.
 Output phải trống/mới; script từ chối ghi đè và không hỗ trợ resume. Mỗi tiến trình
 có `.run.lock`; chỉ xóa khóa còn sót sau khi đã xác nhận tiến trình dừng.
 Kết quả cũ sáu cấu hình tại `E3/results/` giữ nguyên.

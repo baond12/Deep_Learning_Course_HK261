@@ -1,0 +1,538 @@
+{
+  "status": "PASS",
+  "experiments": {
+    "lstm_row": {
+      "test_accuracy": 0.9893,
+      "macro_f1": 0.989241811557576,
+      "test_loss": 0.04329373923242092,
+      "parameters": 82186,
+      "best_epoch": 95,
+      "best_val_accuracy": 0.9898333333333333,
+      "training_time_seconds": 723.6569709554315,
+      "sequence_length": 28,
+      "feature_dim": 28,
+      "errors": 107,
+      "top_errors": [
+        [
+          11,
+          5,
+          3
+        ],
+        [
+          10,
+          4,
+          9
+        ],
+        [
+          6,
+          9,
+          7
+        ],
+        [
+          6,
+          9,
+          4
+        ]
+      ],
+      "first": {
+        "epoch": "1.0",
+        "train_loss": "0.7586312247073209",
+        "train_accuracy": "0.7499629629629629",
+        "val_loss": "0.22999400246143342",
+        "val_accuracy": "0.9351666666666667"
+      },
+      "last": {
+        "epoch": "100.0",
+        "train_loss": "0.005324358586152947",
+        "train_accuracy": "0.9985740740740741",
+        "val_loss": "0.06282282737890879",
+        "val_accuracy": "0.9865"
+      },
+      "probe": {
+        "raster": {
+          "accuracy": 0.9898333333333333,
+          "loss": 0.05013641266028086
+        },
+        "reverse": {
+          "accuracy": 0.4031666666666667,
+          "loss": 5.100537302652995
+        },
+        "shuffle": {
+          "accuracy": 0.204,
+          "loss": 6.586518333435059
+        }
+      }
+    },
+    "gru_row": {
+      "test_accuracy": 0.9894,
+      "macro_f1": 0.9893584620210694,
+      "test_loss": 0.04495200890451088,
+      "parameters": 61962,
+      "best_epoch": 78,
+      "best_val_accuracy": 0.9901666666666666,
+      "training_time_seconds": 699.8682549409568,
+      "sequence_length": 28,
+      "feature_dim": 28,
+      "errors": 106,
+      "top_errors": [
+        [
+          10,
+          9,
+          4
+        ],
+        [
+          6,
+          2,
+          7
+        ],
+        [
+          5,
+          7,
+          2
+        ],
+        [
+          5,
+          3,
+          5
+        ]
+      ],
+      "first": {
+        "epoch": "1.0",
+        "train_loss": "0.8376118320270821",
+        "train_accuracy": "0.7231666666666666",
+        "val_loss": "0.25587281048297883",
+        "val_accuracy": "0.9243333333333333"
+      },
+      "last": {
+        "epoch": "100.0",
+        "train_loss": "0.016663321857375128",
+        "train_accuracy": "0.9948518518518519",
+        "val_loss": "0.05825776048501333",
+        "val_accuracy": "0.9845"
+      },
+      "probe": {
+        "raster": {
+          "accuracy": 0.9901666666666666,
+          "loss": 0.04936974730094274
+        },
+        "reverse": {
+          "accuracy": 0.39016666666666666,
+          "loss": 4.990156739552816
+        },
+        "shuffle": {
+          "accuracy": 0.17966666666666667,
+          "loss": 6.5502002232869465
+        }
+      }
+    },
+    "lstm_patch": {
+      "test_accuracy": 0.982,
+      "macro_f1": 0.9818641786568498,
+      "test_loss": 0.06683384142406285,
+      "parameters": 92938,
+      "best_epoch": 93,
+      "best_val_accuracy": 0.9828333333333333,
+      "training_time_seconds": 703.9047343842685,
+      "sequence_length": 16,
+      "feature_dim": 49,
+      "errors": 180,
+      "top_errors": [
+        [
+          12,
+          5,
+          3
+        ],
+        [
+          9,
+          7,
+          9
+        ],
+        [
+          9,
+          4,
+          9
+        ],
+        [
+          8,
+          2,
+          7
+        ]
+      ],
+      "first": {
+        "epoch": "1.0",
+        "train_loss": "0.8056708571513493",
+        "train_accuracy": "0.731537037037037",
+        "val_loss": "0.2341863814194997",
+        "val_accuracy": "0.9318333333333333"
+      },
+      "last": {
+        "epoch": "100.0",
+        "train_loss": "0.005229026872802664",
+        "train_accuracy": "0.9984259259259259",
+        "val_loss": "0.10730640856424968",
+        "val_accuracy": "0.9761666666666666"
+      },
+      "probe": {
+        "raster": {
+          "accuracy": 0.9828333333333333,
+          "loss": 0.07733686339855195
+        },
+        "reverse": {
+          "accuracy": 0.18,
+          "loss": 6.029150190989176
+        },
+        "shuffle": {
+          "accuracy": 0.3005,
+          "loss": 4.356919385274251
+        }
+      }
+    },
+    "gru_patch": {
+      "test_accuracy": 0.9836,
+      "macro_f1": 0.9834615575179274,
+      "test_loss": 0.06960791473636928,
+      "parameters": 70026,
+      "best_epoch": 76,
+      "best_val_accuracy": 0.9818333333333333,
+      "training_time_seconds": 687.9638277105987,
+      "sequence_length": 16,
+      "feature_dim": 49,
+      "errors": 164,
+      "top_errors": [
+        [
+          10,
+          7,
+          2
+        ],
+        [
+          10,
+          5,
+          3
+        ],
+        [
+          8,
+          4,
+          9
+        ],
+        [
+          7,
+          7,
+          9
+        ]
+      ],
+      "first": {
+        "epoch": "1.0",
+        "train_loss": "0.8502674261287406",
+        "train_accuracy": "0.7191111111111111",
+        "val_loss": "0.26020734024047854",
+        "val_accuracy": "0.9175"
+      },
+      "last": {
+        "epoch": "100.0",
+        "train_loss": "0.0015705506282134188",
+        "train_accuracy": "0.9998888888888889",
+        "val_loss": "0.0837198691368103",
+        "val_accuracy": "0.9806666666666667"
+      },
+      "probe": {
+        "raster": {
+          "accuracy": 0.9818333333333333,
+          "loss": 0.08287958739201227
+        },
+        "reverse": {
+          "accuracy": 0.132,
+          "loss": 6.824551535288493
+        },
+        "shuffle": {
+          "accuracy": 0.3185,
+          "loss": 4.186745675404866
+        }
+      }
+    },
+    "lstm_cnn_stem": {
+      "test_accuracy": 0.9937,
+      "macro_f1": 0.9937094943025707,
+      "test_loss": 0.026819969615672016,
+      "parameters": 119434,
+      "best_epoch": 58,
+      "best_val_accuracy": 0.994,
+      "training_time_seconds": 743.1330940499902,
+      "sequence_length": 49,
+      "feature_dim": 64,
+      "errors": 63,
+      "top_errors": [
+        [
+          7,
+          4,
+          9
+        ],
+        [
+          5,
+          9,
+          7
+        ],
+        [
+          4,
+          6,
+          5
+        ],
+        [
+          3,
+          9,
+          4
+        ]
+      ],
+      "first": {
+        "epoch": "1.0",
+        "train_loss": "0.9006382865994065",
+        "train_accuracy": "0.6924444444444444",
+        "val_loss": "0.33501600662867226",
+        "val_accuracy": "0.8993333333333333"
+      },
+      "last": {
+        "epoch": "100.0",
+        "train_loss": "0.005837755527692261",
+        "train_accuracy": "0.9982592592592593",
+        "val_loss": "0.03435592042903105",
+        "val_accuracy": "0.9913333333333333"
+      },
+      "probe": {
+        "raster": {
+          "accuracy": 0.994,
+          "loss": 0.030517977171887953
+        },
+        "reverse": {
+          "accuracy": 0.232,
+          "loss": 4.331870543797811
+        },
+        "shuffle": {
+          "accuracy": 0.312,
+          "loss": 3.6774542236328127
+        }
+      }
+    },
+    "gru_cnn_stem": {
+      "test_accuracy": 0.9927,
+      "macro_f1": 0.9926634256505975,
+      "test_loss": 0.02744389269624371,
+      "parameters": 94602,
+      "best_epoch": 89,
+      "best_val_accuracy": 0.9945,
+      "training_time_seconds": 756.5108120962977,
+      "sequence_length": 49,
+      "feature_dim": 64,
+      "errors": 73,
+      "top_errors": [
+        [
+          7,
+          9,
+          4
+        ],
+        [
+          6,
+          7,
+          2
+        ],
+        [
+          6,
+          5,
+          3
+        ],
+        [
+          4,
+          7,
+          1
+        ]
+      ],
+      "first": {
+        "epoch": "1.0",
+        "train_loss": "1.196412697562465",
+        "train_accuracy": "0.5645370370370371",
+        "val_loss": "0.6381200070381164",
+        "val_accuracy": "0.7806666666666666"
+      },
+      "last": {
+        "epoch": "100.0",
+        "train_loss": "0.00529027764554377",
+        "train_accuracy": "0.9983703703703704",
+        "val_loss": "0.03312529119849205",
+        "val_accuracy": "0.9923333333333333"
+      },
+      "probe": {
+        "raster": {
+          "accuracy": 0.9945,
+          "loss": 0.02458209082049628
+        },
+        "reverse": {
+          "accuracy": 0.19433333333333333,
+          "loss": 4.817839276631673
+        },
+        "shuffle": {
+          "accuracy": 0.324,
+          "loss": 3.725406937917074
+        }
+      }
+    },
+    "lstm_overlap_patch": {
+      "test_accuracy": 0.9898,
+      "macro_f1": 0.9897350245057626,
+      "test_loss": 0.04211480104951188,
+      "parameters": 92938,
+      "best_epoch": 47,
+      "best_val_accuracy": 0.9913333333333333,
+      "training_time_seconds": 755.0279897041619,
+      "sequence_length": 64,
+      "feature_dim": 49,
+      "errors": 102,
+      "top_errors": [
+        [
+          9,
+          7,
+          9
+        ],
+        [
+          9,
+          4,
+          9
+        ],
+        [
+          7,
+          9,
+          4
+        ],
+        [
+          7,
+          6,
+          1
+        ]
+      ],
+      "first": {
+        "epoch": "1.0",
+        "train_loss": "1.04881790610596",
+        "train_accuracy": "0.6267592592592592",
+        "val_loss": "0.47392582750320433",
+        "val_accuracy": "0.8316666666666667"
+      },
+      "last": {
+        "epoch": "100.0",
+        "train_loss": "0.006481874719676044",
+        "train_accuracy": "0.9981851851851852",
+        "val_loss": "0.04847817814846834",
+        "val_accuracy": "0.9888333333333333"
+      },
+      "probe": {
+        "raster": {
+          "accuracy": 0.9913333333333333,
+          "loss": 0.04018680703391631
+        },
+        "reverse": {
+          "accuracy": 0.15533333333333332,
+          "loss": 3.6756146259307863
+        },
+        "shuffle": {
+          "accuracy": 0.25066666666666665,
+          "loss": 2.9446893246968586
+        }
+      }
+    },
+    "gru_overlap_patch": {
+      "test_accuracy": 0.9912,
+      "macro_f1": 0.99107433429,
+      "test_loss": 0.03836581237828941,
+      "parameters": 70026,
+      "best_epoch": 94,
+      "best_val_accuracy": 0.9893333333333333,
+      "training_time_seconds": 749.2605056986213,
+      "sequence_length": 64,
+      "feature_dim": 49,
+      "errors": 88,
+      "top_errors": [
+        [
+          11,
+          4,
+          9
+        ],
+        [
+          7,
+          9,
+          4
+        ],
+        [
+          6,
+          5,
+          3
+        ],
+        [
+          5,
+          3,
+          5
+        ]
+      ],
+      "first": {
+        "epoch": "1.0",
+        "train_loss": "1.0638628362196463",
+        "train_accuracy": "0.6197777777777778",
+        "val_loss": "0.48928130642573037",
+        "val_accuracy": "0.8263333333333334"
+      },
+      "last": {
+        "epoch": "100.0",
+        "train_loss": "0.008369402732562136",
+        "train_accuracy": "0.9975555555555555",
+        "val_loss": "0.05781775605678558",
+        "val_accuracy": "0.9861666666666666"
+      },
+      "probe": {
+        "raster": {
+          "accuracy": 0.9893333333333333,
+          "loss": 0.04702519166966279
+        },
+        "reverse": {
+          "accuracy": 0.12316666666666666,
+          "loss": 4.802358741760254
+        },
+        "shuffle": {
+          "accuracy": 0.15233333333333332,
+          "loss": 4.8318408203125
+        }
+      }
+    }
+  },
+  "baseline_hash_notes": [
+    {
+      "file": "E1\\results\\epochs100_batch256_seed42\\metrics.json",
+      "exact_match": true,
+      "LF_match": true
+    },
+    {
+      "file": "E1\\results\\epochs100_batch256_seed42\\history_mlp.csv",
+      "exact_match": false,
+      "LF_match": true
+    },
+    {
+      "file": "E1\\results\\epochs100_batch256_seed42\\metrics.json",
+      "exact_match": true,
+      "LF_match": true
+    },
+    {
+      "file": "E1\\results\\epochs100_batch256_seed42\\history_cnn.csv",
+      "exact_match": false,
+      "LF_match": true
+    }
+  ],
+  "files_imported": 54,
+  "checkpoint_validation": "8 loadable checkpoints, matching architecture/parameter counts and best-epoch metadata",
+  "environment": {
+    "python": "3.10.13",
+    "torch": "2.2.1+cu118",
+    "torchvision": "0.17.1+cu118",
+    "cuda_version": "11.8",
+    "gpu": "Tesla P100-PCIE-16GB",
+    "num_threads": 12,
+    "platform": "Linux-4.18.0-553.77.1.el8_10.x86_64-x86_64-with-glibc2.31",
+    "tf32_matmul": false,
+    "tf32_cudnn": true
+  },
+  "source_hashes": "All match after LF normalization",
+  "split_hashes": "Match E2 exactly"
+}

@@ -1,0 +1,26 @@
+{
+  "experiments": [
+    "all"
+  ],
+  "data_dir": "data",
+  "output_dir": "E3/results/sequence_v2",
+  "baseline_results": "/workspace/Deep_Learning_Course_HK261/E1/results/epochs100_batch256_seed42",
+  "epochs": 100,
+  "batch_size": 256,
+  "seed": 42,
+  "num_workers": 2,
+  "hidden_dim": 128,
+  "num_layers": 1,
+  "patch_size": 7,
+  "overlap_stride": 3,
+  "stem_dim": 64,
+  "learning_rate": 0.001,
+  "weight_decay": 0.0001,
+  "val_ratio": 0.1,
+  "dropout": 0.1,
+  "train_seed": 42,
+  "device": "cuda",
+  "bidirectional": false,
+  "probe_order": true,
+  "progress": true
+}

@@ -1,0 +1,65 @@
+{
+  "baselines": {
+    "mlp_baseline": {
+      "model": "mlp",
+      "parameters": 235146,
+      "best_epoch": 81,
+      "best_val_accuracy": 0.984,
+      "test_loss": 0.060617,
+      "test_accuracy": 0.9863,
+      "macro_f1": 0.986219,
+      "training_time": "12m 40s",
+      "training_time_seconds": 760.5613397955894,
+      "experiment": "mlp_baseline",
+      "family": "MLP",
+      "sequence": "flatten",
+      "sequence_length": null,
+      "feature_dim": null,
+      "source": "E1_reused",
+      "trained_in_this_run": false,
+      "source_metrics": "E1/results/epochs100_batch256_seed42/metrics.json",
+      "source_metrics_sha256": "8f2c8d7ce64af6cb2e9c89e0356b7696e7abfffda3e13b307ef6a1cb5bf7f7a6",
+      "epochs": 100,
+      "batch_size": 256,
+      "split": {
+        "train": 54000,
+        "validation": 6000,
+        "test": 10000,
+        "val_ratio": 0.1,
+        "seed": 42
+      },
+      "source_history_sha256": "8c79f928b05d3a34eded164190142e486b080f8de30770d7847c1ef78570c080"
+    },
+    "cnn_baseline": {
+      "model": "cnn",
+      "parameters": 421642,
+      "best_epoch": 83,
+      "best_val_accuracy": 0.993167,
+      "test_loss": 0.02589,
+      "test_accuracy": 0.9927,
+      "macro_f1": 0.992631,
+      "training_time": "12m 49s",
+      "training_time_seconds": 769.9986739754677,
+      "experiment": "cnn_baseline",
+      "family": "CNN",
+      "sequence": "spatial",
+      "sequence_length": null,
+      "feature_dim": null,
+      "source": "E1_reused",
+      "trained_in_this_run": false,
+      "source_metrics": "E1/results/epochs100_batch256_seed42/metrics.json",
+      "source_metrics_sha256": "8f2c8d7ce64af6cb2e9c89e0356b7696e7abfffda3e13b307ef6a1cb5bf7f7a6",
+      "epochs": 100,
+      "batch_size": 256,
+      "split": {
+        "train": 54000,
+        "validation": 6000,
+        "test": 10000,
+        "val_ratio": 0.1,
+        "seed": 42
+      },
+      "source_history_sha256": "028e679dc26dfa3f75496a98e413265efbb49976aa6fa0903bc46320f7953c84"
+    }
+  },
+  "note": "Fixed E1 results; not trained in this E3 run."
+}
