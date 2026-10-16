@@ -39,4 +39,4 @@ Các ma trận đặt nhãn thật theo hàng và nhãn dự đoán theo cột. 
 
 Bộ nguồn không có CSV dự đoán từng ảnh, ma trận dạng CSV hoặc trọng số đã lưu; chỉ liên kết những tệp thực sự được cung cấp. Chưa ghi tên GPU hay phiên bản PyTorch/CUDA, nên không xếp hạng tốc độ với E2/E3 như phép đo cùng thiết bị. Mẫu sai là các lỗi đầu theo thứ tự duyệt tập kiểm tra, không lấy ngẫu nhiên. E1 đặt hạt giống một lần trước vòng lặp mô hình, khác cách đặt lại hạt giống cho từng cấu hình ở E2/E3.
 
-Thực nghiệm đã hoàn tất. Báo cáo chung đang được biên tập và nhóm rà soát; PDF đã công bố là phiên bản trước, chưa phản ánh đầy đủ bộ kết quả mới. Khi đối chiếu thực nghiệm, dùng các tệp số liệu được liên kết trong trang này. Bản cuối sẽ được xuất PDF sau khi nhóm duyệt.
+Thực nghiệm đã hoàn tất. Bản báo cáo v02 được chốt tạm làm bản hiện hành ngày 16/10/2026, tổng hợp 19 cấu hình và 1.900 bản ghi huấn luyện. Bản Word và PDF v02 đã được đồng bộ; PDF gồm 31 trang và đã được đối chiếu với Word.

@@ -36,7 +36,7 @@ Softmax có hàm mất mát huấn luyện giảm từ khoảng 0,539 xuống 0,
 
 ## Phân tích lỗi và tệp minh chứng
 
-Trên 10.000 ảnh kiểm tra, Softmax sai 741 ảnh, MLP sai 137, CNN sai 73. Ma trận nguồn ghi Softmax nhầm 5 thành 8 ở 37 ảnh và 5 thành 3 ở 36 ảnh; CNN còn 10 lỗi 9 thành 4 và 6 lỗi 5 thành 3. Các hình mô tả nhầm lẫn quan sát được, chưa xác định nguyên nhân từng dự đoán.
+Trên 10.000 ảnh kiểm tra, Softmax sai 741 ảnh, MLP sai 137, CNN sai 73. Ma trận nguồn ghi Softmax nhầm 5 thành 8 ở 37 ảnh và 5 thành 3 ở 36 ảnh; CNN còn 8 lỗi 9 thành 4 và 6 lỗi 5 thành 3. Các hình mô tả nhầm lẫn quan sát được, chưa xác định nguyên nhân từng dự đoán.
 
 Xem [bảng tổng hợp](results/epochs100_batch256_seed42/summary.csv), [số liệu gốc](results/epochs100_batch256_seed42/metrics.json), [đường cong](results/epochs100_batch256_seed42/learning_curves.png) và [danh mục lịch sử, ma trận, mẫu sai theo mô hình](results/epochs100_batch256_seed42/README.md#tệp-theo-từng-mô-hình).
 
@@ -46,4 +46,4 @@ E2/E3 dùng cùng dữ liệu và ngân sách 100 lượt/lô 256. E3 giữ đú
 
 E1 chỉ ghi thiết bị CUDA, thiếu tên GPU/phiên bản thư viện và không kèm trọng số hoặc dự đoán từng ảnh. Vì vậy không tạo thêm liên kết tới tệp không có và không so tốc độ như phép đo cùng thiết bị. Một hạt giống chưa đủ kết luận ưu thế thống kê hoặc cấu hình đã tối ưu riêng cho từng mô hình.
 
-Thực nghiệm đã hoàn tất. Báo cáo chung đang được biên tập và nhóm rà soát; PDF đã công bố là phiên bản trước, chưa phản ánh đầy đủ bộ kết quả mới. Khi đối chiếu thực nghiệm, dùng các tệp số liệu được liên kết trong trang này. Bản cuối sẽ được xuất PDF sau khi nhóm duyệt.
+Thực nghiệm đã hoàn tất. Bản báo cáo v02 được chốt tạm làm bản hiện hành ngày 16/10/2026, tổng hợp 19 cấu hình và 1.900 bản ghi huấn luyện. Bản Word và PDF v02 đã được đồng bộ; PDF gồm 31 trang và đã được đối chiếu với Word.

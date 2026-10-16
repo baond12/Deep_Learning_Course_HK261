@@ -64,4 +64,4 @@ E2 cùng dữ liệu với E1/E3 nhưng có phép chiếu đặc trưng, CLS và
 
 Môi trường ghi Python 3.10.13, PyTorch 2.2.1+cu118, torchvision 0.17.1+cu118, CUDA 11.8, Tesla P100-PCIE-16GB. Chưa kiểm soát tải cạnh tranh; thời gian không phải độ trễ suy luận. Một hạt giống chưa đủ đánh giá độ ổn định.
 
-Thực nghiệm đã hoàn tất. Báo cáo chung đang được biên tập và nhóm rà soát; PDF đã công bố là phiên bản trước, chưa phản ánh đầy đủ bộ kết quả mới. Khi đối chiếu thực nghiệm, dùng các tệp số liệu được liên kết trong trang này. Bản cuối sẽ được xuất PDF sau khi nhóm duyệt.
+Thực nghiệm đã hoàn tất. Bản báo cáo v02 được chốt tạm làm bản hiện hành ngày 16/10/2026, tổng hợp 19 cấu hình và 1.900 bản ghi huấn luyện. Bản Word và PDF v02 đã được đồng bộ; PDF gồm 31 trang và đã được đối chiếu với Word.

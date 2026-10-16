@@ -1,5 +1,10 @@
 # E1 - Softmax, MLP, CNN
 
+Nguồn chính của báo cáo E1 là `results/epochs100_batch256_seed42/`:
+100 epoch, batch 256, seed 42. MLP đạt 98,63%, CNN đạt 99,27%; E3 tái sử dụng
+nguyên hai kết quả này. Xem [quy tắc báo cáo chung](../docs/e1-e3-report-protocol.md).
+Nghiên cứu tuning Softmax bên dưới là luồng bổ sung riêng, không tự thay nguồn này.
+
 ## Thực nghiệm Softmax có cấu hình
 
 Luồng mới độc lập với `train.py` và các kết quả E1 đã có. Kiến trúc vẫn là
@@ -129,7 +134,7 @@ CNN trên MNIST.
 
 - `models.py`: định nghĩa SoftmaxRegression, MLPClassifier và SmallCNN.
 - `train.py`: training loop, đánh giá, lưu bảng metric và hình phân tích.
-- `report.md`: bản nháp báo cáo tiếng Việt cho phần E1.
+- `report.md`: phân tích tiếng Việt cho bộ kết quả E1 dùng trong báo cáo chung.
 - `results/`: thư mục sinh ra sau khi chạy training.
 
 ## Cài đặt
@@ -141,18 +146,20 @@ pip install -r requirements.txt
 ## Chạy local hoặc Colab
 
 ```bash
-python E1/train.py --models all --epochs 5 --batch-size 128 --device auto
+python E1/train.py --models all --epochs 100 --batch-size 256 --device auto --output-dir E1/results/epochs100_batch256_seed42_rerun
 ```
 
 Nếu chạy Google Colab có GPU:
 
 ```bash
-python E1/train.py --models all --epochs 5 --batch-size 128 --device cuda
+python E1/train.py --models all --epochs 100 --batch-size 256 --device cuda --output-dir E1/results/epochs100_batch256_seed42_rerun
 ```
 
 ## Kết quả đầu ra
 
-Script lưu vào `E1/results/`:
+Các lệnh trên chỉ dùng khi cần chạy lại và lưu vào output mới; không ghi đè bộ
+`E1/results/epochs100_batch256_seed42/` đang làm nguồn baseline/report. Nếu thư mục
+`_rerun` đã có kết quả, chọn tên thư mục mới. Tham số `--output-dir` xác định nơi lưu:
 
 - `summary.csv`
 - `metrics.json`

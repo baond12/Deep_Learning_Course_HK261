@@ -34,15 +34,17 @@ Khi đẩy lên GitHub, bật GitHub Pages từ nhánh `main`, chọn thư mục
 
 ## Đường dẫn báo cáo
 
-- `reports/exercises.pdf`: báo cáo chung E1-E3.
+- `reports/exercises.docx`: báo cáo chung E1–E3, bản v02 đã chốt tạm.
+- `reports/exercises.pdf`: PDF v02 tương ứng, gồm 31 trang.
 - `reports/assignment1.pdf`: báo cáo A1.
 - `reports/assignment2.pdf`: báo cáo A2.
 
 Nguồn kết quả E1/E2/E3, cách tái sử dụng mô hình đối chứng và quy tắc chốt báo cáo:
 [Liên kết thực nghiệm và báo cáo](docs/e1-e3-report-protocol.md).
 E1/E2/E3 đã có đủ 19 cấu hình độc lập, cùng 100 lượt huấn luyện và kích thước lô 256.
-Số liệu đã đối chiếu; báo cáo chung đang được biên tập và nhóm rà soát.
-PDF đã công bố là phiên bản trước, sẽ xuất lại từ bản Word được nhóm duyệt.
+Báo cáo v02 đã chốt tạm làm bản hiện hành ngày 16/10/2026.
+[Đọc PDF v02](reports/exercises.pdf) hoặc [tải Word v02](reports/exercises.docx).
+Hai tệp đã đồng bộ; PDF có 31 trang và đã đối chiếu với Word.
 
 ## Kết quả E1 E2 E3 dùng trong báo cáo
 
@@ -54,7 +56,7 @@ PDF đã công bố là phiên bản trước, sẽ xuất lại từ bản Word
 
 MNIST, 100 lượt huấn luyện, kích thước lô 256; tổng 19 cấu hình và 1.900 bản ghi.
 Hai mô hình đối chứng MLP/CNN trong E3 giữ nguyên kết quả E1, không tính thêm lượt chạy.
-Báo cáo đang được nhóm rà soát; PDF đã công bố là phiên bản trước.
+Bản báo cáo hiện hành là v02; nội dung Word được giữ nguyên theo bản đã chốt tạm.
 
 ## Hạn nộp chính
 

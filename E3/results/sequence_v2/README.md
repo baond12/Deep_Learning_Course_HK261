@@ -56,4 +56,4 @@ Các ma trận đặt nhãn thật theo hàng và nhãn dự đoán theo cột. 
 
 Đã đối chiếu 800 bản ghi lịch sử, 80.000 dự đoán kiểm tra và các ma trận; hai mô hình đối chứng giữ nguyên E1. Tám trọng số gốc nạp được và khớp kiến trúc, số tham số, lượt tốt nhất; không chạy lại toàn bộ kiểm tra MNIST tại máy rà soát. Hash lịch sử E1 giữa Windows/Linux khớp sau chuẩn hóa CRLF/LF. Thử đảo/xáo chuỗi chỉ đo độ nhạy thứ tự không gian trên tập xác thực, không chứng minh trí nhớ dài hạn. Thông tin GPU cùng loại E2 chưa bảo đảm điều kiện đo thời gian giống nhau.
 
-Thực nghiệm đã hoàn tất. Báo cáo chung đang được biên tập và nhóm rà soát; PDF đã công bố là phiên bản trước, chưa phản ánh đầy đủ bộ kết quả mới. Khi đối chiếu thực nghiệm, dùng các tệp số liệu được liên kết trong trang này. Bản cuối sẽ được xuất PDF sau khi nhóm duyệt.
+Thực nghiệm đã hoàn tất. Bản báo cáo v02 được chốt tạm làm bản hiện hành ngày 16/10/2026, tổng hợp 19 cấu hình và 1.900 bản ghi huấn luyện. Bản Word và PDF v02 đã được đồng bộ; PDF gồm 31 trang và đã được đối chiếu với Word.

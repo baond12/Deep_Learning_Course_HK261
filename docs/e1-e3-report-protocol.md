@@ -29,7 +29,7 @@ Trong mỗi bài, đi từ câu hỏi đến kiến trúc/điều kiện, bảng
 ## Những khác biệt phải giữ khi so sánh
 
 - Cùng hạt giống chia dữ liệu không đồng nghĩa cùng khởi tạo hoặc quỹ đạo tối ưu. E1 đặt hạt giống một lần; E2/E3 đặt lại cho từng cấu hình, dùng bộ sinh thứ tự lô riêng. E2 còn sao chép toàn bộ trọng số giữa hai thành viên mỗi cặp MSA.
-- E2 có phép chiếu đặc trưng, CLS và nhúng vị trí. E3 không có CLS/nhúng vị trí, hàng và ô giữ điểm ảnh thô, phân loại từ trạng thái ẩn cuối. Không coi so E2/E3 là chỉ thay chú ý bằng hồi quy.
+- E2 có phép chiếu đặc trưng, CLS và nhúng vị trí. E3 không có CLS/nhúng vị trí, hàng và ô giữ điểm ảnh thô, phân loại từ trạng thái ẩn cuối. Không coi so E2/E3 là chỉ thay cơ chế chú ý bằng mạng hồi tiếp.
 - Kiểm chứng MSA cùng trọng số/tắt dropout khác câu hỏi độ chính xác sau huấn luyện. LSTM/GRU là hai kiến trúc khác nhau, không yêu cầu chúng khớp đầu ra.
 - Bộ trích đặc trưng tích chập bổ sung CNN và tham số. Ô chồng lấn thay số phần tử, ngữ cảnh và chi phí. Đây chưa phải phép tách tác động nhân quả từng yếu tố.
 - E1 thiếu thông tin GPU. E2/E3 cùng loại Tesla P100 nhưng chưa kiểm soát tải cạnh tranh; thời gian chỉ mô tả lượt đã chạy, không phải độ trễ suy luận.
@@ -41,6 +41,6 @@ MLP E1 đạt 98,63%, F1 0,986219, 235.146 tham số; CNN E1 đạt 99,27%, F1 0
 
 E2: tám cấu hình, tám kiểm chứng CPU/CUDA đạt yêu cầu; 80.000 dự đoán khớp độ chính xác/F1 và ma trận. E3: tám cấu hình, 800 dòng lịch sử, 80.000 dự đoán, 24 dòng kiểm tra thứ tự, hash mã nguồn và danh sách chia dữ liệu đã đối chiếu. Tám trọng số E3 nạp được, khớp kiến trúc/số tham số/lượt tốt nhất; không chạy lại toàn bộ kiểm tra MNIST tại máy rà soát. Nội dung lịch sử đối chứng E1 khớp sau chuẩn hóa CRLF/LF.
 
-Thực nghiệm đã hoàn tất. Báo cáo chung đang được biên tập và nhóm rà soát; PDF đã công bố là phiên bản trước, chưa phản ánh đầy đủ bộ kết quả mới. Khi đối chiếu thực nghiệm, dùng các tệp số liệu được liên kết trong trang này. Bản cuối sẽ được xuất PDF sau khi nhóm duyệt.
+Thực nghiệm đã hoàn tất. Bản báo cáo v02 được chốt tạm làm bản hiện hành ngày 16/10/2026, tổng hợp 19 cấu hình và 1.900 bản ghi huấn luyện. Bản Word và PDF v02 đã được đồng bộ; PDF gồm 31 trang và đã được đối chiếu với Word.
 
-Sau khi nhóm duyệt, cần xuất PDF từ đúng bản Word, kiểm tra mục lục/bảng/hình, rồi cập nhật cùng đường dẫn `reports/exercises.pdf`. Nhóm tự xác nhận thành viên, khai báo hỗ trợ AI và khả năng giải thích mã nguồn/số liệu trước khi nộp.
+Báo cáo hiện hành v02: [đọc PDF](../reports/exercises.pdf) và [tải Word](../reports/exercises.docx). Hai tệp được giữ nguyên theo bản người học cung cấp, đã đối chiếu nội dung và số trang sau khi xuất PDF. Việc chốt tạm chưa xác nhận đã nộp bài; nhóm chịu trách nhiệm về thông tin thành viên, khai báo hỗ trợ AI và nội dung báo cáo.

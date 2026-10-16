@@ -53,4 +53,4 @@ Các ma trận đặt nhãn thật theo hàng và nhãn dự đoán theo cột. 
 
 Kiểm chứng hai hiện thực xét cùng trọng số và tắt ngẫu nhiên dropout; không đòi hai lượt huấn luyện có cùng độ chính xác. Bộ kết quả ghi Tesla P100-PCIE-16GB, PyTorch 2.2.1+cu118, CUDA 11.8. Chưa kiểm soát tải GPU cạnh tranh. Bộ trích đặc trưng tích chập bổ sung tham số; ô ảnh chồng lấn thay cả số phần tử chuỗi và nhúng vị trí, nên chưa tách tác động riêng từng yếu tố.
 
-Thực nghiệm đã hoàn tất. Báo cáo chung đang được biên tập và nhóm rà soát; PDF đã công bố là phiên bản trước, chưa phản ánh đầy đủ bộ kết quả mới. Khi đối chiếu thực nghiệm, dùng các tệp số liệu được liên kết trong trang này. Bản cuối sẽ được xuất PDF sau khi nhóm duyệt.
+Thực nghiệm đã hoàn tất. Bản báo cáo v02 được chốt tạm làm bản hiện hành ngày 16/10/2026, tổng hợp 19 cấu hình và 1.900 bản ghi huấn luyện. Bản Word và PDF v02 đã được đồng bộ; PDF gồm 31 trang và đã được đối chiếu với Word.

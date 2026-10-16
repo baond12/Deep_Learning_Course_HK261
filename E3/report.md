@@ -75,4 +75,4 @@ Thứ tự mới khác phân phối khi huấn luyện; đặc trưng tích ch�
 
 E3 ghi cùng loại GPU Tesla P100-PCIE-16GB và môi trường thư viện như E2; chưa kiểm soát tải cạnh tranh. E1 thiếu thông tin GPU, nên thời gian đối chứng là số đo của lượt E1, không phải phép đo tốc độ đồng nhất. Một hạt giống và một bộ dữ liệu giới hạn khả năng khái quát kết luận.
 
-Thực nghiệm đã hoàn tất. Báo cáo chung đang được biên tập và nhóm rà soát; PDF đã công bố là phiên bản trước, chưa phản ánh đầy đủ bộ kết quả mới. Khi đối chiếu thực nghiệm, dùng các tệp số liệu được liên kết trong trang này. Bản cuối sẽ được xuất PDF sau khi nhóm duyệt.
+Thực nghiệm đã hoàn tất. Bản báo cáo v02 được chốt tạm làm bản hiện hành ngày 16/10/2026, tổng hợp 19 cấu hình và 1.900 bản ghi huấn luyện. Bản Word và PDF v02 đã được đồng bộ; PDF gồm 31 trang và đã được đối chiếu với Word.
