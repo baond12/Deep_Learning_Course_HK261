@@ -1,0 +1,4 @@
+model,parameters,best_epoch,best_val_accuracy,test_loss,test_accuracy,macro_f1,training_time
+softmax,7850,32,0.920333,0.271124,0.9259,0.924782,11m 58s
+mlp,235146,81,0.984,0.060617,0.9863,0.986219,12m 40s
+cnn,421642,83,0.993167,0.02589,0.9927,0.992631,12m 49s

@@ -11,8 +11,11 @@
 Không cần tách báo cáo E1, E2, E3 thành nhiều file; đề yêu cầu một báo cáo chung cho
 E1-E3.
 
-Bản E1–E3 hiện tại được lấy từ `exercises_report_v01.pdf` và
-`exercises_report_v01.docx`. Landing page dùng đường dẫn ổn định
+Bản E1–E3 hiện tại đã cập nhật E1 từ
+`E1/results/epochs100_batch256_seed42/` (100 epoch, batch size 256, seed 42).
+E2/E3 giữ số liệu lịch sử 20 epoch, batch size 16; báo cáo nêu rõ khác biệt
+ngân sách huấn luyện. PDF được xuất trực tiếp từ bản Word tương ứng.
+Landing page dùng đường dẫn ổn định
 `reports/exercises.pdf` và `reports/exercises.docx` để có thể cập nhật phiên bản
 báo cáo mà không phải đổi liên kết.
 

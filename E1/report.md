@@ -101,12 +101,12 @@ Total = 421,642
 
 ## 4. Cau hinh huan luyen
 
-Thuc nghiem chinh duoc chay tren Google Colab voi GPU CUDA:
+Thuc nghiem cap nhat chay voi thiet bi CUDA. Bo ket qua khong ghi ten GPU hay phien ban CUDA/PyTorch.
 
 | Hyperparameter | Gia tri |
 |---|---:|
-| Epochs | 20 |
-| Batch size | 16 |
+| Epochs | 100 |
+| Batch size | 256 |
 | Optimizer | Adam |
 | Learning rate | 0.001 |
 | Weight decay | 0.0001 |
@@ -116,24 +116,25 @@ Thuc nghiem chinh duoc chay tren Google Colab voi GPU CUDA:
 Lenh chay:
 
 ```bash
-python E1/train.py --models all --epochs 20 --batch-size 16 --device cuda
+python E1/train.py --models all --epochs 100 --batch-size 256 --learning-rate 0.001 --weight-decay 0.0001 --val-ratio 0.1 --seed 42 --device cuda --output-dir E1/results/epochs100_batch256_seed42
 ```
 
-Ket qua duoc luu trong `E1/results/`, gom `summary.csv`, `metrics.json`,
+Ket qua moi duoc luu trong `E1/results/epochs100_batch256_seed42/`, gom `summary.csv`, `metrics.json`,
 `learning_curves.png`, cac confusion matrix va cac mau du doan sai.
+Ket qua cu 20 epoch, batch size 16 van duoc giu o goc `E1/results/` de truy vet.
 
 ## 5. Ket qua thuc nghiem
 
 | Model | Parameters | Best epoch | Best val accuracy | Test loss | Test accuracy | Macro F1 | Training time |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Softmax | 7,850 | 5 | 0.9155 | 0.295770 | 0.9209 | 0.919632 | 6m 58s |
-| MLP | 235,146 | 14 | 0.9770 | 0.077527 | 0.9782 | 0.978016 | 7m 51s |
-| CNN | 421,642 | 20 | 0.9915 | 0.027936 | 0.9917 | 0.991646 | 8m 24s |
+| Softmax | 7,850 | 32 | 0.920333 | 0.271124 | 0.9259 | 0.924782 | 11m 58s |
+| MLP | 235,146 | 81 | 0.984000 | 0.060617 | 0.9863 | 0.986219 | 12m 40s |
+| CNN | 421,642 | 83 | 0.993167 | 0.025890 | 0.9927 | 0.992631 | 12m 49s |
 
 Thu tu ket qua tren test set la:
 
 ```text
-CNN (99.17%) > MLP (97.82%) > Softmax (92.09%)
+CNN (99.27%) > MLP (98.63%) > Softmax (92.59%)
 ```
 
 Softmax co it tham so nhat va tao baseline tuyen tinh. MLP co nhieu tham so hon va co ReLU,
@@ -142,45 +143,30 @@ hop hon voi du lieu anh.
 
 ## 6. Phan tich learning curves
 
-Softmax hoi tu rat som. Validation accuracy tot nhat o epoch 5, sau do train accuracy tang
-nhe nhung validation accuracy khong cai thien on dinh. Dieu nay cho thay mo hinh tuyen tinh
-da gan cham gioi han bieu dien cua no tren input flatten.
+Softmax dat validation accuracy tot nhat 92.03% o epoch 32; o epoch 100 con 91.65%.
+Training loss giam tu 0.539 xuong 0.228, nhung validation khong cai thien on dinh.
+Dieu nay chua chung minh da tim duoc gioi han toi uu cua mo hinh.
 
-MLP cai thien ro so voi Softmax va dat best validation accuracy o epoch 14. Training accuracy
-tiep tuc tang trong khi validation accuracy dao dong nhe, nhung test accuracy van cao va gan
-voi validation accuracy. Dieu nay cho thay MLP tong quat hoa tot trong thuc nghiem nay.
+MLP dat best validation accuracy 98.40% o epoch 81. Loss cuoi tren train/validation
+lan luot khoang 0.0189/0.0733. CNN dat best validation accuracy 99.32% o epoch 83,
+loss cuoi khoang 0.0058/0.0357. Khoang cach train-validation van ton tai.
 
-CNN dat validation accuracy cao nhat o epoch 20 va test accuracy 99.17%. Training va validation
-accuracy deu cao, khong co dau hieu overfitting nghiem trong. Ket qua nay phu hop voi ly thuyet:
-CNN co inductive bias tot cho anh nho nhu MNIST.
+Test dung checkpoint tot nhat theo validation (32, 81, 83), khong mac dinh epoch 100.
+So voi lan cu, test accuracy tang 0.50, 0.81 va 0.10 diem phan tram.
+Vi thay doi dong thoi epochs va batch size, chua the tach rieng tac dong cua tung yeu to.
 
 ## 7. Phan tich confusion matrix va mau sai
 
-Confusion matrix cho thay Softmax co so loi cao hon ro ret. Cac loi lon gom:
+Tren 10,000 anh test, Softmax sai 741 anh, MLP sai 137 anh va CNN sai 73 anh.
+Ma tran nham lan moi ghi nhan:
 
-- Chu so `5` bi du doan thanh `3` 46 lan.
-- Chu so `2` bi du doan thanh `8` 42 lan va thanh `3` 30 lan.
-- Chu so `8` bi du doan thanh `3` 33 lan, thanh `5` 24 lan va thanh `6` 20 lan.
-- Chu so `9` bi du doan thanh `7` 26 lan va thanh `4` 25 lan.
+- Softmax: `5 -> 8` 37 lan, `5 -> 3` 36 lan, `2 -> 8` 35 lan.
+- MLP: `9 -> 4` va `4 -> 9` deu 8 lan.
+- CNN: `9 -> 4` 10 lan, `5 -> 3` 6 lan.
 
-MLP giam manh cac loi nay. Vi du:
-
-- `5 -> 3` giam tu 46 xuong 6.
-- `2 -> 8` giam tu 42 xuong 3.
-- `8 -> 3` giam tu 33 xuong 0.
-
-CNN tiep tuc giam loi va confusion matrix tap trung gan duong cheo chinh. Cac loi con lai chu
-yeu nam o cac chu so viet khong ro hoac co hinh dang gan nhau:
-
-- `5 -> 3`: 9 lan.
-- `9 -> 4`: 12 lan.
-- `7 -> 1`: 4 lan.
-- `6 -> 4`: 3 lan.
-
-Quan sat cac anh misclassified cho thay nhieu mau bi viet nghieng, dut net, dinh net hoac co hinh
-dang gan voi lop khac. Vi du, mot so anh `5` co phan tren/duoi gan voi `3`, mot so anh `9` co
-than duoi mo lam model nham voi `4` hoac `5`, va mot so anh `7` viet thang nen gan voi `1`.
-Day la cac loi hop ly voi bai toan nhan dang chu so viet tay.
+Hinh mau sai dung de minh hoa dinh tinh, khong dai dien cho tan suat tung kieu net viet.
+Bao cao Word hien thi muoi loi dau cua Softmax theo thu tu test; anh nguon luu toi da 25 loi.
+Khong suy luan nguyen nhan chac chan cua tung loi chi tu hinh anh.
 
 ## 8. Ket luan
 
