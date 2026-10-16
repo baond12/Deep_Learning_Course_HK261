@@ -2,15 +2,14 @@
 
 ## 1. Mục tiêu và trạng thái
 
-Thí nghiệm mở rộng E2 hiện thực MSA từ phép toán cơ bản và bằng
+Thí nghiệm E2 hiện thực MSA từ phép toán cơ bản và bằng
 `nn.MultiheadAttention`, đối chiếu trên cùng tokenizer, đồng thời so sánh bốn nhóm
-lấy token mà đề gợi ý. Đã có mã và bộ kiểm tra; **chưa có kết quả MNIST của bộ
-8 cấu hình mới** để đưa vào báo cáo. Kết quả smoke test dùng dữ liệu giả, không
-phải kết quả thực nghiệm khoa học.
+lấy token mà đề gợi ý. Bộ MNIST mới đã hoàn tất **8 cấu hình**, mỗi cấu hình
+100 epoch, batch size 256; cả 8 trường hợp kiểm chứng số học đều PASS.
 
-Kết quả cũ ba cấu hình (20 epochs, batch 16) vẫn nằm ở `E2/results/` và báo cáo
-Word/PDF hiện có. Bộ mới dùng thư mục `E2/results/tokenization_msa_v2/`, đồng
-nhất dropout hai backend; không trộn số liệu hai phiên bản.
+Kết quả cũ ba cấu hình (20 epochs, batch 16) vẫn nằm ở `E2/results/` để truy vết.
+Bộ mới nằm ở `E2/results/tokenization_msa_v2/`, đồng nhất dropout hai backend.
+Báo cáo Word chung đã cập nhật; người học tự xuất PDF tương ứng trước khi push.
 
 ## 2. Dữ liệu và protocol
 
@@ -19,7 +18,7 @@ thành 54.000 train và 6.000 validation bằng `random_split`, split seed 42; g
 riêng 10.000 ảnh test chính thức. Tiền xử lý ToTensor và chuẩn hóa mean 0.1307,
 std 0.3081, không augmentation.
 
-Cấu hình dự kiến chung: 100 epochs, batch size 256, Adam, lr 0.001, weight decay
+Cấu hình đã chạy: 100 epochs, batch size 256, Adam, lr 0.001, weight decay
 0.0001, CrossEntropyLoss, dropout 0.1; không scheduler hoặc early stopping.
 Chọn checkpoint theo validation accuracy cao nhất, bằng nhau giữ epoch sớm nhất,
 sau đó mới đánh giá test. Thời gian đo gồm train + validation, không gồm bước
@@ -77,25 +76,46 @@ riêng. Dropout dùng cùng vị trí và xác suất nhưng không ép cùng m�
 kernel, nên quỹ đạo học có thể khác. Split seed tách khỏi `--train-seed` để có thể
 chạy lặp mà giữ nguyên train/validation.
 
-## 6. Kết quả cần cập nhật sau khi chạy
+## 6. Kết quả thực nghiệm
 
-Từ `summary.csv`, lập bảng đủ 8 hàng: `custom_patch`, `pytorch_patch`,
-`custom_row`, `pytorch_row`, `custom_cnn_stem`, `pytorch_cnn_stem`,
-`custom_overlap_patch`, `pytorch_overlap_patch`. Mỗi hàng có val tốt nhất, best
-epoch, test loss/accuracy, macro F1, số tham số, số token và thời gian train + val.
-Chỉ dùng bộ hoàn tất đủ 8 mô hình và mọi kiểm tra PASS.
+| Cấu hình | Tham số | Best epoch | Best val (%) | Test loss | Test accuracy (%) | Macro F1 | Train + val (s) |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| custom_patch | 38.602 | 98 | 97,48 | 0,078682 | 97,59 | 0,975703 | 738,8 |
+| pytorch_patch | 38.602 | 55 | 97,13 | 0,096932 | 97,05 | 0,970280 | 733,0 |
+| custom_row | 38.026 | 83 | 98,05 | 0,065533 | 98,04 | 0,980230 | 750,6 |
+| pytorch_row | 38.026 | 97 | 98,15 | 0,057587 | 98,24 | 0,982280 | 751,3 |
+| custom_cnn_stem | 56.330 | 82 | 99,32 | 0,024487 | 99,28 | 0,992767 | 763,6 |
+| pytorch_cnn_stem | 56.330 | 59 | 99,28 | 0,024037 | 99,28 | 0,992781 | 827,2 |
+| custom_overlap_patch | 41.674 | 97 | 98,47 | 0,050016 | 98,53 | 0,985199 | 739,7 |
+| pytorch_overlap_patch | 41.674 | 82 | 98,45 | 0,056096 | 98,33 | 0,983174 | 737,4 |
 
-Hai phép đối chiếu riêng:
+**MSA tự viết so với PyTorch:** chênh test accuracy (PyTorch trừ tự viết) lần lượt
+là −0,54; +0,20; 0,00; −0,20 điểm phần trăm cho patch, hàng, CNN-stem và overlap.
+Tỷ số thời gian PyTorch/tự viết lần lượt là 0,9922; 1,0010; 1,0834; 0,9969.
+Không có một bản luôn chính xác hoặc nhanh hơn trên cả bốn tokenizer.
 
-1. **MSA tự viết và PyTorch:** bốn cặp cùng tokenizer, xem `comparison_msa.csv`.
-   Báo chênh accuracy theo điểm phần trăm, thời gian mỗi bản và tỷ số thời gian.
-2. **Tokenization:** so bốn cách trong cùng backend, xem
-   `comparison_tokenization.csv`. Xét đồng thời chất lượng, token count, số tham
-   số và chi phí; không quy hiệu quả CNN-stem riêng cho độ dài chuỗi.
+**So sánh tokenization trong cùng bản MSA:** CNN-stem dẫn đầu, cùng accuracy
+99,28% và 72 lỗi ở cả hai bản, nhưng có F1 và vị trí lỗi khác nhau. Patch chồng
+lấn hơn patch rời 0,94 điểm phần trăm ở bản tự viết và 1,28 ở PyTorch.
+CNN-stem bổ sung CNN và tăng capacity; overlap tăng số token và nhúng vị trí,
+nên chưa thể quy cải thiện riêng cho một yếu tố.
 
-Dùng `comparison.png`, bốn `learning_curves_<tokenizer>.png`, confusion matrix
-và ảnh lỗi để giải thích kết quả. `comparison.md` tự xuất nhận xét định lượng
-ban đầu; cần người học đọc lại và bổ sung diễn giải học thuật từ số liệu thật.
+Đã tính lại accuracy/F1 từ 10.000 dự đoán mỗi mô hình và đối chiếu đủ ma trận
+nhầm lẫn CSV. Mỗi history đủ 100 epoch; best epoch khớp validation. Các hash
+khởi tạo trong cặp khớp nhau, hash split khớp seed 42, hash nguồn khớp repo sau
+chuẩn hóa xuống dòng LF. Đây là kiểm tra dữ liệu đã cung cấp, không huấn luyện lại.
+
+Sai số tuyệt đối lớn nhất trong các mục kiểm chứng: CPU float64 ≤ 8,89×10⁻¹⁵,
+CUDA float32 ≤ 3,82×10⁻⁶; tất cả đạt tiêu chuẩn kết hợp atol/rtol đã khai báo.
+Môi trường: Python 3.10.13, PyTorch 2.2.1+cu118, torchvision 0.17.1+cu118,
+CUDA 11.8, Tesla P100-PCIE-16GB. Không có xác nhận GPU hoàn toàn không chịu
+tải cạnh tranh trong lúc chạy.
+
+Cuối 100 epoch, CNN-stem có loss train/validation khoảng 0,0133/0,0325 (tự viết)
+và 0,0116/0,0331 (PyTorch), cho thấy khoảng cách khái quát hóa. Checkpoint test
+là epoch tốt nhất trong bảng, không mặc định epoch cuối. Với custom_patch,
+`7 → 2` và `3 → 5` đều có 15 lỗi; CNN-stem tự viết còn 8 lỗi `4 → 9`.
+Hình lỗi chỉ minh họa các mẫu sai đầu tiên theo thứ tự test.
 
 ## 7. Giới hạn và tái lập
 
@@ -108,6 +128,7 @@ overlap thay đổi độ dài chuỗi và positional embedding, nên chưa tác
 CUDA_VISIBLE_DEVICES=1 python E2/train.py --experiments all --epochs 100 --batch-size 256 --device cuda --progress --output-dir E2/results/tokenization_msa_v2
 ```
 
-Trước khi tổng hợp vào `reports/exercises.docx` và `reports/exercises.pdf`, cần
-đối chiếu số liệu, tên GPU/môi trường, trạng thái hoàn tất, kết quả verification
-và hình minh họa. Không thay kết quả lịch sử bằng số liệu chưa chạy.
+`reports/exercises.docx` đã tổng hợp bộ mới cùng E1 (100 epoch/lô 256) và E3
+lịch sử (20 epoch/lô 16). PDF trong repo chỉ được thay sau khi người học xuất
+lại từ bản Word này. Chênh một ảnh giữa E2 CNN-stem (99,28%) và CNN E1 (99,27%)
+chưa đủ chứng minh ưu thế có ý nghĩa thống kê.

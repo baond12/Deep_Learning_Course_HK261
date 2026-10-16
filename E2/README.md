@@ -114,8 +114,11 @@ kiểm tra PASS vào bảng kết quả hoàn chỉnh. Một seed chưa cho bi�
 
 Kết quả lịch sử tại `E2/results/*.csv`, `*.json`, `*.png` là phiên bản ba cấu hình,
 20 epochs, batch 16 với output dropout khác. Giữ nguyên để truy vết, không gộp
-vào bộ mới. `E2/report.md` mô tả protocol mới và chỗ cần cập nhật sau khi bạn chạy;
-báo cáo Word/PDF chung chưa thay đổi số liệu.
+vào bộ mới. Bộ MNIST mới đã hoàn tất đủ 8 cấu hình; cả 8 trường hợp kiểm chứng
+CPU/CUDA đều PASS. CNN-stem đạt test accuracy 99,28% ở cả hai bản MSA.
+`E2/report.md` và báo cáo Word chung đã cập nhật theo số liệu mới; người học tự
+xuất PDF tương ứng trước khi push. Xem `results/tokenization_msa_v2/README.md`
+để đọc nguồn dữ liệu và các bước đối chiếu.
 
 ## Các file mã nguồn
 

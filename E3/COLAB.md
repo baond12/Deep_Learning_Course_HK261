@@ -22,13 +22,13 @@
 ## 4. Train ảnh MNIST dạng chuỗi
 
 ```bash
-!python E3/train.py --experiments all --epochs 5 --batch-size 128 --device cuda --progress
+!python E3/train.py --experiments all --epochs 100 --batch-size 256 --device cuda --progress --probe-order --output-dir E3/results/sequence_v2
 ```
 
-Nếu không có GPU:
+Nếu không có GPU, kiểm tra offline bằng dữ liệu giả:
 
 ```bash
-!python E3/train.py --experiments all --epochs 5 --batch-size 128 --device cpu --progress
+!python E3/smoke_test.py
 ```
 
 ## 5. Train sentiment analysis toy pipeline
@@ -43,17 +43,27 @@ Nếu không có GPU:
 Kết quả ảnh nằm ở:
 
 ```text
-E3/results/
+E3/results/sequence_v2/
 ```
 
 Các file chính:
 
 - `summary.csv`
-- `comparison_e1_e2_e3.csv`
+- `comparison_rnn.csv`, `comparison_baselines.csv`
+- `comparison_order_probe.csv` (vì lệnh trên bật `--probe-order`)
 - `metrics.json`
-- `learning_curves.png`
+- `learning_curves_<tokenizer>.png`, `learning_curves_baselines_e1.png`
+- `baselines_e1.json` (tái sử dụng đúng số liệu baseline E1 đã có)
+- `checkpoints/best_*.pt` (giữ riêng, không đưa lên Git)
+- `predictions_*.csv`, `confusion_matrix_*.csv`
 - `confusion_matrix_*.png`
 - `misclassified_*.png`
+
+Chỉ train 8 cấu hình: LSTM/GRU × hàng, patch, CNN-stem, patch chồng lấn.
+MLP/CNN lấy kết quả E1 ở `E1/results/epochs100_batch256_seed42/`, không chạy lại;
+bảng tổng hợp có 10 hàng và ghi rõ nguồn E1/E3. Split seed 42 cố định; dùng
+`--train-seed` khác và output mới để chạy lặp. Output đã có kết quả bị từ chối
+ghi đè; không hỗ trợ resume. Khi chạy xong, tải cả thư mục output và checkpoint.
 
 Kết quả sentiment nằm ở:
 

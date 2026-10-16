@@ -1,0 +1,9 @@
+experiment,attention,tokenization,image_tokens,total_tokens,parameters,best_val_accuracy,test_accuracy,macro_f1,training_time_seconds,best_epoch
+custom_patch,custom_msa,patch_7x7,16,17,38602,0.9748333333333333,0.9759,0.9757032112900292,738.829121299088,98
+pytorch_patch,pytorch_multihead_attention,patch_7x7,16,17,38602,0.9713333333333334,0.9705,0.9702803053239208,733.0400917753577,55
+custom_row,custom_msa,row_tokens,28,29,38026,0.9805,0.9804,0.980230460965099,750.5685656405985,83
+pytorch_row,pytorch_multihead_attention,row_tokens,28,29,38026,0.9815,0.9824,0.9822799675353624,751.2974029742181,97
+custom_cnn_stem,custom_msa,cnn_stem_7x7,49,50,56330,0.9931666666666666,0.9928,0.9927673124710775,763.5519510023296,82
+pytorch_cnn_stem,pytorch_multihead_attention,cnn_stem_7x7,49,50,56330,0.9928333333333333,0.9928,0.9927809127705775,827.2133509553969,59
+custom_overlap_patch,custom_msa,overlap_patch_7x7_stride3,64,65,41674,0.9846666666666667,0.9853,0.9851986172133534,739.7214650735259,97
+pytorch_overlap_patch,pytorch_multihead_attention,overlap_patch_7x7_stride3,64,65,41674,0.9845,0.9833,0.9831743306937157,737.4465362392366,82

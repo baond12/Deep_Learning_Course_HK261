@@ -1,0 +1,277 @@
+{
+  "schema_version": 1,
+  "seed": 42,
+  "model_kwargs": {
+    "embed_dim": 64,
+    "num_heads": 4,
+    "ffn_dim": 128,
+    "depth": 1,
+    "patch_size": 7,
+    "overlap_stride": 3,
+    "dropout": 0.1
+  },
+  "torch_version": "2.2.1+cu118",
+  "cases": [
+    {
+      "tokenization": "patch",
+      "device": "cpu",
+      "dtype": "torch.float64",
+      "atol": 1e-10,
+      "rtol": 1e-08,
+      "passed": true,
+      "max_abs_errors": {
+        "attention_output": 1.6653345369377348e-16,
+        "attention_input_gradient": 1.6653345369377348e-16,
+        "attention_gradient_qkv_weight": 2.220446049250313e-15,
+        "attention_gradient_qkv_bias": 1.887379141862766e-15,
+        "attention_gradient_out_weight": 1.7763568394002505e-15,
+        "attention_gradient_out_bias": 7.105427357601002e-15,
+        "classifier_inference_logits": 0.0,
+        "classifier_train_logits": 5.551115123125783e-16,
+        "classifier_loss": 0.0,
+        "classifier_input_gradient": 2.7755575615628914e-17,
+        "all_parameter_gradients": 1.1102230246251565e-15,
+        "classifier_logits_after_adam_step": 7.771561172376096e-16
+      },
+      "tokens": {
+        "kind": "patch",
+        "image_tokens": 16,
+        "total_tokens": 17,
+        "embed_dim": 64,
+        "uses_cls": true,
+        "patch_size": 7,
+        "stride": 7,
+        "grid_size": 4,
+        "padding": 0
+      },
+      "parameter_tensors_checked": 20
+    },
+    {
+      "tokenization": "patch",
+      "device": "cuda",
+      "dtype": "torch.float32",
+      "atol": 2e-05,
+      "rtol": 0.0002,
+      "passed": true,
+      "max_abs_errors": {
+        "attention_output": 1.4901161193847656e-07,
+        "attention_input_gradient": 8.940696716308594e-08,
+        "attention_gradient_qkv_weight": 9.5367431640625e-07,
+        "attention_gradient_qkv_bias": 1.1920928955078125e-06,
+        "attention_gradient_out_weight": 1.0728836059570312e-06,
+        "attention_gradient_out_bias": 1.9073486328125e-06,
+        "classifier_inference_logits": 2.980232238769531e-07,
+        "classifier_train_logits": 3.5762786865234375e-07,
+        "classifier_loss": 0.0,
+        "classifier_input_gradient": 8.381903171539307e-09,
+        "all_parameter_gradients": 5.720648914575577e-07
+      },
+      "tokens": {
+        "kind": "patch",
+        "image_tokens": 16,
+        "total_tokens": 17,
+        "embed_dim": 64,
+        "uses_cls": true,
+        "patch_size": 7,
+        "stride": 7,
+        "grid_size": 4,
+        "padding": 0
+      },
+      "parameter_tensors_checked": 20
+    },
+    {
+      "tokenization": "row",
+      "device": "cpu",
+      "dtype": "torch.float64",
+      "atol": 1e-10,
+      "rtol": 1e-08,
+      "passed": true,
+      "max_abs_errors": {
+        "attention_output": 1.249000902703301e-16,
+        "attention_input_gradient": 1.942890293094024e-16,
+        "attention_gradient_qkv_weight": 2.6645352591003757e-15,
+        "attention_gradient_qkv_bias": 3.552713678800501e-15,
+        "attention_gradient_out_weight": 2.6645352591003757e-15,
+        "attention_gradient_out_bias": 3.552713678800501e-15,
+        "classifier_inference_logits": 0.0,
+        "classifier_train_logits": 1.4432899320127035e-15,
+        "classifier_loss": 0.0,
+        "classifier_input_gradient": 2.2551405187698492e-17,
+        "all_parameter_gradients": 1.3322676295501878e-15,
+        "classifier_logits_after_adam_step": 1.3322676295501878e-15
+      },
+      "tokens": {
+        "kind": "row",
+        "image_tokens": 28,
+        "total_tokens": 29,
+        "embed_dim": 64,
+        "uses_cls": true,
+        "row_length": 28
+      },
+      "parameter_tensors_checked": 20
+    },
+    {
+      "tokenization": "row",
+      "device": "cuda",
+      "dtype": "torch.float32",
+      "atol": 2e-05,
+      "rtol": 0.0002,
+      "passed": true,
+      "max_abs_errors": {
+        "attention_output": 9.685754776000977e-08,
+        "attention_input_gradient": 7.450580596923828e-08,
+        "attention_gradient_qkv_weight": 1.0132789611816406e-06,
+        "attention_gradient_qkv_bias": 1.5497207641601562e-06,
+        "attention_gradient_out_weight": 1.1920928955078125e-06,
+        "attention_gradient_out_bias": 2.86102294921875e-06,
+        "classifier_inference_logits": 3.5762786865234375e-07,
+        "classifier_train_logits": 6.556510925292969e-07,
+        "classifier_loss": 0.0,
+        "classifier_input_gradient": 9.313225746154785e-09,
+        "all_parameter_gradients": 6.556510925292969e-07
+      },
+      "tokens": {
+        "kind": "row",
+        "image_tokens": 28,
+        "total_tokens": 29,
+        "embed_dim": 64,
+        "uses_cls": true,
+        "row_length": 28
+      },
+      "parameter_tensors_checked": 20
+    },
+    {
+      "tokenization": "cnn_stem",
+      "device": "cpu",
+      "dtype": "torch.float64",
+      "atol": 1e-10,
+      "rtol": 1e-08,
+      "passed": true,
+      "max_abs_errors": {
+        "attention_output": 1.2836953722228372e-16,
+        "attention_input_gradient": 1.3877787807814457e-16,
+        "attention_gradient_qkv_weight": 3.552713678800501e-15,
+        "attention_gradient_qkv_bias": 4.440892098500626e-15,
+        "attention_gradient_out_weight": 3.552713678800501e-15,
+        "attention_gradient_out_bias": 7.105427357601002e-15,
+        "classifier_inference_logits": 0.0,
+        "classifier_train_logits": 6.661338147750939e-16,
+        "classifier_loss": 4.440892098500626e-16,
+        "classifier_input_gradient": 4.336808689942018e-18,
+        "all_parameter_gradients": 5.551115123125783e-16,
+        "classifier_logits_after_adam_step": 6.661338147750939e-16
+      },
+      "tokens": {
+        "kind": "cnn_stem",
+        "image_tokens": 49,
+        "total_tokens": 50,
+        "embed_dim": 64,
+        "uses_cls": true,
+        "grid_size": 7,
+        "stem": "Conv(1,32,3,pad1)-ReLU-Pool2-Conv(32,D,3,pad1)-ReLU-Pool2"
+      },
+      "parameter_tensors_checked": 22
+    },
+    {
+      "tokenization": "cnn_stem",
+      "device": "cuda",
+      "dtype": "torch.float32",
+      "atol": 2e-05,
+      "rtol": 0.0002,
+      "passed": true,
+      "max_abs_errors": {
+        "attention_output": 1.1920928955078125e-07,
+        "attention_input_gradient": 6.332993507385254e-08,
+        "attention_gradient_qkv_weight": 1.1920928955078125e-06,
+        "attention_gradient_qkv_bias": 1.9073486328125e-06,
+        "attention_gradient_out_weight": 2.6226043701171875e-06,
+        "attention_gradient_out_bias": 3.814697265625e-06,
+        "classifier_inference_logits": 4.172325134277344e-07,
+        "classifier_train_logits": 4.76837158203125e-07,
+        "classifier_loss": 0.0,
+        "classifier_input_gradient": 2.561137080192566e-09,
+        "all_parameter_gradients": 4.172325134277344e-07
+      },
+      "tokens": {
+        "kind": "cnn_stem",
+        "image_tokens": 49,
+        "total_tokens": 50,
+        "embed_dim": 64,
+        "uses_cls": true,
+        "grid_size": 7,
+        "stem": "Conv(1,32,3,pad1)-ReLU-Pool2-Conv(32,D,3,pad1)-ReLU-Pool2"
+      },
+      "parameter_tensors_checked": 22
+    },
+    {
+      "tokenization": "overlap_patch",
+      "device": "cpu",
+      "dtype": "torch.float64",
+      "atol": 1e-10,
+      "rtol": 1e-08,
+      "passed": true,
+      "max_abs_errors": {
+        "attention_output": 1.1102230246251565e-16,
+        "attention_input_gradient": 1.457167719820518e-16,
+        "attention_gradient_qkv_weight": 3.552713678800501e-15,
+        "attention_gradient_qkv_bias": 4.884981308350689e-15,
+        "attention_gradient_out_weight": 4.440892098500626e-15,
+        "attention_gradient_out_bias": 8.881784197001252e-15,
+        "classifier_inference_logits": 5.551115123125783e-16,
+        "classifier_train_logits": 4.996003610813204e-16,
+        "classifier_loss": 0.0,
+        "classifier_input_gradient": 1.2576745200831851e-17,
+        "all_parameter_gradients": 9.43689570931383e-16,
+        "classifier_logits_after_adam_step": 6.661338147750939e-16
+      },
+      "tokens": {
+        "kind": "overlap_patch",
+        "image_tokens": 64,
+        "total_tokens": 65,
+        "embed_dim": 64,
+        "uses_cls": true,
+        "patch_size": 7,
+        "stride": 3,
+        "grid_size": 8,
+        "padding": 0
+      },
+      "parameter_tensors_checked": 20
+    },
+    {
+      "tokenization": "overlap_patch",
+      "device": "cuda",
+      "dtype": "torch.float32",
+      "atol": 2e-05,
+      "rtol": 0.0002,
+      "passed": true,
+      "max_abs_errors": {
+        "attention_output": 8.940696716308594e-08,
+        "attention_input_gradient": 7.078051567077637e-08,
+        "attention_gradient_qkv_weight": 1.3113021850585938e-06,
+        "attention_gradient_qkv_bias": 3.337860107421875e-06,
+        "attention_gradient_out_weight": 1.5497207641601562e-06,
+        "attention_gradient_out_bias": 3.814697265625e-06,
+        "classifier_inference_logits": 5.960464477539062e-07,
+        "classifier_train_logits": 4.172325134277344e-07,
+        "classifier_loss": 2.384185791015625e-07,
+        "classifier_input_gradient": 5.587935447692871e-09,
+        "all_parameter_gradients": 4.470348358154297e-07
+      },
+      "tokens": {
+        "kind": "overlap_patch",
+        "image_tokens": 64,
+        "total_tokens": 65,
+        "embed_dim": 64,
+        "uses_cls": true,
+        "patch_size": 7,
+        "stride": 3,
+        "grid_size": 8,
+        "padding": 0
+      },
+      "parameter_tensors_checked": 20
+    }
+  ],
+  "passed": true,
+  "scope": "Same weights; eval and train with dropout disabled; outputs, loss, input and parameter gradients.",
+  "limitation": "Stochastic training metrics need not be identical; this is not a proof for every possible input."
+}
