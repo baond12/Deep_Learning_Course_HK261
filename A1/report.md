@@ -106,47 +106,58 @@ Smoke test không tải dataset/weights:
 python A1/smoke_test.py
 ```
 
-## 8. Kết quả cần điền sau khi train
+## 8. Kết quả thực nghiệm
 
-Sau khi train, kết quả nằm trong `A1/results/`:
+Đã tổng hợp đủ tám cấu hình. Mỗi history có 50 epoch; chọn trạng thái mô hình
+có độ chính xác xác thực cao nhất để đánh giá cuối trên tập kiểm tra theo mã huấn luyện.
+Hai cấu hình ResNet18 partial và ViT scratch lấy chỉ số từ JSON/CSV gốc; sáu cấu hình
+khác lấy từ log người học cung cấp, với chỉ số test đến bốn chữ số thập phân.
+Cấu hình mặc định ở mục 6–7 là cấu hình ví dụ, không phải bản ghi đầy đủ của các lượt này.
+JSON gốc của hai cấu hình ghi batch size 16 và 50 epoch; metadata chạy riêng của sáu
+cấu hình bổ sung vẫn cần xác nhận. Số tham số cho sáu cấu hình đó được suy ra từ kiến
+trúc mã nguồn hiện tại, cần đối chiếu nếu mã chạy khác với repo.
 
-- `summary.csv`: bảng so sánh chính.
-- `metrics.json`: cấu hình và metric chi tiết.
-- `analysis.md`: bảng tổng hợp và gợi ý nhận xét do `A1/analyze_results.py` sinh.
-- `learning_curves.png`: loss/accuracy curves.
-- `bar_test_accuracy.png`, `bar_macro_f1.png`, `bar_trainable_parameters.png`,
-  `bar_training_time_seconds.png`: biểu đồ so sánh A1.2.
-- `confusion_matrix_*.png`: confusion matrix từng experiment.
-- `misclassified_*.png`: mẫu dự đoán sai.
+| Cấu hình | Epoch tốt nhất | Accuracy xác thực | Test loss | Accuracy kiểm tra | Macro F1 | Thời gian |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| `resnet18_scratch` | 19 | 61.64% | 1.5821 | 60.97% | 0.6070 | 2h 27m 17s |
+| `resnet18_pretrained_head` | 40 | 61.08% | 1.4319 | 60.47% | 0.6022 | 1h 24m 4s |
+| `resnet18_pretrained_partial` | 7 | 72.83% | 1.050193 | 72.27% | 0.722477 | 1h 33m 4s |
+| `resnet18_pretrained_full` | 11 | 77.29% | 0.9163 | 76.84% | 0.7685 | 2h 25m 35s |
+| `vit_b16_scratch` | 10 | 35.37% | 2.54557 | 35.30% | 0.342563 | 18h 23m 37s |
+| `vit_b16_pretrained_head` | 19 | 82.18% | 0.6376 | 81.32% | 0.8130 | 26h 8m 14s |
+| `vit_b16_pretrained_partial` | 27 | 83.66% | 0.9088 | 83.25% | 0.8324 | 28h 48m 53s |
+| `vit_b16_pretrained_full` | 3 | 78.73% | 0.7332 | 78.64% | 0.7859 | 40h 44m 46s |
 
-## 9. A1.2 - So sánh cuối
+Các bảng đầy đủ và nguồn dữ liệu ở `results/summary.csv`, `results/metrics.json`;
+danh mục kiểm chứng ở `results/results_inventory.csv`. Phân tích và bốn biểu đồ so sánh
+được tạo bằng `python A1/analyze_results.py --results-dir A1/results`.
 
-Sau khi chạy đủ thí nghiệm, dùng:
+## 9. Thảo luận kết quả
 
-```bash
-python A1/analyze_results.py --results-dir A1/results
-```
+Trong nhóm ResNet18, full fine-tune đạt accuracy kiểm tra cao nhất 76,84%, hơn
+from-scratch 15,87 điểm phần trăm. Partial đạt 72,27%; head-only đạt 60,47%,
+thấp hơn from-scratch 60,97% trong lần chạy này. Kết quả cho thấy mức độ mở các
+tầng để tinh chỉnh có ảnh hưởng rõ đến khả năng thích nghi trên CIFAR-100.
 
-Phần báo cáo cuối cần bổ sung từ kết quả thật:
+Trong nhóm ViT, partial đạt kết quả tốt nhất với accuracy 83,25% và macro F1 0,8324;
+head-only đạt 81,32%, full fine-tune đạt 78,64%, còn from-scratch đạt 35,30%.
+ViT partial hơn head-only 1,93 điểm phần trăm. Các cấu hình pretrained ViT đều cao
+hơn ViT from-scratch; không thể từ các lượt này kết luận full fine-tune luôn tốt nhất.
 
-1. Bảng `summary.csv`: accuracy, macro F1, thời gian, total/trainable parameters.
-2. Biểu đồ bar chart: test accuracy, macro F1, trainable parameters, training time.
-3. Learning curves: xem mô hình nào hội tụ nhanh/chậm, có overfit không.
-4. Confusion matrix và mẫu sai: chỉ ra các lớp CIFAR-100 dễ nhầm.
-5. Thảo luận:
-   - ResNet18 vs ViT-B/16 trên cùng split.
-   - From-scratch vs pretrained.
-   - Freeze backbone/head-only vs partial unfreeze vs full fine-tune.
-   - Khi nào freeze có lợi, khi nào full fine-tune đáng chi phí.
-   - ViT-B/16 có cần pretrained hơn ResNet18 không.
+ViT pretrained cao hơn ResNet18 ở cùng chế độ: head-only hơn 20,85 điểm phần trăm,
+partial hơn 10,98 điểm phần trăm, full hơn 1,80 điểm phần trăm. Ngược lại, ở chế độ
+from-scratch, ResNet18 hơn ViT 25,67 điểm phần trăm. So sánh scratch cần xét đồng thời
+bất thường NaN ở ViT và giới hạn cấu hình được thử.
 
-Checkpoint là tùy chọn. Nếu bật `--save-checkpoints`, model được lưu ở
-`A1/checkpoints/`, nhưng các file model đã bị `.gitignore` chặn để không đẩy lên GitHub.
+## 10. Giới hạn và bất thường
 
-## 10. Nhận xét dự kiến
+ViT scratch phát sinh train/validation loss NaN từ epoch 11; ViT full từ epoch 37.
+Trạng thái tốt nhất tương ứng ở epoch 10 và 3, trước khi loss NaN xuất hiện. Mã nạp
+lại trạng thái tốt nhất trước đánh giá test; không dùng trạng thái cuối đã lỗi làm
+căn cứ giải thích số liệu test. Chưa đủ dữ liệu để xác định nguyên nhân NaN.
 
-ResNet18 có inductive bias không gian mạnh nên thường học tốt hơn khi dữ liệu không quá
-lớn. ViT-B/16 có attention toàn cục và thường cần pretrained weights hoặc dữ liệu lớn để
-phát huy tốt. Freeze-head thường nhanh và ít tốn bộ nhớ nhất nhưng khả năng thích nghi
-hạn chế; partial unfreeze cân bằng giữa chi phí và độ thích nghi; full fine-tune có khả
-năng đạt kết quả tốt hơn nhưng tốn compute và dễ overfit hơn.
+Người học cho biết chạy các thực nghiệm song song. Thời gian quan sát của ViT lớn
+hơn ResNet18 trong các lượt này, nhưng chưa kiểm soát thiết bị và phân bổ tài nguyên;
+không dùng trực tiếp các giá trị này làm bằng chứng về tỷ lệ tăng tốc giữa hai kiến trúc.
+Chưa có kết quả nhiều seed hoặc kiểm định thống kê. Phân tích hiện tại chưa thay thế
+báo cáo PDF A1 cuối cùng và chưa phân tích chi tiết từng lớp từ ma trận nhầm lẫn.

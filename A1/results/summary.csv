@@ -1,0 +1,9 @@
+experiment,family,architecture,mode,total_parameters,trainable_parameters,best_epoch,best_val_accuracy,test_loss,test_accuracy,macro_f1,training_time
+resnet18_scratch,CNN,resnet18,from_scratch,11227812,11227812,19,0.6164,1.5821,0.6097,0.6070,2h 27m 17s
+resnet18_pretrained_head,CNN,resnet18,pretrained_freeze_backbone_train_head,11227812,51300,40,0.6108,1.4319,0.6047,0.6022,1h 24m 4s
+resnet18_pretrained_partial,CNN,resnet18,pretrained_freeze_partial,11227812,8445028,7,0.7283,1.050193,0.7227,0.722477,1h 33m 4s
+resnet18_pretrained_full,CNN,resnet18,pretrained_full_finetune,11227812,11227812,11,0.7729,0.9163,0.7684,0.7685,2h 25m 35s
+vit_b16_scratch,Transformer,vit_b_16,from_scratch,85875556,85875556,10,0.3537,2.54557,0.353,0.342563,18h 23m 37s
+vit_b16_pretrained_head,Transformer,vit_b_16,pretrained_freeze_backbone_train_head,85875556,76900,19,0.8218,0.6376,0.8132,0.8130,26h 8m 14s
+vit_b16_pretrained_partial,Transformer,vit_b_16,pretrained_freeze_partial,85875556,14252644,27,0.8366,0.9088,0.8325,0.8324,28h 48m 53s
+vit_b16_pretrained_full,Transformer,vit_b_16,pretrained_full_finetune,85875556,85875556,3,0.7873,0.7332,0.7864,0.7859,40h 44m 46s

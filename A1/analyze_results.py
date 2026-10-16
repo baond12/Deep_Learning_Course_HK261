@@ -37,7 +37,10 @@ def load_rows(results_dir: Path) -> list[dict[str, object]]:
         metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
         for row in rows:
             exp = str(row["experiment"])
-            seconds = metrics.get("experiments", {}).get(exp, {}).get("training_time_seconds")
+            experiment_metrics = metrics.get("experiments", {}).get(exp, {})
+            row["provenance"] = experiment_metrics.get("provenance", {})
+            row["training_diagnostics"] = experiment_metrics.get("training_diagnostics", {})
+            seconds = experiment_metrics.get("training_time_seconds")
             if seconds is not None:
                 row["training_time_seconds"] = float(seconds)
 
@@ -118,6 +121,36 @@ def make_markdown(rows: list[dict[str, object]]) -> str:
             f"{format_float(row['macro_f1'])} | "
             f"{row.get('training_time', '-')} |"
         )
+
+    restored = [
+        str(row["experiment"])
+        for row in rows
+        if row.get("provenance", {}).get("final_metrics_source") == "user_supplied_console_log"
+    ]
+    if restored:
+        lines.extend(
+            [
+                "",
+                "## Data Provenance and Limits",
+                "",
+                "Restored from user-supplied console logs: " + ", ".join(f"`{exp}`" for exp in restored) + ".",
+                "These test metrics have four decimal places; durations are reported to whole seconds. "
+                "Their parameter counts are expected counts derived from the current model definition, "
+                "rather than recovered measurements. Their full runtime configurations still need confirmation.",
+                "The user reported concurrent execution. GPU models and resource allocation are not recorded, "
+                "so elapsed durations are not a controlled speed comparison.",
+                "Family averages above combine different training modes; they are not averages over repeated seeds.",
+                "See `README.md`, `metrics.json` and `results_inventory.csv` for the complete provenance.",
+            ]
+        )
+    for row in rows:
+        first_nonfinite = row.get("training_diagnostics", {}).get("first_nonfinite_loss_epoch")
+        if first_nonfinite is not None:
+            lines.append(
+                f"- `{row['experiment']}`: nonfinite loss from epoch {first_nonfinite}; "
+                f"best validation state at epoch {int(float(row['best_epoch']))}. "
+                "Do not interpret this as stable training throughout the recorded history."
+            )
 
     lines.extend(
         [

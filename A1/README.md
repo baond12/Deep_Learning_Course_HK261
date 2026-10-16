@@ -70,6 +70,14 @@ Các file `.pt`, `.pth`, `.ckpt`, `.safetensors` trong `A1/checkpoints/` đã đ
 
 ## Phân tích A1.2
 
+Đã nhập lịch sử và hình kết quả của đủ 8 cấu hình vào `A1/results/`.
+`summary.csv` và `metrics.json` đã đủ kết quả cuối của 8 cấu hình:
+2 cấu hình từ JSON/CSV gốc và 6 cấu hình khôi phục từ log người học cung cấp.
+Best epoch và validation accuracy đã đối chiếu với history. Nguồn và mức chính xác
+được ghi theo từng cấu hình; thông số chạy của 6 log bổ sung còn cần xác nhận riêng.
+Xem `A1/results/README.md` và `A1/results/results_inventory.csv` trước khi
+phân tích. Hai lịch sử ViT có loss NaN được giữ nguyên và ghi rõ trong danh mục.
+
 Sau khi train xong:
 
 ```bash
