@@ -1,14 +1,11 @@
 <!doctype html>
 <html lang="vi">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>CO5085 - Deep Learning Coursework</title>
-    <meta
-      name="description"
-      content="Academic research dashboard cho môn Học sâu và ứng dụng trong thị giác máy tính - CO5085."
-    />
-    <link rel="stylesheet" href="assets/css/styles.css?v=20261009-research-dashboard" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CO5085 · Học sâu và thị giác máy tính</title>
+    <meta name="description" content="Trang học phần Học sâu và ứng dụng trong thị giác máy tính - CO5085.">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20261009-research-dashboard">
   </head>
   <body>
     <header class="site-header">
@@ -20,49 +17,47 @@
         </span>
       </a>
       <nav class="nav-links" aria-label="Điều hướng chính">
-        <a class="nav-active" aria-current="page" href="index.html">Home</a>
-        <a href="pages/exercises.html">Exercise</a>
+        <a class="nav-active" aria-current="page" href="index.html">Trang chủ</a>
+        <a href="pages/exercises.html">Bài tập E1–E3</a>
         <a href="pages/assignment1.html">Assignment 1</a>
         <a href="pages/assignment2.html">Assignment 2</a>
-        <a href="https://github.com/baond12/Deep_Learning_Course_HK261" target="_blank" rel="noreferrer">Github</a>
+        <a href="https://github.com/baond12/Deep_Learning_Course_HK261" target="_blank" rel="noreferrer">GitHub</a>
       </nav>
     </header>
-
     <main>
       <section class="hero hero-home" aria-labelledby="page-title">
         <div class="hero-content">
           <div class="hero-copy-block">
             <p class="eyebrow">CO5085 - Học sâu và thị giác máy tính</p>
-            <h1 id="page-title">Deep Learning Coursework Hub</h1>
+            <h1 id="page-title">Học sâu và thị giác máy tính</h1>
             <p class="hero-copy">
-              Modern academic dashboard cho Exercise E1-E3, Assignment 1 và Assignment 2.
-              Trang này ưu tiên khả năng kiểm tra nhanh: đề bài, code, report, results và
-              protocol tái lập đều được gom theo từng hạng mục.
+              Đề bài, mã nguồn, kết quả và báo cáo của E1–E3 cùng hai bài tập lớn.
+              Bộ thực nghiệm E1–E3 mới gồm 19 cấu hình MNIST, có số liệu và minh chứng
+              theo từng mô hình; báo cáo chung đang được nhóm rà soát.
             </p>
             <div class="hero-actions">
-              <a class="button button-primary" href="#coursework-dashboard">View Submission Dashboard</a>
-              <a class="button button-secondary" href="https://github.com/baond12/Deep_Learning_Course_HK261" target="_blank" rel="noreferrer">Open GitHub Repository</a>
+              <a class="button button-primary" href="#coursework-dashboard">Xem các hạng mục</a>
+              <a class="button button-secondary" href="https://github.com/baond12/Deep_Learning_Course_HK261" target="_blank" rel="noreferrer">Mở kho mã nguồn GitHub</a>
             </div>
             <div class="hero-meta" aria-label="Tóm tắt trạng thái">
-              <span class="status-chip status-done">E1-E3 results available</span>
-              <span class="status-chip status-done">Assignment 1 report available</span>
-              <span class="status-chip status-planned">Assignment 2 baseline selected</span>
+              <span class="status-chip status-done">E1–E3 có đủ kết quả · báo cáo đang rà soát</span>
+              <span class="status-chip status-done">Bài tập lớn 1 đã có báo cáo</span>
+              <span class="status-chip status-planned">Bài tập lớn 2 đã chọn mô hình cơ sở</span>
             </div>
           </div>
           <figure class="hero-visual" aria-label="Neural network roadmap illustration">
-            <img src="assets/img/course-roadmap.png" alt="Neural network roadmap minh họa cho coursework Deep Learning" />
+            <img src="assets/img/course-roadmap.png" alt="Neural network roadmap minh họa cho coursework Deep Learning">
           </figure>
         </div>
       </section>
-
       <section class="section intro-panel two-column">
         <div>
           <p class="section-kicker">Thông tin chung</p>
-          <h2>Academic context</h2>
+          <h2>Thông tin học phần</h2>
           <p class="section-lead">
             Website phục vụ nộp bài, báo cáo thực nghiệm và kiểm tra khả năng tái lập
             kết quả. Nội dung được giữ trung thực với repository: phần nào chưa có kết quả
-            cuối sẽ được ghi là pending thay vì tạo metric giả.
+            cuối sẽ được ghi rõ trạng thái theo số liệu đang có.
           </p>
         </div>
         <div class="info-grid">
@@ -83,65 +78,61 @@
             <span class="card-label">Repository</span>
             <h3>Deep_Learning_Course_HK261</h3>
             <p>
-              <a href="https://github.com/baond12/Deep_Learning_Course_HK261" target="_blank" rel="noreferrer">Source code trên GitHub</a>
+              <a href="https://github.com/baond12/Deep_Learning_Course_HK261" target="_blank" rel="noreferrer">Mã nguồn trên GitHub</a>
             </p>
           </article>
         </div>
       </section>
-
       <section class="section" id="coursework-dashboard">
         <div class="section-heading">
-          <p class="section-kicker">Coursework dashboard</p>
+          <p class="section-kicker">Các hạng mục học phần</p>
           <h2>Trạng thái từng bài</h2>
           <p>
-            Mỗi card thể hiện mục tiêu, deadline, trạng thái có bằng chứng trong repo và
-            các link chấm bài chính. Tiêu chí trạng thái: Completed khi có code, report và
-            results; In Progress khi còn thiếu kết quả cuối; Planned khi mới có topic/protocol.
+            E1–E3 đã có đủ 19 cấu hình, mỗi cấu hình 100 lượt huấn luyện và kích thước lô 256.
+            Báo cáo chung đang được nhóm rà soát; trạng thái có kết quả không đồng nghĩa đã chốt hoặc nộp bài.
+            Các ngày bên dưới là hạn nộp của từng hạng mục.
           </p>
         </div>
         <div class="coursework-grid">
           <article class="course-card">
             <div class="course-card-top">
-              <span class="status-pill status-done">Completed</span>
-              <time datetime="2026-11-02">02/11/2026</time>
+              <span class="status-pill status-done">Đã có kết quả</span>
+              <time datetime="2026-11-02">Hạn 02/11/2026</time>
             </div>
-            <h3>E1 - Softmax, MLP, CNN</h3>
-            <p>Phân loại MNIST bằng softmax classifier, MLP và CNN; so sánh tham số, learning curves, confusion matrix và mẫu lỗi.</p>
+            <h3>E1 · Softmax MLP và CNN</h3>
+            <p>Ba mô hình MNIST: Softmax 92,59%, MLP 98,63%, CNN 99,27%. Hai kết quả MLP/CNN được dùng lại ở E3.</p>
             <div class="card-actions">
-              <a href="https://github.com/baond12/Deep_Learning_Course_HK261/tree/main/E1" target="_blank" rel="noreferrer">Code</a>
-              <a href="reports/exercises.pdf">Báo cáo PDF</a>
-              <a href="https://github.com/baond12/Deep_Learning_Course_HK261/tree/main/E1/results" target="_blank" rel="noreferrer">Results</a>
+              <a href="pages/exercises.html#e1-results">Kết quả và minh chứng</a>
+              <a href="https://github.com/baond12/Deep_Learning_Course_HK261/blob/main/E1/report.md" target="_blank" rel="noreferrer">Phân tích</a>
+              <a href="https://github.com/baond12/Deep_Learning_Course_HK261/blob/main/E1/results/epochs100_batch256_seed42/README.md" target="_blank" rel="noreferrer">Bộ số liệu</a>
             </div>
           </article>
-
           <article class="course-card">
             <div class="course-card-top">
-              <span class="status-pill status-done">Completed</span>
-              <time datetime="2026-11-02">02/11/2026</time>
+              <span class="status-pill status-done">Đã có kết quả</span>
+              <time datetime="2026-11-02">Hạn 02/11/2026</time>
             </div>
-            <h3>E2 - Multi-Head Self-Attention</h3>
-            <p>Tự viết MSA, đối chiếu PyTorch MSA và so sánh tokenization patch/row trên cùng split MNIST.</p>
+            <h3>E2 · MSA và biểu diễn ảnh</h3>
+            <p>Tám cấu hình MSA trên bốn cách biểu diễn; tám kiểm chứng CPU/CUDA đạt yêu cầu. Hai bản dùng tích chập cùng đạt 99,28%.</p>
             <div class="card-actions">
-              <a href="https://github.com/baond12/Deep_Learning_Course_HK261/tree/main/E2" target="_blank" rel="noreferrer">Code</a>
-              <a href="reports/exercises.pdf">Báo cáo PDF</a>
-              <a href="https://github.com/baond12/Deep_Learning_Course_HK261/tree/main/E2/results" target="_blank" rel="noreferrer">Results</a>
+              <a href="pages/exercises.html#e2-results">Kết quả và minh chứng</a>
+              <a href="https://github.com/baond12/Deep_Learning_Course_HK261/blob/main/E2/report.md" target="_blank" rel="noreferrer">Phân tích</a>
+              <a href="https://github.com/baond12/Deep_Learning_Course_HK261/blob/main/E2/results/tokenization_msa_v2/README.md" target="_blank" rel="noreferrer">Bộ số liệu</a>
             </div>
           </article>
-
           <article class="course-card">
             <div class="course-card-top">
-              <span class="status-pill status-done">Completed</span>
-              <time datetime="2026-11-09">09/11/2026</time>
+              <span class="status-pill status-done">Đã có kết quả</span>
+              <time datetime="2026-11-09">Hạn 09/11/2026</time>
             </div>
-            <h3>E3 - LSTM / GRU</h3>
-            <p>Biểu diễn ảnh thành chuỗi row/patch, huấn luyện LSTM và GRU, so sánh với baseline MLP/CNN.</p>
+            <h3>E3 · LSTM và GRU</h3>
+            <p>Tám cấu hình LSTM/GRU; LSTM dùng đặc trưng tích chập đạt 99,37%. Đối chiếu đúng mô hình MLP/CNN E1, không huấn luyện lại.</p>
             <div class="card-actions">
-              <a href="https://github.com/baond12/Deep_Learning_Course_HK261/tree/main/E3" target="_blank" rel="noreferrer">Code</a>
-              <a href="reports/exercises.pdf">Báo cáo PDF</a>
-              <a href="https://github.com/baond12/Deep_Learning_Course_HK261/tree/main/E3/results" target="_blank" rel="noreferrer">Results</a>
+              <a href="pages/exercises.html#e3-results">Kết quả và minh chứng</a>
+              <a href="https://github.com/baond12/Deep_Learning_Course_HK261/blob/main/E3/report.md" target="_blank" rel="noreferrer">Phân tích</a>
+              <a href="https://github.com/baond12/Deep_Learning_Course_HK261/blob/main/E3/results/sequence_v2/README.md" target="_blank" rel="noreferrer">Bộ số liệu</a>
             </div>
           </article>
-
           <article class="course-card">
             <div class="course-card-top">
               <span class="status-pill status-done">Report available</span>
@@ -156,7 +147,6 @@
               <a href="https://github.com/baond12/Deep_Learning_Course_HK261/tree/main/A1/results" target="_blank" rel="noreferrer">Results</a>
             </div>
           </article>
-
           <article class="course-card">
             <div class="course-card-top">
               <span class="status-pill status-planned">Planned</span>
@@ -172,10 +162,9 @@
           </article>
         </div>
       </section>
-
       <section class="section quick-section">
         <div class="section-heading">
-          <p class="section-kicker">Quick links</p>
+          <p class="section-kicker">Liên kết nhanh</p>
           <h2>Đường dẫn chấm bài nhanh</h2>
         </div>
         <div class="quick-grid">
@@ -189,10 +178,11 @@
           </article>
           <article class="quick-card">
             <h3>Báo cáo chung E1–E3</h3>
+            <p>Báo cáo mới đang được nhóm rà soát. PDF đã công bố chưa phản ánh đầy đủ bộ thực nghiệm mới; xem số liệu và minh chứng ở trang E1–E3.</p>
             <div class="link-panel">
-              <a href="reports/exercises.pdf">Đọc báo cáo PDF</a>
-              <a href="reports/exercises.docx" download>Tải bản Word</a>
-              <a href="pages/exercises.html">Nội dung và mã nguồn E1–E3</a>
+              <a href="pages/exercises.html">19 cấu hình và minh chứng mới</a>
+              <a href="reports/exercises.pdf">PDF đã công bố · phiên bản trước</a>
+              <a href="reports/exercises.docx" download>Word hiện có · chưa phải bản cuối</a>
             </div>
           </article>
           <article class="quick-card">
@@ -207,7 +197,6 @@
           </article>
         </div>
       </section>
-
       <section class="section two-column focus-section">
         <div>
           <p class="section-kicker">Assignment 2 focus</p>
@@ -230,10 +219,9 @@
           </div>
         </div>
       </section>
-
       <section class="section two-column">
         <div>
-          <p class="section-kicker">Timeline</p>
+          <p class="section-kicker">Các mốc học phần</p>
           <h2>Mốc cần khóa</h2>
         </div>
         <div class="timeline">
@@ -260,7 +248,6 @@
         </div>
       </section>
     </main>
-
     <footer class="site-footer">
       <span>CO5085 - Deep Learning and Computer Vision</span>
       <a href="Exercise/exercise-vne.pdf">Exercise PDF</a>

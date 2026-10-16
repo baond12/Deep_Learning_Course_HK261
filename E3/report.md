@@ -1,94 +1,78 @@
-# E3 Kết quả LSTM và GRU trên chuỗi ảnh
+# E3 So sánh LSTM và GRU trên bốn biểu diễn chuỗi ảnh
 
-Nguồn: `E3/results/sequence_v2/`, 100 epoch, batch 256, split/training seed 42. Đã đối chiếu metrics, history, dự đoán, ma trận, nguồn baseline và metadata checkpoint. Các kết quả lịch sử 20 epoch/lô 16 tại thư mục cha được giữ riêng.
+## Mục tiêu và liên hệ với E1 E2
 
-## 4.1 Biểu diễn ảnh và liên hệ với E1 E2
+E3 xử lý chuỗi vị trí không gian của ảnh MNIST bằng LSTM/GRU. Bộ [kết quả đã đối chiếu](results/sequence_v2/README.md) có tám RNN; MLP/CNN dùng nguyên kết quả E1. Ba bài tổng cộng 19 cấu hình độc lập: 3 E1 + 8 E2 + 8 E3. Hai mô hình đối chứng không được tính thành hai lượt huấn luyện mới.
 
-E3 dùng cùng MNIST và split như E1/E2, chuyển ảnh thành chuỗi theo bốn cách. Hàng ảnh và patch giữ pixel thô; CNN-stem học đặc trưng không gian rồi quét từng vị trí; patch chồng lấn tăng số bước bằng các cửa sổ giao nhau. Không thêm CLS hoặc nhúng vị trí. Thứ tự quét là từ trái sang phải rồi từ trên xuống dưới; với hàng ảnh là từ trên xuống dưới [4].
+## Dữ liệu và điều kiện thực nghiệm
 
-Bảng 8. Độ dài và chiều đặc trưng chuỗi E3
+Cả ba bài dùng MNIST, ảnh xám 28×28 thuộc 10 lớp. Tập huấn luyện gốc được chia thành 54.000 ảnh huấn luyện và 6.000 ảnh xác thực với hạt giống chia dữ liệu 42; tập kiểm tra chính thức có 10.000 ảnh. Tiền xử lý gồm `ToTensor()` và `Normalize(0.1307, 0.3081)`, không tăng cường dữ liệu.
 
-| Biểu diễn | Số bước T | Chiều D | Đặc trưng đầu vào |
-| --- | --- | --- | --- |
-| Hàng ảnh | 28 | 28 | 28 pixel mỗi hàng |
-| Patch rời | 16 | 49 | 7×7 pixel, stride 7 |
-| CNN-stem | 49 | 64 | Vị trí feature map 7×7 |
-| Patch chồng lấn | 64 | 49 | 7×7 pixel, stride 3 |
+Mỗi cấu hình chạy đủ 100 lượt huấn luyện (epoch), kích thước lô 256, dùng Adam với tốc độ học 0,001 và hệ số suy giảm trọng số 0,0001. Vòng lặp PyTorch tự viết; không có lịch điều chỉnh tốc độ học hoặc dừng sớm. Trọng số được chọn theo độ chính xác xác thực cao nhất; nếu bằng nhau, giữ lượt sớm nhất. Tập kiểm tra dùng để đánh giá trọng số đã chọn, không dùng để chọn lại siêu tham số.
 
-Patch rời dùng kernel 7, stride 7; patch chồng lấn dùng kernel 7, stride 3, không padding và phủ đủ biên ảnh 28×28. CNN-stem gồm Conv(1→32,3,pad1) → ReLU → Pool2 → Conv(32→64,3,pad1) → ReLU → Pool2, tạo bản đồ 64×7×7. Khác E2, hàng/patch E3 không dùng projection lên 64 chiều; so sánh giữa hai bài phải tính cả khác biệt này [3], [4].
+Độ chính xác được trình bày theo phần trăm; F1 là trung bình cộng F1 của 10 lớp, trong khoảng 0–1. Thời gian gồm huấn luyện và xác thực, không phải độ trễ suy luận. Mỗi cấu hình có một hạt giống huấn luyện; số liệu chưa cho biết độ ổn định qua nhiều lượt chạy.
 
-## 4.2 Kiến trúc hồi quy và cách đọc trạng thái cuối
+Hạt giống huấn luyện 42 và bộ sinh thứ tự lô được đặt lại cho từng cấu hình. E3/E2 có hash danh sách chỉ số huấn luyện/xác thực trùng nhau. E1 dùng cùng hàm chia và hạt giống, nhưng cách tiêu thụ ngẫu nhiên khi huấn luyện khác.
 
-Mỗi mô hình dùng nn.LSTM hoặc nn.GRU một tầng, một chiều, hidden size H = 128. Trạng thái ẩn cuối của lớp cuối h_n[-1] đi qua Dropout(0,1) và Linear(128,10) để tạo logits. Với một tầng, dropout nội bộ RNN bằng 0; dropout chỉ nằm ở head. MLP/CNN không được tạo mới hoặc huấn luyện lại: chương trình đọc nguyên metrics/history E1 và kiểm tra cấu hình trước khi chạy tám RNN [2], [4].
+## Biểu diễn và kiến trúc
 
-LSTM duy trì trạng thái ô nhớ cₜ và trạng thái ẩn hₜ: cₜ = fₜ ⊙ cₜ₋₁ + iₜ ⊙ gₜ; hₜ = oₜ ⊙ tanh(cₜ). GRU dùng cổng cập nhật và đặt lại để kết hợp trạng thái trước với trạng thái ứng viên, không có ô nhớ tách biệt. Hai kiến trúc khác nhau nên không đặt yêu cầu LSTM/GRU phải khớp đầu ra như hai hiện thực cùng MSA của E2 [4], [11].
+| Biểu diễn | Số bước T | Chiều đặc trưng D | Đặc trưng mỗi bước |
+|---|---:|---:|---|
+| Hàng ảnh | 28 | 28 | Một hàng điểm ảnh thô |
+| Ô ảnh rời | 16 | 49 | Ô 7×7, bước trượt 7 |
+| Bộ trích đặc trưng tích chập (CNN-stem) | 49 | 64 | Vị trí trên bản đồ đặc trưng 7×7 |
+| Ô ảnh chồng lấn | 64 | 49 | Ô 7×7, bước trượt 3 |
 
-Với hai vector bias theo cách đếm PyTorch, khối LSTM có 4H(D+H+2) tham số, GRU có 3H(D+H+2); head thêm 1.290. Hàng ảnh cho 82.186/61.962 tham số (LSTM/GRU); patch rời và chồng lấn cùng cho 92.938/70.026. CNN-stem thêm 18.816 tham số tích chập và dùng D = 64, tổng 119.434/94.602. GRU ít tham số hơn trong cùng biểu diễn, nhưng tốc độ còn phụ thuộc kernel và thiết bị [4].
+Thứ tự quét từ trái sang phải rồi trên xuống dưới; hàng ảnh quét từ trên xuống dưới. Không có CLS hoặc nhúng vị trí; hàng/ô giữ điểm ảnh thô, khác phép chiếu học được của E2. Bộ trích đặc trưng tích chập gồm Conv(1→32,3,pad1), ReLU, Pool2, Conv(32→64,3,pad1), ReLU, Pool2.
 
-## 4.3 Kết quả và đối chiếu baseline E1
+Mỗi mạng có một tầng LSTM hoặc GRU một chiều, trạng thái ẩn rộng 128. Đọc `h_n[-1]`, qua dropout 0,1 và Linear(128,10). Dropout nội bộ RNN bằng 0 khi chỉ một tầng. Khối LSTM có `4H(D+H+2)` tham số; GRU có `3H(D+H+2)`; phần phân loại thêm 1.290. Bộ trích tích chập thêm 18.816 tham số.
 
-Bảng 9. Tám RNN E3 với 100 epoch và kích thước lô 256
+Mã nguồn: [kiến trúc](models.py), [huấn luyện](train.py), [đọc mô hình đối chứng E1](baselines.py), [tổng hợp so sánh](comparison.py). LSTM/GRU khác kiến trúc, không có yêu cầu khớp đầu ra như hai hiện thực cùng MSA ở E2.
 
-| Mô hình | Val tốt nhất | Accuracy test | F1 macro | Tham số | Train + val (s) | Best epoch |
-| --- | --- | --- | --- | --- | --- | --- |
-| LSTM · Hàng ảnh | 98,98% | 98,93% | 0,989242 | 82.186 | 723,7 | 95 |
-| GRU · Hàng ảnh | 99,02% | 98,94% | 0,989358 | 61.962 | 699,9 | 78 |
-| LSTM · Patch rời | 98,28% | 98,20% | 0,981864 | 92.938 | 703,9 | 93 |
-| GRU · Patch rời | 98,18% | 98,36% | 0,983462 | 70.026 | 688,0 | 76 |
-| LSTM · CNN-stem | 99,40% | 99,37% | 0,993709 | 119.434 | 743,1 | 58 |
-| GRU · CNN-stem | 99,45% | 99,27% | 0,992663 | 94.602 | 756,5 | 89 |
-| LSTM · Patch chồng lấn | 99,13% | 98,98% | 0,989735 | 92.938 | 755,0 | 47 |
-| GRU · Patch chồng lấn | 98,93% | 99,12% | 0,991074 | 70.026 | 749,3 | 94 |
+## Kết quả tám RNN
 
-Bảng 10. Hai baseline dùng lại nguyên kết quả E1
+| Mô hình | Tham số | Lượt tốt nhất | Độ chính xác xác thực (%) | Độ chính xác kiểm tra (%) | F1 trung bình các lớp | Hàm mất mát kiểm tra | Huấn luyện và xác thực (giây) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| LSTM · Hàng ảnh | 82.186 | 95 | 98,98 | 98,93 | 0,989242 | 0,043294 | 723,7 |
+| GRU · Hàng ảnh | 61.962 | 78 | 99,02 | 98,94 | 0,989358 | 0,044952 | 699,9 |
+| LSTM · Ô ảnh rời | 92.938 | 93 | 98,28 | 98,20 | 0,981864 | 0,066834 | 703,9 |
+| GRU · Ô ảnh rời | 70.026 | 76 | 98,18 | 98,36 | 0,983462 | 0,069608 | 688,0 |
+| LSTM · Bộ trích đặc trưng tích chập | 119.434 | 58 | 99,40 | 99,37 | 0,993709 | 0,026820 | 743,1 |
+| GRU · Bộ trích đặc trưng tích chập | 94.602 | 89 | 99,45 | 99,27 | 0,992663 | 0,027444 | 756,5 |
+| LSTM · Ô ảnh chồng lấn | 92.938 | 47 | 99,13 | 98,98 | 0,989735 | 0,042115 | 755,0 |
+| GRU · Ô ảnh chồng lấn | 70.026 | 94 | 98,93 | 99,12 | 0,991074 | 0,038366 | 749,3 |
 
-| Nguồn E1 | Val tốt nhất | Accuracy test | F1 macro | Tham số | Train + val (s) | Best epoch |
-| --- | --- | --- | --- | --- | --- | --- |
-| MLP (tái sử dụng) | 98,40% | 98,63% | 0,986219 | 235.146 | 760,6 | 81 |
-| CNN (tái sử dụng) | 99,32% | 99,27% | 0,992631 | 421.642 | 770,0 | 83 |
+GRU trừ LSTM có chênh độ chính xác +0,01; +0,16; −0,10; +0,14 điểm phần trăm cho hàng, ô rời, tích chập, ô chồng lấn. GRU ít tham số hơn ở cả bốn cặp nhưng thời gian ngắn hơn ở ba cặp, dài hơn ở tích chập. Xem [bảng LSTM–GRU](results/sequence_v2/comparison_rnn.csv).
 
-LSTM CNN-stem đạt 99,37%, hơn CNN E1 0,10 điểm phần trăm và MLP E1 0,74 điểm phần trăm; số tham số bằng khoảng 28,33% CNN E1. GRU CNN-stem đạt 99,27%, bằng accuracy CNN E1 nhưng F1 macro khác nhau. Cùng accuracy không chứng minh cùng tập lỗi. Các số E1 là kết quả đã có, không phải hai lượt train hoặc test mới của E3 [5].
+Tích chập cho độ chính xác cao nhất trong từng họ ở lượt này: LSTM 99,37%, GRU 99,27%. Ô chồng lấn hơn ô rời 0,78/0,76 điểm phần trăm (LSTM/GRU), giữ cùng D và số tham số tương ứng nhưng đồng thời thay T, ngữ cảnh chồng lấn và chi phí.
 
-Bảng 11. GRU trừ LSTM trên cùng cách biểu diễn
+## Hai mô hình đối chứng từ E1
 
-| Biểu diễn | Δ accuracy (đpt) | Tham số LSTM | Tham số GRU | Δ thời gian (s) |
-| --- | --- | --- | --- | --- |
-| Hàng ảnh | 0,01 | 82.186 | 61.962 | -23,8 |
-| Patch rời | 0,16 | 92.938 | 70.026 | -15,9 |
-| CNN-stem | -0,10 | 119.434 | 94.602 | 13,4 |
-| Patch chồng lấn | 0,14 | 92.938 | 70.026 | -5,8 |
+| Nguồn E1 | Độ chính xác kiểm tra (%) | F1 trung bình các lớp | Tham số |
+|---|---:|---:|---:|
+| MLP | 98,63 | 0,986219 | 235.146 |
+| CNN | 99,27 | 0,992631 | 421.642 |
 
-GRU hơn LSTM 0,01; 0,16; 0,14 điểm phần trăm tương ứng hàng ảnh, patch rời, patch chồng lấn; với CNN-stem, LSTM hơn GRU 0,10 điểm phần trăm. GRU ít tham số hơn ở cả bốn cặp, nhưng thời gian ngắn hơn ở ba cặp và dài hơn ở CNN-stem. Bảng chỉ mô tả một lượt; không khẳng định GRU hoặc LSTM luôn tốt hơn. CNN-stem tốt nhất trong từng họ, còn patch chồng lấn hơn patch rời 0,78/0,76 điểm phần trăm (LSTM/GRU) [5].
+LSTM tích chập hơn CNN E1 0,10 điểm phần trăm, tương ứng 10 ảnh trên 10.000 ảnh kiểm tra; một hạt giống chưa đủ khẳng định ưu thế thống kê. GRU tích chập bằng độ chính xác CNN E1 nhưng F1 khác. E1 không có dự đoán từng ảnh trong nguồn nhận được, nên không kết luận hai mô hình sai ở cùng ảnh.
 
-## 4.4 Diễn biến huấn luyện và xác thực
+Xem [bản chụp nguồn E1](results/sequence_v2/baselines_e1.json), [bảng tám RNN và hai mô hình đối chứng](results/sequence_v2/comparison_baselines.csv) và [bộ E1 gốc](../E1/results/epochs100_batch256_seed42/README.md). Không huấn luyện hoặc đánh giá lại hai mô hình đối chứng.
 
-Hình 6. Đường cong E3: hàng ảnh và patch rời, mỗi nhóm gồm LSTM/GRU. Nét liền: huấn luyện; nét đứt: xác thực; 100 epoch [6].
+## Hội tụ và phân tích lỗi
 
-Hình 7. Đường cong E3: CNN-stem và patch chồng lấn. Quy ước nét như Hình 6 [6].
+Ở lượt 100, hàm mất mát huấn luyện/xác thực của LSTM ô rời khoảng 0,0052/0,1073; GRU ô rời 0,0016/0,0837. Khoảng cách cho thấy mức quá khớp trong lượt chạy. Lượt xác thực tốt nhất của bốn cặp lần lượt là 95/78, 93/76, 58/89, 47/94; tập kiểm tra dùng đúng trọng số đó.
 
-Các lượt giảm loss mạnh ở giai đoạn đầu nhưng validation vẫn dao động về cuối. Epoch 100, LSTM patch có train loss 0,0052 và validation loss 0,1073; GRU patch tương ứng 0,0016 và 0,0837, cho thấy khoảng cách khái quát hóa trong lượt chạy. Với CNN-stem, validation loss cuối khoảng 0,0344/0,0331 (LSTM/GRU). Best epoch của các cặp hàng, patch, CNN-stem, chồng lấn lần lượt là 95/78, 93/76, 58/89, 47/94, nên checkpoint để test không mặc định là epoch 100 [5], [6].
+Số lỗi LSTM/GRU là 107/106 (hàng), 180/164 (ô rời), 63/73 (tích chập), 102/88 (ô chồng lấn). LSTM hàng nhầm 5 thành 3 ở 11 ảnh, 4 thành 9 ở 10 ảnh; LSTM tích chập còn 7 lỗi 4 thành 9. [Danh mục minh chứng](results/sequence_v2/README.md#tệp-theo-từng-mô-hình) có đủ lịch sử, dự đoán, ma trận, đường cong và mẫu sai.
 
-## 4.5 Phân tích lỗi và độ nhạy thứ tự
+## Độ nhạy với thứ tự chuỗi
 
-Trên 10.000 ảnh test, số lỗi LSTM/GRU lần lượt là 107/106 (hàng), 180/164 (patch), 63/73 (CNN-stem), 102/88 (chồng lấn). LSTM hàng nhầm 5→3 ở 11 ảnh và 4→9 ở 10 ảnh; LSTM CNN-stem còn 7 lỗi 4→9, GRU CNN-stem còn 7 lỗi 9→4. Ma trận của đủ tám mô hình nằm ở Phụ lục A. Các thống kê xác nhận dạng nhầm lẫn, chưa xác định nguyên nhân từng lỗi [5].
+Phép kiểm tra giữ nguyên trọng số đã chọn, biến ảnh thành chuỗi rồi đảo hoặc dùng hoán vị cố định hạt giống 42. Chỉ đánh giá trên tập xác thực, không huấn luyện thêm và không dùng tập kiểm tra. Độ chính xác giảm từ khoảng 98,18–99,45% xuống 12,32–40,32% khi đảo, 15,23–32,40% khi xáo. Xem [24 kết quả kiểm tra thứ tự](results/sequence_v2/comparison_order_probe.csv).
 
-Hình 8. Mười mẫu sai đầu của LSTM CNN-stem theo thứ tự test, trích từ tối đa 25 lỗi lưu bởi pipeline. true/pred là nhãn thật/dự đoán; hình không lấy mẫu ngẫu nhiên [4], [5].
+Thứ tự mới khác phân phối khi huấn luyện; đặc trưng tích chập đã chứa ngữ cảnh trước khi đảo, còn ô chồng lấn chia sẻ điểm ảnh. Đây là độ nhạy thứ tự không gian, không chứng minh trí nhớ dài hạn hoặc quan hệ thời gian thực. MLP/CNN E1 không nhận cùng thao tác đảo chuỗi này.
 
-Bảng 12. Accuracy validation khi giữ và thay thứ tự token
+## Kiểm chứng và giới hạn
 
-| Mô hình | Thứ tự gốc (%) | Đảo ngược (%) | Xáo cố định (%) |
-| --- | --- | --- | --- |
-| LSTM · Hàng ảnh | 98,98 | 40,32 | 20,40 |
-| GRU · Hàng ảnh | 99,02 | 39,02 | 17,97 |
-| LSTM · Patch rời | 98,28 | 18,00 | 30,05 |
-| GRU · Patch rời | 98,18 | 13,20 | 31,85 |
-| LSTM · CNN-stem | 99,40 | 23,20 | 31,20 |
-| GRU · CNN-stem | 99,45 | 19,43 | 32,40 |
-| LSTM · Patch chồng lấn | 99,13 | 15,53 | 25,07 |
-| GRU · Patch chồng lấn | 98,93 | 12,32 | 15,23 |
+Đã đối chiếu 800 dòng lịch sử, 80.000 dự đoán, độ chính xác/F1, ma trận, bảng tổng hợp và nguồn E1. Tám trọng số gốc nạp được, khớp kiến trúc/tham số/lượt tốt nhất; không chạy lại toàn bộ tập kiểm tra tại máy rà soát. Hash lịch sử E1 khác CRLF/LF giữa Windows/Linux nhưng nội dung khớp sau chuẩn hóa. Xem [biên bản kiểm tra](results/sequence_v2/validation_report.json).
 
-Order probe giữ nguyên checkpoint đã chọn, biến ảnh thành token rồi đảo toàn bộ thứ tự hoặc dùng hoán vị cố định seed 42. Không huấn luyện thêm và không dùng test. Accuracy validation giảm từ khoảng 98,18–99,45% xuống 12,32–40,32% khi đảo và 15,23–32,40% khi xáo. Chuỗi raster theo không gian ảnh có ảnh hưởng rõ trong kiểm tra này [4], [5].
+E3 ghi cùng loại GPU Tesla P100-PCIE-16GB và môi trường thư viện như E2; chưa kiểm soát tải cạnh tranh. E1 thiếu thông tin GPU, nên thời gian đối chứng là số đo của lượt E1, không phải phép đo tốc độ đồng nhất. Một hạt giống và một bộ dữ liệu giới hạn khả năng khái quát kết luận.
 
-Tuy nhiên, thứ tự mới khác phân phối lúc train. Với CNN-stem, đặc trưng đã chứa ngữ cảnh cục bộ trước khi bị đảo; với patch chồng lấn, các token chia sẻ pixel. Vì vậy phép thử chỉ phản ánh độ nhạy thứ tự không gian của mô hình đã học, không tách được trí nhớ dài hạn và không chứng minh quan hệ thời gian thực. MLP/CNN E1 làm baseline chất lượng/chi phí, không nhận cùng thao tác đảo token này.
-
-Các ký hiệu [2]–[6], [11] theo danh mục nguồn của `reports/exercises.docx`. Hình đã cập nhật trong Word; ảnh và CSV gốc giữ tại thư mục kết quả. Bản Word đang chờ nhóm review; PDF sẽ xuất sau khi nhóm duyệt.
+Thực nghiệm đã hoàn tất. Báo cáo chung đang được biên tập và nhóm rà soát; PDF đã công bố là phiên bản trước, chưa phản ánh đầy đủ bộ kết quả mới. Khi đối chiếu thực nghiệm, dùng các tệp số liệu được liên kết trong trang này. Bản cuối sẽ được xuất PDF sau khi nhóm duyệt.

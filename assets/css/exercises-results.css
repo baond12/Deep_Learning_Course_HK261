@@ -1,0 +1,27 @@
+/* Bổ sung riêng cho trang kết quả E1–E3. */
+.experiment-section, #bao-cao { scroll-margin-top: 110px; }
+.protocol-section { padding-top: 24px; }
+.artifact-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
+.artifact-actions a { display: inline-flex; align-items: center; min-height: 42px; padding: 9px 13px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); font-weight: 650; }
+.artifact-actions a:hover { background: #edf4f2; }
+.artifact-actions a:focus-visible, .artifact-details summary:focus-visible, .result-table-scroll:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
+.result-table-scroll { max-width: 100%; overflow-x: auto; margin: 22px 0; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); }
+.result-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.result-table caption { padding: 14px 16px; text-align: left; font-weight: 700; color: var(--deep); }
+.result-table th, .result-table td { padding: 12px 14px; border-top: 1px solid var(--line); text-align: right; vertical-align: middle; font-variant-numeric: tabular-nums; }
+.result-table thead th { background: #edf4f2; font-weight: 700; }
+.result-table th:first-child { min-width: 210px; text-align: left; }
+.result-table td { white-space: nowrap; }
+.result-table tbody th { font-weight: 600; }
+.result-table a { text-decoration: underline; text-underline-offset: 3px; }
+.result-note { margin: 22px 0; max-width: 920px; color: var(--muted); }
+.artifact-details { margin-top: 26px; }
+.artifact-details summary { cursor: pointer; padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); font-weight: 700; }
+.artifact-details[open] summary { border-color: var(--teal); }
+.artifact-details .result-table { min-width: 810px; }
+.experiment-section > h3 { margin-top: 30px; }
+@media (max-width: 680px) {
+  .experiment-section, #bao-cao { scroll-margin-top: 360px; }
+  .artifact-actions a { flex: 1 1 160px; justify-content: center; text-align: center; }
+  .result-table th, .result-table td { padding: 10px; }
+}

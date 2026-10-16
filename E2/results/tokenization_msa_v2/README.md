@@ -1,39 +1,56 @@
-# E2 — Tám cấu hình MSA và tokenization
+# E2 Kết quả thực nghiệm dùng trong báo cáo
 
-Bộ kết quả nhập từ thư mục `tokenization_msa_v2` do người học cung cấp.
-Giữ nguyên 52 tệp kết quả gốc; không huấn luyện lại khi cập nhật báo cáo.
-Tám checkpoint vẫn được giữ trong thư mục nguồn của lượt chạy, không sao chép
-vào Git theo `.gitignore`. Kết quả lịch sử ba cấu hình tại thư mục cha giữ nguyên.
+Bộ kết quả tám cấu hình: hai cách hiện thực MSA nhân với bốn cách tạo chuỗi đặc trưng ảnh. Nguồn nhập: `tokenization_msa_v2`; 52 tệp gốc được giữ nguyên. Tám trường hợp kiểm chứng CPU/CUDA đều đạt yêu cầu.
 
-MNIST: train/validation/test = 54.000/6.000/10.000, split seed và training seed 42;
-100 epoch, batch 256, Adam, lr 0.001, weight decay 0.0001, dropout 0.1.
-Một encoder pre-norm, embedding 64, 4 head, FFN 128, CLS học được; không augmentation,
-scheduler hoặc early stopping. Chọn best checkpoint bằng validation trước khi test.
+Đọc [phân tích kết quả](../../report.md) và [thiết kế so sánh E1–E3](../../../docs/e1-e3-report-protocol.md).
 
-| Tokenizer | Token ảnh / có CLS | Tham số mỗi bản | Test tự viết (%) | Test PyTorch (%) | Δ PyTorch − tự viết (đpt) |
-|---|---:|---:|---:|---:|---:|
-| Patch 7×7, stride 7 | 16 / 17 | 38.602 | 97,59 | 97,05 | −0,54 |
-| Hàng ảnh | 28 / 29 | 38.026 | 98,04 | 98,24 | +0,20 |
-| CNN-stem | 49 / 50 | 56.330 | 99,28 | 99,28 | 0,00 |
-| Patch chồng lấn 7×7, stride 3 | 64 / 65 | 41.674 | 98,53 | 98,33 | −0,20 |
+## Điều kiện thực nghiệm
 
-Đã đối chiếu:
+Cả ba bài dùng MNIST, ảnh xám 28×28 thuộc 10 lớp. Tập huấn luyện gốc được chia thành 54.000 ảnh huấn luyện và 6.000 ảnh xác thực với hạt giống chia dữ liệu 42; tập kiểm tra chính thức có 10.000 ảnh. Tiền xử lý gồm `ToTensor()` và `Normalize(0.1307, 0.3081)`, không tăng cường dữ liệu.
 
-- `status=completed`, đủ 8 cấu hình và 8 trường hợp CPU float64/CUDA float32 PASS.
-- 800 bản ghi history hữu hạn, epoch 1–100 liên tiếp, best epoch khớp validation.
-- 80.000 dự đoán test: tính lại accuracy, F1 macro và đủ 8 ma trận CSV đều khớp.
-- `summary.csv` khớp metrics; hash khởi tạo trong từng cặp khớp nhau.
-- Hash split khớp phép chia seed 42; SHA-256 mã nguồn khớp repo sau chuẩn hóa LF.
+Mỗi cấu hình chạy đủ 100 lượt huấn luyện (epoch), kích thước lô 256, dùng Adam với tốc độ học 0,001 và hệ số suy giảm trọng số 0,0001. Vòng lặp PyTorch tự viết; không có lịch điều chỉnh tốc độ học hoặc dừng sớm. Trọng số được chọn theo độ chính xác xác thực cao nhất; nếu bằng nhau, giữ lượt sớm nhất. Tập kiểm tra dùng để đánh giá trọng số đã chọn, không dùng để chọn lại siêu tham số.
 
-Môi trường lưu trong metrics: Python 3.10.13, PyTorch 2.2.1+cu118,
-torchvision 0.17.1+cu118, CUDA 11.8, Tesla P100-PCIE-16GB.
-Chưa có bằng chứng về tải cạnh tranh, độ lệch chuẩn qua nhiều seed hoặc latency.
-Kiểm chứng cùng trọng số không yêu cầu accuracy sau train của hai bản giống nhau.
+Độ chính xác được trình bày theo phần trăm; F1 là trung bình cộng F1 của 10 lớp, trong khoảng 0–1. Thời gian gồm huấn luyện và xác thực, không phải độ trễ suy luận. Mỗi cấu hình có một hạt giống huấn luyện; số liệu chưa cho biết độ ổn định qua nhiều lượt chạy.
 
-```bash
-python E2/train.py --experiments all --epochs 100 --batch-size 256 --seed 42 --train-seed 42 --device cuda --output-dir E2/results/tokenization_msa_v2_rerun
-```
+## Bảng kết quả
 
-Lệnh tái lập dùng output mới vì pipeline từ chối ghi đè kết quả.
-Báo cáo chung Word được cập nhật tại `reports/exercises.docx`; người học xuất lại
-`reports/exercises.pdf` từ Word trước khi push để hai bản đồng nhất.
+| Mô hình | Tham số | Lượt tốt nhất | Độ chính xác xác thực (%) | Độ chính xác kiểm tra (%) | F1 trung bình các lớp | Hàm mất mát kiểm tra | Huấn luyện và xác thực (giây) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| MSA tự viết · Ô ảnh rời | 38.602 | 98 | 97,48 | 97,59 | 0,975703 | 0,078682 | 738,8 |
+| MSA PyTorch · Ô ảnh rời | 38.602 | 55 | 97,13 | 97,05 | 0,970280 | 0,096932 | 733,0 |
+| MSA tự viết · Hàng ảnh | 38.026 | 83 | 98,05 | 98,04 | 0,980230 | 0,065533 | 750,6 |
+| MSA PyTorch · Hàng ảnh | 38.026 | 97 | 98,15 | 98,24 | 0,982280 | 0,057587 | 751,3 |
+| MSA tự viết · Bộ trích đặc trưng tích chập | 56.330 | 82 | 99,32 | 99,28 | 0,992767 | 0,024487 | 763,6 |
+| MSA PyTorch · Bộ trích đặc trưng tích chập | 56.330 | 59 | 99,28 | 99,28 | 0,992781 | 0,024037 | 827,2 |
+| MSA tự viết · Ô ảnh chồng lấn | 41.674 | 97 | 98,47 | 98,53 | 0,985199 | 0,050016 | 739,7 |
+| MSA PyTorch · Ô ảnh chồng lấn | 41.674 | 82 | 98,45 | 98,33 | 0,983174 | 0,056096 | 737,4 |
+
+## Tệp số liệu và kiểm chứng
+
+- [Số liệu gốc](metrics.json)
+- [Bảng tổng hợp](summary.csv)
+- [Cấu hình lượt chạy](run_config.json)
+- [Kiểm chứng MSA](verification.json)
+- [So sánh hai hiện thực MSA](comparison_msa.csv)
+- [So sánh cách biểu diễn](comparison_tokenization.csv)
+
+## Tệp theo từng mô hình
+
+| Mô hình | Lịch sử huấn luyện | Dự đoán trên tập kiểm tra | Ma trận nhầm lẫn | Mẫu dự đoán sai | Đường cong |
+| --- | --- | --- | --- | --- | --- |
+| `custom_patch` | [Lịch sử](history_custom_patch.csv) | [Dự đoán](predictions_custom_patch.csv) | [Ảnh](confusion_matrix_custom_patch.png) / [CSV](confusion_matrix_custom_patch.csv) | [Mẫu sai](misclassified_custom_patch.png) | [Đường cong](learning_curves_patch.png) |
+| `pytorch_patch` | [Lịch sử](history_pytorch_patch.csv) | [Dự đoán](predictions_pytorch_patch.csv) | [Ảnh](confusion_matrix_pytorch_patch.png) / [CSV](confusion_matrix_pytorch_patch.csv) | [Mẫu sai](misclassified_pytorch_patch.png) | [Đường cong](learning_curves_patch.png) |
+| `custom_row` | [Lịch sử](history_custom_row.csv) | [Dự đoán](predictions_custom_row.csv) | [Ảnh](confusion_matrix_custom_row.png) / [CSV](confusion_matrix_custom_row.csv) | [Mẫu sai](misclassified_custom_row.png) | [Đường cong](learning_curves_row.png) |
+| `pytorch_row` | [Lịch sử](history_pytorch_row.csv) | [Dự đoán](predictions_pytorch_row.csv) | [Ảnh](confusion_matrix_pytorch_row.png) / [CSV](confusion_matrix_pytorch_row.csv) | [Mẫu sai](misclassified_pytorch_row.png) | [Đường cong](learning_curves_row.png) |
+| `custom_cnn_stem` | [Lịch sử](history_custom_cnn_stem.csv) | [Dự đoán](predictions_custom_cnn_stem.csv) | [Ảnh](confusion_matrix_custom_cnn_stem.png) / [CSV](confusion_matrix_custom_cnn_stem.csv) | [Mẫu sai](misclassified_custom_cnn_stem.png) | [Đường cong](learning_curves_cnn_stem.png) |
+| `pytorch_cnn_stem` | [Lịch sử](history_pytorch_cnn_stem.csv) | [Dự đoán](predictions_pytorch_cnn_stem.csv) | [Ảnh](confusion_matrix_pytorch_cnn_stem.png) / [CSV](confusion_matrix_pytorch_cnn_stem.csv) | [Mẫu sai](misclassified_pytorch_cnn_stem.png) | [Đường cong](learning_curves_cnn_stem.png) |
+| `custom_overlap_patch` | [Lịch sử](history_custom_overlap_patch.csv) | [Dự đoán](predictions_custom_overlap_patch.csv) | [Ảnh](confusion_matrix_custom_overlap_patch.png) / [CSV](confusion_matrix_custom_overlap_patch.csv) | [Mẫu sai](misclassified_custom_overlap_patch.png) | [Đường cong](learning_curves_overlap_patch.png) |
+| `pytorch_overlap_patch` | [Lịch sử](history_pytorch_overlap_patch.csv) | [Dự đoán](predictions_pytorch_overlap_patch.csv) | [Ảnh](confusion_matrix_pytorch_overlap_patch.png) / [CSV](confusion_matrix_pytorch_overlap_patch.csv) | [Mẫu sai](misclassified_pytorch_overlap_patch.png) | [Đường cong](learning_curves_overlap_patch.png) |
+
+Các ma trận đặt nhãn thật theo hàng và nhãn dự đoán theo cột. Ảnh mẫu sai lưu tối đa 25 lỗi đầu theo thứ tự tập kiểm tra, dùng để minh họa định tính.
+
+## Giới hạn và trạng thái báo cáo
+
+Kiểm chứng hai hiện thực xét cùng trọng số và tắt ngẫu nhiên dropout; không đòi hai lượt huấn luyện có cùng độ chính xác. Bộ kết quả ghi Tesla P100-PCIE-16GB, PyTorch 2.2.1+cu118, CUDA 11.8. Chưa kiểm soát tải GPU cạnh tranh. Bộ trích đặc trưng tích chập bổ sung tham số; ô ảnh chồng lấn thay cả số phần tử chuỗi và nhúng vị trí, nên chưa tách tác động riêng từng yếu tố.
+
+Thực nghiệm đã hoàn tất. Báo cáo chung đang được biên tập và nhóm rà soát; PDF đã công bố là phiên bản trước, chưa phản ánh đầy đủ bộ kết quả mới. Khi đối chiếu thực nghiệm, dùng các tệp số liệu được liên kết trong trang này. Bản cuối sẽ được xuất PDF sau khi nhóm duyệt.
