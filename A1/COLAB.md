@@ -1,5 +1,16 @@
 # Chạy A1 trên Google Colab
 
+**Bước hiện tại:** chạy thăm dò trước khi khóa A1.1. Dùng lệnh sau sau khi mount
+Drive/chuẩn bị dữ liệu như mục 1–4. Kết quả cần gửi lại được mô tả ở [PILOT.md](PILOT.md).
+
+```bash
+!python -u A1/pilot.py --data-dir "$DATA_DIR" --experiments all --epochs 1 --batch-size 16 --device cuda --progress --output-dir A1/results/pilot_epoch1_batch16_seed42
+```
+
+Lệnh này chỉ huấn luyện/xác thực, không test. Những lệnh `train.py` ở mục 5 trở
+xuống là ví dụ cũ có test; chưa phải kế hoạch A1.2 đã chốt. Luôn truyền thư mục
+đầu ra mới để giữ kết quả thăm dò cũ.
+
 ## 1. Clone repo
 
 ```bash
@@ -52,13 +63,13 @@ Protocol mặc định dùng full CIFAR-100 gồm 100 lớp:
 Các lần train sau chỉ đọc dataset từ `--data-dir`, không tự download lại:
 
 ```bash
-!python A1/train.py --data-dir "$DATA_DIR" --experiments all --epochs 5 --batch-size 32 --device cuda --progress
+!python A1/train.py --data-dir "$DATA_DIR" --experiments all --epochs 5 --batch-size 32 --device cuda --progress --output-dir A1/results/example_new_run
 ```
 
 Nếu muốn lưu checkpoint trong phiên Colab nhưng không push model lên repo:
 
 ```bash
-!python A1/train.py --data-dir "$DATA_DIR" --experiments all --epochs 5 --batch-size 32 --device cuda --progress --save-checkpoints
+!python A1/train.py --data-dir "$DATA_DIR" --experiments all --epochs 5 --batch-size 32 --device cuda --progress --save-checkpoints --output-dir A1/results/example_new_run --checkpoint-dir A1/checkpoints/example_new_run
 ```
 
 Checkpoint sẽ nằm trong `A1/checkpoints/`. Các file model `.pt/.pth/.ckpt/.safetensors`
@@ -67,7 +78,7 @@ Checkpoint sẽ nằm trong `A1/checkpoints/`. Các file model `.pt/.pth/.ckpt/.
 Nếu muốn chạy thử nhanh một vài thí nghiệm:
 
 ```bash
-!python A1/train.py --data-dir "$DATA_DIR" --experiments resnet18_scratch resnet18_pretrained_head vit_b16_pretrained_head --epochs 1 --batch-size 32 --device cuda --progress
+!python A1/train.py --data-dir "$DATA_DIR" --experiments resnet18_scratch resnet18_pretrained_head vit_b16_pretrained_head --epochs 1 --batch-size 32 --device cuda --progress --output-dir A1/results/example_new_run
 ```
 
 ## 6. Tạo phân tích A1.2

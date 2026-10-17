@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from pathlib import Path
 import random
 
+import numpy as np
 import torch
 from torch.utils.data import DataLoader, Dataset
 from torchvision import datasets, transforms
@@ -13,12 +14,25 @@ from torchvision import datasets, transforms
 class A1DataBundle:
     train_loader: DataLoader
     val_loader: DataLoader
-    test_loader: DataLoader
+    test_loader: DataLoader | None
     class_names: list[str]
     train_size: int
     val_size: int
     test_size: int
     image_size: int
+    split_indices: dict[str, list[int]] | None = None
+
+
+def seed_worker(_worker_id: int) -> None:
+    seed = torch.initial_seed() % 2**32
+    random.seed(seed)
+    np.random.seed(seed)
+
+
+def reset_loader_seeds(data: A1DataBundle, seed: int) -> None:
+    for offset, loader in enumerate((data.train_loader, data.val_loader, data.test_loader)):
+        if loader is not None and loader.generator is not None:
+            loader.generator.manual_seed(seed + offset)
 
 
 class RemappedSelection(Dataset):
@@ -133,11 +147,13 @@ def build_cifar100_balanced_loaders(
     batch_size: int,
     seed: int,
     num_workers: int,
+    include_test: bool = True,
+    train_seed: int | None = None,
 ) -> A1DataBundle:
     root = Path(data_dir)
     try:
         raw_train = datasets.CIFAR100(root=root, train=True, download=False, transform=None)
-        raw_test = datasets.CIFAR100(root=root, train=False, download=False, transform=None)
+        raw_test = datasets.CIFAR100(root=root, train=False, download=False, transform=None) if include_test else None
     except RuntimeError as exc:
         raise RuntimeError(
             "CIFAR-100 was not found under data_dir. Download it once with:\n"
@@ -163,21 +179,23 @@ def build_cifar100_balanced_loaders(
         selected_classes=selected_class_ids,
         per_class=test_per_class,
         seed=seed,
-    )
+    ) if raw_test is not None else []
 
     train_transform, eval_transform = build_transforms(image_size)
     train_set = RemappedSelection(raw_train, train_indices, class_to_new, transform=train_transform)
     val_set = RemappedSelection(raw_train, val_indices, class_to_new, transform=eval_transform)
-    test_set = RemappedSelection(raw_test, test_indices, class_to_new, transform=eval_transform)
+    test_set = RemappedSelection(raw_test, test_indices, class_to_new, transform=eval_transform) if raw_test is not None else None
 
     loader_kwargs = {
         "batch_size": batch_size,
         "num_workers": num_workers,
         "pin_memory": torch.cuda.is_available(),
+        "worker_init_fn": seed_worker,
     }
-    train_loader = DataLoader(train_set, shuffle=True, **loader_kwargs)
-    val_loader = DataLoader(val_set, shuffle=False, **loader_kwargs)
-    test_loader = DataLoader(test_set, shuffle=False, **loader_kwargs)
+    loader_seed = seed if train_seed is None else train_seed
+    train_loader = DataLoader(train_set, shuffle=True, generator=torch.Generator().manual_seed(loader_seed), **loader_kwargs)
+    val_loader = DataLoader(val_set, shuffle=False, generator=torch.Generator().manual_seed(loader_seed + 1), **loader_kwargs)
+    test_loader = DataLoader(test_set, shuffle=False, generator=torch.Generator().manual_seed(loader_seed + 2), **loader_kwargs) if test_set is not None else None
 
     return A1DataBundle(
         train_loader=train_loader,
@@ -186,7 +204,8 @@ def build_cifar100_balanced_loaders(
         class_names=class_names,
         train_size=len(train_set),
         val_size=len(val_set),
-        test_size=len(test_set),
+        test_size=len(test_set) if test_set is not None else 0,
         image_size=image_size,
+        split_indices={"train": train_indices, "validation": val_indices, **({"test": test_indices} if include_test else {})},
     )
 

@@ -11,9 +11,10 @@ ROOT_DIR = Path(__file__).resolve().parents[1]
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
-from A1.data import build_cifar100_balanced_loaders
+from A1.data import build_cifar100_balanced_loaders, reset_loader_seeds
+from A1.engine import fit_classifier
 from A1.models import build_a1_model, count_parameters, parse_experiment_name
-from common.engine import collect_predictions, evaluate, fit_classifier
+from common.engine import collect_predictions, evaluate
 from common.plots import (
     plot_confusion_matrix,
     plot_learning_curves,
@@ -84,6 +85,10 @@ def describe_experiment(experiment: str) -> dict[str, str]:
 
 def main() -> None:
     args = parse_args()
+    if args.no_download_weights and any("pretrained" in name for name in selected_experiments(args.experiments)):
+        raise ValueError("Pretrained runs require actual ImageNet weights; --no-download-weights is only for scratch/smoke tests")
+    if (Path(args.output_dir) / "metrics.json").exists():
+        raise FileExistsError("Output already contains metrics.json; choose a new --output-dir")
     set_seed(args.seed)
     out_dir = ensure_dir(args.output_dir)
     checkpoint_dir = ensure_dir(args.checkpoint_dir)
@@ -134,6 +139,7 @@ def main() -> None:
     for experiment in selected_experiments(args.experiments):
         print(f"\n=== {experiment.upper()} ===")
         architecture, mode = parse_experiment_name(experiment)
+        set_seed(args.seed)
         model = build_a1_model(
             architecture=architecture,
             mode=mode,
@@ -141,6 +147,9 @@ def main() -> None:
             download_weights=not args.no_download_weights,
         )
         total_params, trainable_params = count_parameters(model)
+
+        set_seed(args.seed)
+        reset_loader_seeds(data, args.seed)
 
         result = fit_classifier(
             model=model,
@@ -218,6 +227,8 @@ def main() -> None:
             "training_time_seconds": result.training_time_seconds,
             "checkpoint_path": str(checkpoint_path) if checkpoint_path else None,
         }
+        save_summary_csv(summary_rows, out_dir / "summary.csv")
+        save_json(metrics_payload, out_dir / "metrics.json")
         print(
             f"test loss {test_metrics.loss:.4f}, "
             f"test acc {test_accuracy:.4f}, macro F1 {macro_f1:.4f}"

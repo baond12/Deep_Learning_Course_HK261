@@ -16,6 +16,25 @@ def count_parameters(model: nn.Module) -> tuple[int, int]:
     return total, trainable
 
 
+def set_a1_train_mode(model: nn.Module) -> None:
+    """Freeze both parameters and running statistics outside the opened stages."""
+    mode = model._a1_mode
+    architecture = model._a1_architecture
+    if mode in {"scratch", "pretrained_full"}:
+        model.train()
+        return
+    model.eval()
+    if architecture == "resnet18":
+        if mode == "pretrained_partial":
+            model.layer4.train()
+        model.fc.train()
+    else:
+        if mode == "pretrained_partial":
+            for layer in list(model.encoder.layers.children())[-2:]:
+                layer.train()
+        model.heads.train()
+
+
 def _replace_resnet_head(model: nn.Module, num_classes: int) -> None:
     in_features = model.fc.in_features
     model.fc = nn.Linear(in_features, num_classes)
@@ -65,17 +84,23 @@ def build_a1_model(
     pretrained = mode.startswith("pretrained")
 
     if architecture == "resnet18":
-        weights = ResNet18_Weights.DEFAULT if pretrained and download_weights else None
+        weights = ResNet18_Weights.IMAGENET1K_V1 if pretrained and download_weights else None
         model = resnet18(weights=weights)
         _replace_resnet_head(model, num_classes)
         _configure_resnet_trainability(model, mode)
+        model._a1_architecture = architecture
+        model._a1_mode = mode
+        model._a1_weights = weights.name if weights is not None else None
         return model
 
     if architecture == "vit_b_16":
-        weights = ViT_B_16_Weights.DEFAULT if pretrained and download_weights else None
+        weights = ViT_B_16_Weights.IMAGENET1K_V1 if pretrained and download_weights else None
         model = vit_b_16(weights=weights)
         _replace_vit_head(model, num_classes)
         _configure_vit_trainability(model, mode)
+        model._a1_architecture = architecture
+        model._a1_mode = mode
+        model._a1_weights = weights.name if weights is not None else None
         return model
 
     raise ValueError(f"Unknown architecture: {architecture}")

@@ -4,12 +4,29 @@ Mục tiêu: so sánh CNN và Transformer trên **full CIFAR-100, 100 classes** 
 from-scratch, pretrained freeze backbone/head-only, pretrained partial unfreeze và full
 fine-tune.
 
+## Bước hiện tại trước khi khóa A1.1
+
+Chạy thăm dò **đủ tám cấu hình, một vòng, batch 16, trên P100**, chỉ huấn luyện/xác
+thực và chưa đánh giá test. Dùng [hướng dẫn chạy và gửi kết quả](PILOT.md).
+
+```bash
+CUDA_VISIBLE_DEVICES=1 python -u A1/pilot.py --experiments all --epochs 1 --batch-size 16 --seed 42 --train-seed 42 --data-dir data --device cuda --progress --output-dir A1/results/pilot_epoch1_batch16_seed42
+```
+
+Thư mục đầu ra phải mới. Gửi lại toàn bộ thư mục hoặc tệp nén, gồm chỉ số, lịch sử,
+thời gian từng pha, bộ nhớ GPU, cấu hình và log. Từ số đo đó mới chốt ngân sách và
+quy trình chính thức. Những kết quả đang có tại `A1/results/` là bộ thăm dò trước;
+không ghi đè. [Đề xuất A1.1](protocol-a1.1-draft.md) vẫn là bản dự thảo.
+
 ## Cấu trúc
 
 - `prepare_data.py`: tải CIFAR-100 một lần vào `--data-dir`.
 - `data.py`: full CIFAR-100, split cân bằng train/validation/test theo class, augmentation.
 - `models.py`: ResNet18 và ViT-B/16 với các chế độ freeze/fine-tune.
 - `train.py`: training loop A1, lưu metric và hình phân tích.
+- `pilot.py`: chạy thăm dò tuần tự, không test, ghi môi trường/thời gian/bộ nhớ và lỗi.
+- `engine.py`: vòng lặp A1, kiểm soát phần đóng băng, dừng khi loss/gradient không hữu hạn.
+- `test_pilot.py`: kiểm tra đường chạy thăm dò, lưu kết quả và xử lý lỗi bằng dữ liệu tổng hợp.
 - `analyze_results.py`: tổng hợp `summary.csv`, tạo bar charts và `analysis.md`.
 - `smoke_test.py`: kiểm tra model shape/trainable params, không tải weights/dataset.
 - `report.md`: bản nháp A1.1/A1.2.
@@ -47,23 +64,25 @@ python A1/prepare_data.py --data-dir data
 Sau đó train bằng đúng path đó:
 
 ```bash
-python A1/train.py --data-dir data --experiments all --epochs 5 --batch-size 32 --device auto
+python A1/train.py --data-dir data --experiments all --epochs 5 --batch-size 32 --device auto --output-dir A1/results/example_new_run
 ```
 
 Trên Colab GPU:
 
 ```bash
-python A1/train.py --data-dir /content/drive/MyDrive/Deep_Learning_Datasets --experiments all --epochs 5 --batch-size 32 --device cuda --progress
+python A1/train.py --data-dir /content/drive/MyDrive/Deep_Learning_Datasets --experiments all --epochs 5 --batch-size 32 --device cuda --progress --output-dir A1/results/example_new_run
 ```
 
 Các tham số `--num-classes`, `--train-per-class`, `--val-per-class`, `--test-per-class`
 vẫn có thể dùng để chạy debug nhanh, nhưng protocol A1.1 chính thức là 100 classes,
-400/100/100 samples per class.
+400/100/100 samples per class. Số vòng, batch và chế độ học chính thức chưa được
+khóa; các lệnh `train.py` ở mục này là ví dụ, có đánh giá test và không dùng thay
+lệnh thăm dò ở đầu tài liệu.
 
 Nếu muốn lưu checkpoint trên Colab/local nhưng không đẩy model lên GitHub:
 
 ```bash
-python A1/train.py --data-dir /content/drive/MyDrive/Deep_Learning_Datasets --experiments all --epochs 5 --batch-size 32 --device cuda --progress --save-checkpoints
+python A1/train.py --data-dir /content/drive/MyDrive/Deep_Learning_Datasets --experiments all --epochs 5 --batch-size 32 --device cuda --progress --save-checkpoints --output-dir A1/results/example_new_run --checkpoint-dir A1/checkpoints/example_new_run
 ```
 
 Các file `.pt`, `.pth`, `.ckpt`, `.safetensors` trong `A1/checkpoints/` đã được ignore.
