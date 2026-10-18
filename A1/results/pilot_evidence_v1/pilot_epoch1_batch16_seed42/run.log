@@ -1,0 +1,34 @@
+
+=== resnet18_scratch ===
+epoch 1/1 | train 3.6315, 0.1433 | val 3.0939, 0.2358 | train 116.9s, val 11.6s
+resnet18_scratch: completed
+
+=== resnet18_pretrained_head ===
+epoch 1/1 | train 3.1284, 0.3618 | val 2.2413, 0.5394 | train 46.6s, val 11.9s
+resnet18_pretrained_head: completed
+
+=== resnet18_pretrained_partial ===
+epoch 1/1 | train 1.6293, 0.5924 | val 0.9702, 0.7192 | train 53.7s, val 11.4s
+resnet18_pretrained_partial: completed
+
+=== resnet18_pretrained_full ===
+epoch 1/1 | train 1.7277, 0.5685 | val 1.0302, 0.7002 | train 115.4s, val 11.8s
+resnet18_pretrained_full: completed
+
+=== vit_b16_scratch ===
+epoch 1/1 | train 3.8796, 0.0999 | val 3.6071, 0.1323 | train 799.7s, val 57.5s
+vit_b16_scratch: completed
+
+=== vit_b16_pretrained_head ===
+epoch 1/1 | train 2.0253, 0.6234 | val 1.0862, 0.7495 | train 233.5s, val 57.6s
+vit_b16_pretrained_head: completed
+
+=== vit_b16_pretrained_partial ===
+epoch 1/1 | train 0.9408, 0.7522 | val 0.6258, 0.8148 | train 325.6s, val 57.6s
+vit_b16_pretrained_partial: completed
+
+=== vit_b16_pretrained_full ===
+epoch 1/1 | train 1.3748, 0.6345 | val 0.8794, 0.7387 | train 799.1s, val 57.6s
+vit_b16_pretrained_full: completed
+
+Saved pilot: /workspace/Deep_Learning_Course_HK261/A1/results/pilot_epoch1_batch16_seed42 | completed

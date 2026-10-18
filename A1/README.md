@@ -4,19 +4,25 @@ Mục tiêu: so sánh CNN và Transformer trên **full CIFAR-100, 100 classes** 
 from-scratch, pretrained freeze backbone/head-only, pretrained partial unfreeze và full
 fine-tune.
 
-## Bước hiện tại trước khi khóa A1.1
+## Quy trình chính thức đã được duyệt
 
-Chạy thăm dò **đủ tám cấu hình, một vòng, batch 16, trên P100**, chỉ huấn luyện/xác
-thực và chưa đánh giá test. Dùng [hướng dẫn chạy và gửi kết quả](PILOT.md).
+Đã kết thúc thăm dò trên P100. Người học duyệt **30 epoch, batch 64, FP32**, seed
+chia/huấn luyện **42**. ViT full dùng LR **1e-5**; bảy cấu hình khác dùng **1e-4**.
+Giữ Adam, weight decay 1e-4 và tiền xử lý từ pilot. Chưa có kết quả lượt chính.
+
+Đọc [A1.1 đã chốt](protocol-a1.1.md), [JSON cấu hình](protocol-a1.1.json),
+[hướng dẫn chạy và gửi kết quả](RUN_PROTOCOL.md), [phân tích lựa chọn](../docs/a1-pilot-analysis.md).
 
 ```bash
-CUDA_VISIBLE_DEVICES=1 python -u A1/pilot.py --experiments all --epochs 1 --batch-size 16 --seed 42 --train-seed 42 --data-dir data --device cuda --progress --output-dir A1/results/pilot_epoch1_batch16_seed42
+CUDA_VISIBLE_DEVICES=1 python -u A1/run_protocol.py --phase train --experiments all --data-dir /workspace/cifar100 --device cuda --progress --output-dir A1/results/epochs30_batch64_seed42_v1
 ```
 
-Thư mục đầu ra phải mới. Gửi lại toàn bộ thư mục hoặc tệp nén, gồm chỉ số, lịch sử,
-thời gian từng pha, bộ nhớ GPU, cấu hình và log. Từ số đo đó mới chốt ngân sách và
-quy trình chính thức. Những kết quả đang có tại `A1/results/` là bộ thăm dò trước;
-không ghi đè. [Đề xuất A1.1](protocol-a1.1-draft.md) vẫn là bản dự thảo.
+Sau khi train hoàn tất, chạy lệnh trên với `--phase test` để đánh giá checkpoint
+tốt nhất theo validation. Xem hướng dẫn trước khi chạy; không dùng test để tuning.
+Thư mục đầu ra phải mới. Giữ checkpoint trên server; tệp mô hình bị Git ignore.
+Kết quả cũ tại `A1/results/` và báo cáo cũ là thăm dò, không ghi đè hoặc gộp vào
+bảng chính. [Dự thảo cũ](protocol-a1.1-draft.md) và [hướng dẫn pilot](PILOT.md)
+được giữ để truy vết.
 
 ## Cấu trúc
 
@@ -24,6 +30,9 @@ không ghi đè. [Đề xuất A1.1](protocol-a1.1-draft.md) vẫn là bản d�
 - `data.py`: full CIFAR-100, split cân bằng train/validation/test theo class, augmentation.
 - `models.py`: ResNet18 và ViT-B/16 với các chế độ freeze/fine-tune.
 - `train.py`: training loop A1, lưu metric và hình phân tích.
+- `run_protocol.py`: chạy quy trình đã duyệt, lưu checkpoint ngay khi validation cải thiện, tách test và kiểm tra nguồn gốc.
+- `protocol-a1.1.json`: 30 epoch/batch 64 và LR từng cấu hình; không cần nhập lại trên CLI.
+- `test_protocol.py`: kiểm tra tám cấu hình, chọn checkpoint, chống ghi đè, kiểm tra test và lỗi.
 - `pilot.py`: chạy thăm dò tuần tự, không test, ghi môi trường/thời gian/bộ nhớ và lỗi.
 - `engine.py`: vòng lặp A1, kiểm soát phần đóng băng, dừng khi loss/gradient không hữu hạn.
 - `test_pilot.py`: kiểm tra đường chạy thăm dò, lưu kết quả và xử lý lỗi bằng dữ liệu tổng hợp.
@@ -53,7 +62,11 @@ sau đó các lần train chỉ truyền lại cùng `--data-dir`.
 python A1/smoke_test.py
 ```
 
-## Train
+## Lệnh huấn luyện cũ — chỉ để tham khảo
+
+**Không dùng các lệnh bên dưới thay cho lượt chính.** Lượt chính dùng
+`run_protocol.py` và [RUN_PROTOCOL.md](RUN_PROTOCOL.md); `train.py` cũ đánh giá
+test ngay sau từng mô hình và không ghi đầy đủ manifest như chương trình mới.
 
 Tải dataset một lần:
 
@@ -74,10 +87,8 @@ python A1/train.py --data-dir /content/drive/MyDrive/Deep_Learning_Datasets --ex
 ```
 
 Các tham số `--num-classes`, `--train-per-class`, `--val-per-class`, `--test-per-class`
-vẫn có thể dùng để chạy debug nhanh, nhưng protocol A1.1 chính thức là 100 classes,
-400/100/100 samples per class. Số vòng, batch và chế độ học chính thức chưa được
-khóa; các lệnh `train.py` ở mục này là ví dụ, có đánh giá test và không dùng thay
-lệnh thăm dò ở đầu tài liệu.
+vẫn có thể dùng để chạy debug nhanh bằng công cụ cũ. Protocol chính thức là 100
+lớp, 400/100/100 ảnh mỗi lớp, 30 epoch và batch 64 trong JSON cấu hình mới.
 
 Nếu muốn lưu checkpoint trên Colab/local nhưng không đẩy model lên GitHub:
 
@@ -87,7 +98,12 @@ python A1/train.py --data-dir /content/drive/MyDrive/Deep_Learning_Datasets --ex
 
 Các file `.pt`, `.pth`, `.ckpt`, `.safetensors` trong `A1/checkpoints/` đã được ignore.
 
-## Phân tích A1.2
+## Phân tích bộ kết quả cũ
+
+Phần này mô tả công cụ và số liệu trước khi chốt protocol mới. Với lượt chính,
+dùng `test/test_summary.csv`, `test/comparison.md` và `test/test_metrics.json`
+do `run_protocol.py --phase test` sinh ra; không chạy bộ phân tích cũ trên bảng
+train/validation mới.
 
 Đã nhập lịch sử và hình kết quả của đủ 8 cấu hình vào `A1/results/`.
 `summary.csv` và `metrics.json` đã đủ kết quả cuối của 8 cấu hình:

@@ -1,5 +1,11 @@
 # Đối chiếu yêu cầu Assignment 1 và hướng chuẩn hóa A1.1
 
+**Cập nhật sau thăm dò:** người học đã duyệt [A1.1 chính thức](../A1/protocol-a1.1.md)
+và [cấu hình có thể thực thi](../A1/protocol-a1.1.json), gồm 30 epoch/batch 64/FP32,
+seed 42, ViT full LR `1e-5` và bảy cấu hình khác `1e-4`. Đọc [phân tích](a1-pilot-analysis.md)
+và [hướng dẫn chạy](../A1/RUN_PROTOCOL.md). Các đánh giá hiện trạng ngày 17/10 bên
+dưới là lịch sử trước khi hoàn tất bước chuẩn bị, không thay thế protocol đã chốt.
+
 Ngày rà soát: 17/10/2026. Căn cứ: [đề A1](../Exercise/assignment1-vne.pdf), mã nguồn và kết quả đang có trong repo. Người học đã chốt CIFAR-100 và xác nhận GPU dự kiến là P100 16 GB. Chưa xác nhận GPU được dành riêng khi đo chi phí.
 
 **Kết luận:** đã có dữ liệu, hai kiến trúc, đủ tám cấu hình và báo cáo thăm dò. Phần còn thiếu chủ yếu là một quy trình A1.1 được khóa rõ ràng, cách đóng băng BatchNorm, đo bộ nhớ, lưu bằng chứng tái lập và xử lý huấn luyện không hữu hạn. Chưa nên dùng tám lượt cũ để kết luận một họ kiến trúc ưu việt hoặc làm bộ so sánh cuối được kiểm soát.

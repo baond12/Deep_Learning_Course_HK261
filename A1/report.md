@@ -1,5 +1,10 @@
 # A1 - CNN vs Transformer trên full CIFAR-100
 
+**Tài liệu lịch sử của lượt cũ.** Quy trình hiện tại do người học duyệt ở
+[protocol-a1.1.md](protocol-a1.1.md), cấu hình ở
+[protocol-a1.1.json](protocol-a1.1.json). Chạy theo [RUN_PROTOCOL.md](RUN_PROTOCOL.md).
+Chưa có số liệu 30 epoch; những số liệu/ví dụ bên dưới không thay thế lượt chính.
+
 ## 1. Chủ đề
 
 A1 so sánh CNN và Transformer trên một tập ảnh lớn hơn E1. Dataset chọn là

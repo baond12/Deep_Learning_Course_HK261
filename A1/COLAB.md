@@ -1,15 +1,18 @@
 # Chạy A1 trên Google Colab
 
-**Bước hiện tại:** chạy thăm dò trước khi khóa A1.1. Dùng lệnh sau sau khi mount
-Drive/chuẩn bị dữ liệu như mục 1–4. Kết quả cần gửi lại được mô tả ở [PILOT.md](PILOT.md).
+**Quy trình đã duyệt:** 30 epoch, batch 64, FP32; LR riêng cho ViT full được lấy
+tự động từ JSON. Đọc [RUN_PROTOCOL.md](RUN_PROTOCOL.md) trước khi chạy. Sau khi
+mount Drive và chuẩn bị dữ liệu như mục 1–4:
 
 ```bash
-!python -u A1/pilot.py --data-dir "$DATA_DIR" --experiments all --epochs 1 --batch-size 16 --device cuda --progress --output-dir A1/results/pilot_epoch1_batch16_seed42
+!python -u A1/run_protocol.py --phase train --data-dir "$DATA_DIR" --experiments all --device cuda --progress --output-dir A1/results/epochs30_batch64_seed42_v1
 ```
 
-Lệnh này chỉ huấn luyện/xác thực, không test. Những lệnh `train.py` ở mục 5 trở
-xuống là ví dụ cũ có test; chưa phải kế hoạch A1.2 đã chốt. Luôn truyền thư mục
-đầu ra mới để giữ kết quả thăm dò cũ.
+Lệnh này chỉ huấn luyện/xác thực. Khi đủ cấu hình hoàn tất, chạy lại với `--phase
+test` để đánh giá checkpoint đã chọn, không huấn luyện lại. Nếu dùng Colab, giữ
+thư mục kết quả/checkpoint trên Drive để tránh mất khi kết thúc phiên. Chưa hỗ
+trợ resume theo epoch. Các lệnh `train.py` ở mục 5 trở xuống là ví dụ cũ có test,
+không dùng thay quy trình mới. Thư mục đầu ra phải mới.
 
 ## 1. Clone repo
 

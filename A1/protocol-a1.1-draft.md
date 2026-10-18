@@ -2,10 +2,19 @@
 
 Ngày lập: 17/10/2026. Trạng thái: **đề xuất để người học review, chưa khóa làm quy trình chạy chính thức**. Hạn A1.1: 26/10/2026, 23:59 GMT+7. Hạn A1.2: 09/11/2026, 23:59 GMT+7.
 
-**Bước đang thực hiện:** người học chọn chạy tám cấu hình, một vòng, batch 16 trên
-P100 rồi mới chốt ngân sách. Mã và cách gửi kết quả ở [PILOT.md](PILOT.md). Những
-phương án 100 vòng, ba seed, augmentation mới và AdamW bên dưới vẫn là đề xuất,
-chưa áp dụng vào lệnh thăm dò hoặc trở thành kế hoạch đã duyệt.
+**Bản lưu lịch sử:** người học đã duyệt [protocol chính thức](protocol-a1.1.md)
+và [JSON cấu hình](protocol-a1.1.json) sau lượt LR bổ sung. Nội dung dự thảo bên
+dưới không thay thế bản đã duyệt; dùng [hướng dẫn mới](RUN_PROTOCOL.md) để chạy.
+
+**Cập nhật 18/10/2026:** đã đọc ba lượt thăm dò tám cấu hình (một epoch batch 16,
+một epoch batch 64 và năm epoch batch 64) và lượt bổ sung hai cấu hình full,
+năm epoch batch 64 với learning rate `1e-5` trên P100. Phân tích số liệu,
+giới hạn và đề xuất ngân sách tiếp theo ở [phân tích thăm dò A1](../docs/a1-pilot-analysis.md).
+Batch 64 đã được người học đồng ý. Đề xuất hiện tại chọn LR `1e-4` cho ResNet
+full và `1e-5` cho ViT full; ngân sách 30 epoch và protocol chính thức chưa được
+chốt. Mã và cách gửi kết quả ở [PILOT.md](PILOT.md). Những phương
+án 100 vòng, ba seed, augmentation mới và AdamW bên dưới là các lựa chọn dự thảo
+trước đó; chưa áp dụng vào pilot và không mặc nhiên là kế hoạch đã duyệt.
 
 Mục tiêu là so sánh ResNet18 và ViT-B/16 trên CIFAR-100, xét tác động của tiền huấn luyện và phạm vi tinh chỉnh, đồng thời ghi nhận chất lượng dự đoán, tham số, thời gian, bộ nhớ và lỗi. Những lượt đã chạy là bằng chứng thăm dò để thiết kế quy trình này; không dùng thay kết quả có kiểm soát của đợt mới.
 

@@ -1,0 +1,66 @@
+
+=== resnet18_scratch ===
+epoch 1/5 | train 3.6600, 0.1421 | val 3.3186, 0.2057 | train 73.4s, val 8.9s
+epoch 2/5 | train 2.9725, 0.2652 | val 2.8413, 0.2898 | train 72.1s, val 9.3s
+epoch 3/5 | train 2.5304, 0.3504 | val 2.4059, 0.3845 | train 71.5s, val 9.0s
+epoch 4/5 | train 2.1971, 0.4222 | val 2.2333, 0.4094 | train 71.6s, val 8.8s
+epoch 5/5 | train 1.9383, 0.4754 | val 2.0494, 0.4560 | train 72.2s, val 8.8s
+resnet18_scratch: completed
+
+=== resnet18_pretrained_head ===
+epoch 1/5 | train 3.7802, 0.2276 | val 3.0421, 0.4283 | train 35.8s, val 7.7s
+epoch 2/5 | train 2.6060, 0.4973 | val 2.3020, 0.5391 | train 35.0s, val 7.6s
+epoch 3/5 | train 2.0733, 0.5702 | val 1.9438, 0.5796 | train 32.6s, val 7.7s
+epoch 4/5 | train 1.7932, 0.6021 | val 1.7375, 0.6054 | train 35.7s, val 8.1s
+epoch 5/5 | train 1.6212, 0.6230 | val 1.6037, 0.6207 | train 34.4s, val 9.7s
+resnet18_pretrained_head: completed
+
+=== resnet18_pretrained_partial ===
+epoch 1/5 | train 1.8256, 0.5805 | val 1.0792, 0.7121 | train 35.5s, val 8.2s
+epoch 2/5 | train 0.8497, 0.7756 | val 0.8644, 0.7532 | train 30.8s, val 8.0s
+epoch 3/5 | train 0.5569, 0.8534 | val 0.8173, 0.7669 | train 31.6s, val 8.8s
+epoch 4/5 | train 0.3691, 0.9075 | val 0.7907, 0.7684 | train 31.4s, val 8.5s
+epoch 5/5 | train 0.2321, 0.9465 | val 0.7993, 0.7736 | train 32.4s, val 8.6s
+resnet18_pretrained_partial: completed
+
+=== resnet18_pretrained_full ===
+epoch 1/5 | train 1.8516, 0.5634 | val 1.0535, 0.7145 | train 71.6s, val 8.5s
+epoch 2/5 | train 0.8101, 0.7815 | val 0.8189, 0.7616 | train 72.5s, val 9.1s
+epoch 3/5 | train 0.5197, 0.8575 | val 0.7712, 0.7784 | train 72.3s, val 8.7s
+epoch 4/5 | train 0.3518, 0.9062 | val 0.7544, 0.7823 | train 72.7s, val 8.8s
+epoch 5/5 | train 0.2318, 0.9398 | val 0.7518, 0.7818 | train 72.2s, val 7.8s
+resnet18_pretrained_full: completed
+
+=== vit_b16_scratch ===
+epoch 1/5 | train 3.8089, 0.1157 | val 3.4202, 0.1716 | train 742.5s, val 56.2s
+epoch 2/5 | train 3.2486, 0.2046 | val 3.1143, 0.2283 | train 742.3s, val 56.3s
+epoch 3/5 | train 2.9435, 0.2607 | val 2.9032, 0.2714 | train 742.9s, val 56.4s
+epoch 4/5 | train 2.7068, 0.3063 | val 2.7339, 0.3025 | train 743.2s, val 56.4s
+epoch 5/5 | train 2.5070, 0.3466 | val 2.6907, 0.3172 | train 743.2s, val 56.5s
+vit_b16_scratch: completed
+
+=== vit_b16_pretrained_head ===
+epoch 1/5 | train 2.8351, 0.5206 | val 1.6804, 0.7057 | train 225.2s, val 56.4s
+epoch 2/5 | train 1.3338, 0.7248 | val 1.1215, 0.7491 | train 225.2s, val 56.5s
+epoch 3/5 | train 1.0087, 0.7571 | val 0.9455, 0.7664 | train 225.2s, val 56.6s
+epoch 4/5 | train 0.8719, 0.7752 | val 0.8584, 0.7783 | train 225.3s, val 56.6s
+epoch 5/5 | train 0.7904, 0.7909 | val 0.8055, 0.7860 | train 225.1s, val 56.7s
+vit_b16_pretrained_head: completed
+
+=== vit_b16_pretrained_partial ===
+epoch 1/5 | train 1.1566, 0.7254 | val 0.6492, 0.8158 | train 310.5s, val 56.5s
+epoch 2/5 | train 0.4731, 0.8602 | val 0.5912, 0.8319 | train 310.5s, val 56.6s
+epoch 3/5 | train 0.2918, 0.9138 | val 0.5755, 0.8365 | train 310.9s, val 56.6s
+epoch 4/5 | train 0.1723, 0.9507 | val 0.6048, 0.8382 | train 310.8s, val 56.5s
+epoch 5/5 | train 0.0959, 0.9735 | val 0.6344, 0.8390 | train 310.8s, val 56.5s
+vit_b16_pretrained_partial: completed
+
+=== vit_b16_pretrained_full ===
+epoch 1/5 | train 1.0869, 0.7239 | val 0.6478, 0.8123 | train 742.3s, val 56.4s
+epoch 2/5 | train 0.4445, 0.8653 | val 0.5664, 0.8350 | train 742.3s, val 56.4s
+epoch 3/5 | train 0.2939, 0.9093 | val 0.6129, 0.8274 | train 742.3s, val 56.4s
+epoch 4/5 | train 0.2262, 0.9300 | val 0.6413, 0.8239 | train 742.6s, val 56.6s
+epoch 5/5 | train 0.1879, 0.9411 | val 0.7246, 0.8136 | train 742.7s, val 56.3s
+vit_b16_pretrained_full: completed
+
+Saved pilot: /workspace/Deep_Learning_Course_HK261/A1/results/pilot_epoch5_batch64_seed42 | completed

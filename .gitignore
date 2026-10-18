@@ -12,6 +12,7 @@ A1/checkpoints/*.pth
 A1/checkpoints/*.ckpt
 A1/checkpoints/*.safetensors
 *.pt
+*.pt.tmp
 *.pth
 *.ckpt
 *.safetensors
