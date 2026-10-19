@@ -1,0 +1,24 @@
+
+=== test resnet18_scratch | best epoch 14 ===
+accuracy 0.5501 | macro F1 0.5451
+
+=== test resnet18_pretrained_head | best epoch 30 ===
+accuracy 0.6801 | macro F1 0.6792
+
+=== test resnet18_pretrained_partial | best epoch 8 ===
+accuracy 0.7761 | macro F1 0.7755
+
+=== test resnet18_pretrained_full | best epoch 8 ===
+accuracy 0.7897 | macro F1 0.7893
+
+=== test vit_b16_scratch | best epoch 24 ===
+accuracy 0.4146 | macro F1 0.4146
+
+=== test vit_b16_pretrained_head | best epoch 30 ===
+accuracy 0.8129 | macro F1 0.8128
+
+=== test vit_b16_pretrained_partial | best epoch 20 ===
+accuracy 0.8305 | macro F1 0.8303
+
+=== test vit_b16_pretrained_full | best epoch 24 ===
+accuracy 0.8646 | macro F1 0.8651

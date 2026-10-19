@@ -3,7 +3,8 @@
 **Tài liệu lịch sử của lượt cũ.** Quy trình hiện tại do người học duyệt ở
 [protocol-a1.1.md](protocol-a1.1.md), cấu hình ở
 [protocol-a1.1.json](protocol-a1.1.json). Chạy theo [RUN_PROTOCOL.md](RUN_PROTOCOL.md).
-Chưa có số liệu 30 epoch; những số liệu/ví dụ bên dưới không thay thế lượt chính.
+Đã có [phân tích lượt 30 epoch](results/epochs30_batch64_seed42_v1/analysis.md);
+những số liệu/ví dụ bên dưới không thay thế bộ kết quả mới đó.
 
 ## 1. Chủ đề
 

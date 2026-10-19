@@ -1,5 +1,13 @@
 # Kết quả thực nghiệm A1
 
+**Bộ dùng cho báo cáo mới:** [epochs30_batch64_seed42_v1](epochs30_batch64_seed42_v1/analysis.md),
+đủ tám cấu hình/240 epoch, batch 64, seed 42. Xem
+[bảng tổng hợp](epochs30_batch64_seed42_v1/report_summary.csv) và
+[biên bản kiểm chứng](epochs30_batch64_seed42_v1/report_checks.json).
+Phần dưới mô tả các kết quả cũ ở ngay thư mục này, chỉ giữ làm lịch sử;
+không trộn chúng vào bảng chính mới. [Thăm dò chọn protocol](pilot_evidence_v1/README.md)
+cũng có vai trò riêng, không phải test chính thức.
+
 Kết quả gộp từ `results_A1_ResNet` và `results_A1_ViT` bên ngoài repo, bổ sung sáu đoạn log do người học cung cấp. Hai thư mục nguồn được giữ nguyên tại máy; không tạo thư mục `source_runs`.
 
 ## Các file chính

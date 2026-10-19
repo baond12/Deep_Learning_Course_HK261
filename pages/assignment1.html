@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Assignment 1 - CO5085</title>
     <link rel="stylesheet" href="../assets/css/styles.css?v=20261009-research-dashboard" />
+    <link rel="stylesheet" href="../assets/css/exercises-results.css?v=20261016" />
   </head>
   <body>
     <header class="site-header">
@@ -32,10 +33,13 @@
           So sánh ResNet18 và ViT-B/16 trên CIFAR-100 với tám cấu hình huấn luyện:
           từ đầu, tiền huấn luyện chỉ học đầu phân loại, mở một phần mạng và tinh chỉnh
           toàn bộ. Đã chốt quy trình A1.1 sau thăm dò trên P100; lượt chính gồm
-          30 epoch mỗi cấu hình, batch 64, FP32. Chưa có kết quả A1.2 theo quy trình mới.
+          30 epoch mỗi cấu hình, batch 64, FP32. Đã hoàn tất train/test của cả tám
+          cấu hình và đối chiếu số liệu; báo cáo Word/PDF mới đang được biên soạn.
         </p>
         <div class="hero-actions">
-          <a class="button button-primary" href="https://github.com/baond12/Deep_Learning_Course_HK261/blob/main/A1/protocol-a1.1.md">Đọc quy trình A1.1 đã chốt</a>
+          <a class="button button-primary" href="#ket-qua">Xem kết quả chính thức</a>
+          <a class="button button-secondary" href="https://github.com/baond12/Deep_Learning_Course_HK261/blob/main/A1/results/epochs30_batch64_seed42_v1/analysis.md">Đọc phân tích kết quả</a>
+          <a class="button button-secondary" href="https://github.com/baond12/Deep_Learning_Course_HK261/blob/main/A1/protocol-a1.1.md">Quy trình A1.1 đã chốt</a>
           <a class="button button-secondary" href="https://github.com/baond12/Deep_Learning_Course_HK261/blob/main/A1/RUN_PROTOCOL.md">Hướng dẫn chạy thực nghiệm</a>
           <a class="button button-secondary" href="../Exercise/assignment1-vne.pdf">Đề Assignment 1 PDF</a>
           <a class="button button-secondary" href="https://github.com/baond12/Deep_Learning_Course_HK261/tree/main/A1" target="_blank" rel="noreferrer">Code Assignment 1</a>
@@ -51,8 +55,8 @@
         <div class="detail-grid">
           <article class="detail-card">
             <span class="card-label">Trạng thái</span>
-            <h3>Đã chốt A1.1, chuẩn bị lượt chính</h3>
-            <p>Giữ tám cấu hình, 30 epoch, batch 64 và seed 42. Chọn checkpoint theo validation; đánh giá test ở bước riêng. Báo cáo hiện có thuộc lượt thăm dò trước.</p>
+            <h3>Thực nghiệm hoàn tất, đang soạn báo cáo</h3>
+            <p>Đủ tám cấu hình, 240 epoch và 80.000 dự đoán test. Đã đối chiếu accuracy/F1, ma trận, chỉ số từng lớp và nguồn checkpoint. Word/PDF đang được biên soạn từ kết quả mới; bản v01 vẫn thuộc lượt cũ.</p>
           </article>
           <article class="detail-card">
             <span class="card-label">Dataset</span>
@@ -74,6 +78,56 @@
             <p>Cùng bốn chế độ; mở hai block cuối ở chế độ một phần. Learning rate 1e-5 cho tinh chỉnh toàn bộ và 1e-4 cho ba cấu hình còn lại, chọn từ thăm dò bằng validation.</p>
           </article>
         </div>
+      </section>
+
+      <section id="ket-qua" class="section experiment-section">
+        <div class="section-heading"><p class="section-kicker">Kết quả đã đối chiếu</p><h2>Tám cấu hình theo quy trình A1.1</h2></div>
+        <p>Cùng CIFAR-100, split 40.000/10.000/10.000 ảnh, một seed 42. Mỗi cấu hình chạy đủ 30 epoch; checkpoint được chọn bằng accuracy trên tập xác thực, sau đó đánh giá trên đủ 10.000 ảnh kiểm tra.</p>
+        <div class="result-table-scroll" tabindex="0" role="region" aria-label="Bảng kết quả Assignment 1 có thể cuộn ngang">
+          <table class="result-table"><caption>Chất lượng và chi phí của lượt epochs30_batch64_seed42_v1</caption>
+            <thead><tr><th scope="col">Cấu hình</th><th scope="col">LR</th><th scope="col">Epoch chọn</th><th scope="col">Xác thực tốt nhất</th><th scope="col">Accuracy test</th><th scope="col">Macro F1</th><th scope="col">Toàn fit (giờ)</th></tr></thead><tbody>
+            <tr><th scope="row">ResNet18 · Từ đầu</th><td>0.0001</td><td>14</td><td>55,78%</td><td>55,01%</td><td>0,5451</td><td>0,68</td></tr>
+            <tr><th scope="row">ResNet18 · Chỉ đầu phân loại</th><td>0.0001</td><td>30</td><td>69,07%</td><td>68,01%</td><td>0,6792</td><td>0,35</td></tr>
+            <tr><th scope="row">ResNet18 · Mở một phần</th><td>0.0001</td><td>8</td><td>77,39%</td><td>77,61%</td><td>0,7755</td><td>0,35</td></tr>
+            <tr><th scope="row">ResNet18 · Tinh chỉnh toàn bộ</th><td>0.0001</td><td>8</td><td>78,85%</td><td>78,97%</td><td>0,7893</td><td>0,68</td></tr>
+            <tr><th scope="row">ViT-B/16 · Từ đầu</th><td>0.0001</td><td>24</td><td>41,89%</td><td>41,46%</td><td>0,4146</td><td>6,66</td></tr>
+            <tr><th scope="row">ViT-B/16 · Chỉ đầu phân loại</th><td>0.0001</td><td>30</td><td>82,12%</td><td>81,29%</td><td>0,8128</td><td>2,36</td></tr>
+            <tr><th scope="row">ViT-B/16 · Mở một phần</th><td>0.0001</td><td>20</td><td>83,92%</td><td>83,05%</td><td>0,8303</td><td>3,06</td></tr>
+            <tr><th scope="row">ViT-B/16 · Tinh chỉnh toàn bộ</th><td>1e-05</td><td>24</td><td>86,78%</td><td>86,46%</td><td>0,8651</td><td>6,66</td></tr>
+          </tbody></table>
+        </div>
+        <p class="result-note">ViT toàn bộ đạt accuracy cao nhất 86,46%, nhưng thời gian fit khoảng 9,84 lần ResNet toàn bộ trong lượt này. ViT chỉ học đầu phân loại có test loss 0,6397, thấp hơn ViT toàn bộ 0,6475 dù accuracy thấp hơn. Một seed, LR khác nhau và quy mô/công thức tiền huấn luyện khác nhau chưa cho phép kết luận ưu thế phổ quát hoặc ý nghĩa thống kê. Thời gian fit gồm ghi checkpoint; bộ nhớ trong số liệu là allocated/reserved của tiến trình PyTorch.</p>
+        <div class="artifact-actions">
+          <a href="../A1/results/epochs30_batch64_seed42_v1/report_summary.csv">Bảng tổng hợp chất lượng và chi phí</a>
+          <a href="../A1/results/epochs30_batch64_seed42_v1/test/test_summary.csv">Số liệu test gốc</a>
+          <a href="../A1/results/epochs30_batch64_seed42_v1/metrics.json">Metadata và lịch sử train</a>
+          <a href="../A1/results/epochs30_batch64_seed42_v1/test/test_metrics.json">Metadata test</a>
+          <a href="../A1/results/epochs30_batch64_seed42_v1/report_checks.json">Biên bản đối chiếu dữ liệu</a>
+          <a href="../A1/results/epochs30_batch64_seed42_v1/report_class_metrics.csv">Chỉ số của 100 lớp cho tám mô hình</a>
+          <a href="../A1/results/epochs30_batch64_seed42_v1/report_top_confusions.csv">Các cặp nhầm lẫn có hướng</a>
+          <a href="../A1/results/epochs30_batch64_seed42_v1/error_atlas.pdf">Tập hình phân tích lỗi PDF</a>
+          <a href="../A1/results/epochs30_batch64_seed42_v1/dataset_summary.json">EDA và quy mô dữ liệu</a>
+          <a href="../A1/results/epochs30_batch64_seed42_v1/class_counts.csv">Số ảnh từng lớp</a>
+          <a href="../A1/results/epochs30_batch64_seed42_v1/dataset_samples_train.png">Ảnh mẫu từ tập huấn luyện</a>
+          <a href="../A1/results/epochs30_batch64_seed42_v1/figure_comparison.png">Biểu đồ chất lượng và chi phí</a>
+          <a href="../A1/results/epochs30_batch64_seed42_v1/figure_resnet_curves.png">Đường cong ResNet18</a>
+          <a href="../A1/results/epochs30_batch64_seed42_v1/figure_vit_curves.png">Đường cong ViT-B/16</a>
+        </div>
+        <details class="artifact-details"><summary>Minh chứng riêng của từng cấu hình</summary>
+          <div class="result-table-scroll" tabindex="0" role="region" aria-label="Liên kết minh chứng từng mô hình có thể cuộn ngang">
+          <table class="result-table"><caption>Lịch sử, đường cong, ma trận và dự đoán từ đúng lượt mới</caption>
+            <thead><tr><th scope="col">Cấu hình</th><th scope="col">Huấn luyện</th><th scope="col">Phân tích lỗi</th><th scope="col">Dự đoán và chỉ số lớp</th></tr></thead><tbody>
+            <tr><th scope="row">ResNet18 · Từ đầu</th><td><a href="../A1/results/epochs30_batch64_seed42_v1/history_resnet18_scratch.csv" download>Lịch sử</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/learning_curves_resnet18_scratch.png">Đường cong</a></td><td><a href="../A1/results/epochs30_batch64_seed42_v1/test/confusion_matrix_resnet18_scratch.png">Ma trận hình</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/confusion_matrix_resnet18_scratch.csv" download>Ma trận số</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/misclassified_resnet18_scratch.png">Mẫu sai</a></td><td><a href="../A1/results/epochs30_batch64_seed42_v1/test/predictions_resnet18_scratch.csv" download>Dự đoán</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/classification_report_resnet18_scratch.json">Chỉ số từng lớp</a></td></tr>
+            <tr><th scope="row">ResNet18 · Chỉ đầu phân loại</th><td><a href="../A1/results/epochs30_batch64_seed42_v1/history_resnet18_pretrained_head.csv" download>Lịch sử</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/learning_curves_resnet18_pretrained_head.png">Đường cong</a></td><td><a href="../A1/results/epochs30_batch64_seed42_v1/test/confusion_matrix_resnet18_pretrained_head.png">Ma trận hình</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/confusion_matrix_resnet18_pretrained_head.csv" download>Ma trận số</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/misclassified_resnet18_pretrained_head.png">Mẫu sai</a></td><td><a href="../A1/results/epochs30_batch64_seed42_v1/test/predictions_resnet18_pretrained_head.csv" download>Dự đoán</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/classification_report_resnet18_pretrained_head.json">Chỉ số từng lớp</a></td></tr>
+            <tr><th scope="row">ResNet18 · Mở một phần</th><td><a href="../A1/results/epochs30_batch64_seed42_v1/history_resnet18_pretrained_partial.csv" download>Lịch sử</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/learning_curves_resnet18_pretrained_partial.png">Đường cong</a></td><td><a href="../A1/results/epochs30_batch64_seed42_v1/test/confusion_matrix_resnet18_pretrained_partial.png">Ma trận hình</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/confusion_matrix_resnet18_pretrained_partial.csv" download>Ma trận số</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/misclassified_resnet18_pretrained_partial.png">Mẫu sai</a></td><td><a href="../A1/results/epochs30_batch64_seed42_v1/test/predictions_resnet18_pretrained_partial.csv" download>Dự đoán</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/classification_report_resnet18_pretrained_partial.json">Chỉ số từng lớp</a></td></tr>
+            <tr><th scope="row">ResNet18 · Tinh chỉnh toàn bộ</th><td><a href="../A1/results/epochs30_batch64_seed42_v1/history_resnet18_pretrained_full.csv" download>Lịch sử</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/learning_curves_resnet18_pretrained_full.png">Đường cong</a></td><td><a href="../A1/results/epochs30_batch64_seed42_v1/test/confusion_matrix_resnet18_pretrained_full.png">Ma trận hình</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/confusion_matrix_resnet18_pretrained_full.csv" download>Ma trận số</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/misclassified_resnet18_pretrained_full.png">Mẫu sai</a></td><td><a href="../A1/results/epochs30_batch64_seed42_v1/test/predictions_resnet18_pretrained_full.csv" download>Dự đoán</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/classification_report_resnet18_pretrained_full.json">Chỉ số từng lớp</a></td></tr>
+            <tr><th scope="row">ViT-B/16 · Từ đầu</th><td><a href="../A1/results/epochs30_batch64_seed42_v1/history_vit_b16_scratch.csv" download>Lịch sử</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/learning_curves_vit_b16_scratch.png">Đường cong</a></td><td><a href="../A1/results/epochs30_batch64_seed42_v1/test/confusion_matrix_vit_b16_scratch.png">Ma trận hình</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/confusion_matrix_vit_b16_scratch.csv" download>Ma trận số</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/misclassified_vit_b16_scratch.png">Mẫu sai</a></td><td><a href="../A1/results/epochs30_batch64_seed42_v1/test/predictions_vit_b16_scratch.csv" download>Dự đoán</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/classification_report_vit_b16_scratch.json">Chỉ số từng lớp</a></td></tr>
+            <tr><th scope="row">ViT-B/16 · Chỉ đầu phân loại</th><td><a href="../A1/results/epochs30_batch64_seed42_v1/history_vit_b16_pretrained_head.csv" download>Lịch sử</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/learning_curves_vit_b16_pretrained_head.png">Đường cong</a></td><td><a href="../A1/results/epochs30_batch64_seed42_v1/test/confusion_matrix_vit_b16_pretrained_head.png">Ma trận hình</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/confusion_matrix_vit_b16_pretrained_head.csv" download>Ma trận số</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/misclassified_vit_b16_pretrained_head.png">Mẫu sai</a></td><td><a href="../A1/results/epochs30_batch64_seed42_v1/test/predictions_vit_b16_pretrained_head.csv" download>Dự đoán</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/classification_report_vit_b16_pretrained_head.json">Chỉ số từng lớp</a></td></tr>
+            <tr><th scope="row">ViT-B/16 · Mở một phần</th><td><a href="../A1/results/epochs30_batch64_seed42_v1/history_vit_b16_pretrained_partial.csv" download>Lịch sử</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/learning_curves_vit_b16_pretrained_partial.png">Đường cong</a></td><td><a href="../A1/results/epochs30_batch64_seed42_v1/test/confusion_matrix_vit_b16_pretrained_partial.png">Ma trận hình</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/confusion_matrix_vit_b16_pretrained_partial.csv" download>Ma trận số</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/misclassified_vit_b16_pretrained_partial.png">Mẫu sai</a></td><td><a href="../A1/results/epochs30_batch64_seed42_v1/test/predictions_vit_b16_pretrained_partial.csv" download>Dự đoán</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/classification_report_vit_b16_pretrained_partial.json">Chỉ số từng lớp</a></td></tr>
+            <tr><th scope="row">ViT-B/16 · Tinh chỉnh toàn bộ</th><td><a href="../A1/results/epochs30_batch64_seed42_v1/history_vit_b16_pretrained_full.csv" download>Lịch sử</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/learning_curves_vit_b16_pretrained_full.png">Đường cong</a></td><td><a href="../A1/results/epochs30_batch64_seed42_v1/test/confusion_matrix_vit_b16_pretrained_full.png">Ma trận hình</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/confusion_matrix_vit_b16_pretrained_full.csv" download>Ma trận số</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/misclassified_vit_b16_pretrained_full.png">Mẫu sai</a></td><td><a href="../A1/results/epochs30_batch64_seed42_v1/test/predictions_vit_b16_pretrained_full.csv" download>Dự đoán</a> · <a href="../A1/results/epochs30_batch64_seed42_v1/test/classification_report_vit_b16_pretrained_full.json">Chỉ số từng lớp</a></td></tr>
+          </tbody></table></div>
+        </details>
+        <p class="result-note">Mẫu sai là các lỗi đầu tiên theo thứ tự bộ nạp kiểm tra, không phải mẫu ngẫu nhiên. Các ảnh/CSV gốc được giữ nguyên; tập PDF tổng hợp dùng thang xám để phục vụ báo cáo. Hoàn tất thực nghiệm không đồng nghĩa đã nộp bài hoặc đã có báo cáo mới được nhóm duyệt.</p>
       </section>
 
       <section class="section two-column">

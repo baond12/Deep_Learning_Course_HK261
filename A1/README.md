@@ -8,7 +8,13 @@ fine-tune.
 
 Đã kết thúc thăm dò trên P100. Người học duyệt **30 epoch, batch 64, FP32**, seed
 chia/huấn luyện **42**. ViT full dùng LR **1e-5**; bảy cấu hình khác dùng **1e-4**.
-Giữ Adam, weight decay 1e-4 và tiền xử lý từ pilot. Chưa có kết quả lượt chính.
+Giữ Adam, weight decay 1e-4 và tiền xử lý từ pilot. **Lượt chính đã hoàn tất ngày
+19/10/2026:** tám cấu hình, 240 epoch, 80.000 dòng dự đoán test đã đối chiếu.
+Xem [phân tích kết quả](results/epochs30_batch64_seed42_v1/analysis.md),
+[bảng tổng hợp](results/epochs30_batch64_seed42_v1/report_summary.csv),
+[kiểm chứng](results/epochs30_batch64_seed42_v1/report_checks.json).
+ViT full đạt test accuracy 86,46%, macro F1 0,8651. Word/PDF mới đang được biên soạn;
+báo cáo hiện tại trong `reports/` vẫn thuộc lượt trước.
 
 Đọc [A1.1 đã chốt](protocol-a1.1.md), [JSON cấu hình](protocol-a1.1.json),
 [hướng dẫn chạy và gửi kết quả](RUN_PROTOCOL.md), [phân tích lựa chọn](../docs/a1-pilot-analysis.md).
@@ -33,6 +39,7 @@ bảng chính. [Dự thảo cũ](protocol-a1.1-draft.md) và [hướng dẫn pil
 - `run_protocol.py`: chạy quy trình đã duyệt, lưu checkpoint ngay khi validation cải thiện, tách test và kiểm tra nguồn gốc.
 - `protocol-a1.1.json`: 30 epoch/batch 64 và LR từng cấu hình; không cần nhập lại trên CLI.
 - `test_protocol.py`: kiểm tra tám cấu hình, chọn checkpoint, chống ghi đè, kiểm tra test và lỗi.
+- `build_report_bundle.py`: đối chiếu tệp kết quả/80.000 dự đoán/checkpoint, tạo phân tích và gói 19 tệp một cấp cho ChatGPT Plus; không train hoặc suy luận lại.
 - `pilot.py`: chạy thăm dò tuần tự, không test, ghi môi trường/thời gian/bộ nhớ và lỗi.
 - `engine.py`: vòng lặp A1, kiểm soát phần đóng băng, dừng khi loss/gradient không hữu hạn.
 - `test_pilot.py`: kiểm tra đường chạy thăm dò, lưu kết quả và xử lý lỗi bằng dữ liệu tổng hợp.
@@ -42,6 +49,20 @@ bảng chính. [Dự thảo cũ](protocol-a1.1-draft.md) và [hướng dẫn pil
 - `COLAB.md`: hướng dẫn chạy trên Google Colab.
 - `checkpoints/`: nơi lưu checkpoint tùy chọn; model files bị Git ignore.
 - `results/`: thư mục sinh kết quả sau khi train.
+
+## Tổng hợp báo cáo từ lượt chính đã chạy
+
+```bash
+python A1/build_report_bundle.py --source /path/to/epochs30_batch64_seed42_v1
+```
+
+Công cụ này dùng matplotlib, NumPy, Pillow và reportlab để biên soạn hình/PDF;
+đây là phụ thuộc hậu xử lý, không đổi `requirements.txt` hoặc môi trường đã dùng
+để huấn luyện. Bản hiện tại dùng font Times New Roman của Windows. Thư mục nguồn
+cần có checkpoint để kiểm tra SHA-256, nhưng bản sao trong repo/gói ChatGPT Plus
+không chứa checkpoint. Giữ nguyên tệp gốc, chỉ sinh thêm các tệp `report_*`, hình
+tổng hợp và phân tích. Gói nằm tại `A1_ChatGPT_Plus_30epoch/`, đủ 19 tệp một cấp,
+được Git ignore vì là gói làm việc để đính kèm, không phải báo cáo đã nộp.
 
 ## Dataset và protocol
 

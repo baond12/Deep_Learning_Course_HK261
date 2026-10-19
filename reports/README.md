@@ -4,8 +4,8 @@ Các đường dẫn ổn định cho báo cáo; trạng thái phiên bản E1�
 
 - `exercises.pdf`: PDF E1–E3 hiện hành v02, gồm 31 trang.
 - `exercises.docx`: bản Word E1–E3 hiện hành v02.
-- `assignment1.pdf`: báo cáo Assignment 1, bản PDF dùng để đọc và nộp bài.
-- `assignment1.docx`: bản Word tương ứng để tải về và chỉnh sửa.
+- `assignment1.pdf`: PDF A1 v01 của lượt thăm dò trước, chưa phản ánh kết quả 30 epoch mới.
+- `assignment1.docx`: Word v01 tương ứng, giữ nguyên cho tới khi có bản mới đồng bộ.
 - `assignment2.pdf`
 
 Không cần tách báo cáo E1, E2, E3 thành nhiều file; đề yêu cầu một báo cáo chung cho
@@ -37,4 +37,11 @@ trong khu vực làm việc, không cần đưa vào đợt cập nhật báo c�
 Bản Assignment 1 hiện tại được lấy từ `assignment1_report_v01.pdf` và
 `assignment1_report_v01.docx`. Landing page dùng đường dẫn ổn định
 `reports/assignment1.pdf` và `reports/assignment1.docx`.
+
+Ngày 19/10/2026 đã tổng hợp [kết quả A1 mới](../A1/results/epochs30_batch64_seed42_v1/analysis.md),
+tám cấu hình/240 epoch theo protocol đã duyệt. Gói làm báo cáo cho ChatGPT Plus
+đã chuẩn bị; chưa có Word v02 ở máy. Người học đồng ý xuất PDF từ Word mới trước
+khi review nhóm. Chưa thay thế hai tệp v01 bằng kết quả khác hoặc ghi nhãn chúng
+là báo cáo mới. Khi có Word mới, xuất PDF từ chính Word đó, kiểm tra đồng bộ,
+rồi cập nhật hai đường dẫn ổn định; thao tác Git do người học tự thực hiện.
 

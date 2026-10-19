@@ -1,0 +1,33 @@
+{
+  "protocol_id": "a1_cifar100_p100_v1",
+  "status": "approved",
+  "dataset": "CIFAR-100",
+  "num_classes": 100,
+  "image_size": 224,
+  "train_per_class": 400,
+  "val_per_class": 100,
+  "test_per_class": 100,
+  "split_seed": 42,
+  "split_indices_sha256": "39684f5ef7a60f4cf3da5897931830b02da9723be21241a882b93fa1d0bda956",
+  "epochs": 30,
+  "batch_size": 64,
+  "train_seed": 42,
+  "optimizer": "Adam",
+  "weight_decay": 0.0001,
+  "precision": "float32",
+  "amp": false,
+  "scheduler": null,
+  "augmentation": "resize224_horizontal_flip_p0.5_imagenet_normalize",
+  "pretrained_weights": "IMAGENET1K_V1",
+  "checkpoint_selection": "highest_validation_accuracy_first_epoch_on_tie",
+  "learning_rates": {
+    "resnet18_scratch": 0.0001,
+    "resnet18_pretrained_head": 0.0001,
+    "resnet18_pretrained_partial": 0.0001,
+    "resnet18_pretrained_full": 0.0001,
+    "vit_b16_scratch": 0.0001,
+    "vit_b16_pretrained_head": 0.0001,
+    "vit_b16_pretrained_partial": 0.0001,
+    "vit_b16_pretrained_full": 1e-05
+  }
+}

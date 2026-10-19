@@ -39,6 +39,7 @@ Khi đẩy lên GitHub, bật GitHub Pages từ nhánh `main`, chọn thư mục
 - `reports/assignment1.pdf`: báo cáo A1 của lượt thăm dò trước; chưa phản ánh lượt chính mới.
 - `A1/protocol-a1.1.md`: A1.1 đã chốt sau thăm dò P100; 30 epoch, batch 64, FP32, LR riêng cho ViT full.
 - `A1/RUN_PROTOCOL.md`: lệnh huấn luyện và đánh giá test riêng bằng checkpoint tốt nhất.
+- `A1/results/epochs30_batch64_seed42_v1/analysis.md`: phân tích lượt chính đã hoàn tất, tám cấu hình/240 epoch/80.000 dự đoán; Word/PDF mới đang được biên soạn.
 - `reports/assignment2.pdf`: báo cáo A2.
 
 Nguồn kết quả E1/E2/E3, cách tái sử dụng mô hình đối chứng và quy tắc chốt báo cáo:

@@ -3,6 +3,7 @@ __pycache__/
 .pytest_cache/
 .ipynb_checkpoints/
 .matplotlib-cache/
+/A1_ChatGPT_Plus_30epoch/
 
 data/
 datasets/
