@@ -5,7 +5,7 @@ Các đường dẫn ổn định cho báo cáo; trạng thái phiên bản E1�
 - `exercises.pdf`: PDF E1–E3 hiện hành v02, gồm 31 trang.
 - `exercises.docx`: bản Word E1–E3 hiện hành v02.
 - `assignment1.pdf`: PDF A1 v01 của lượt thăm dò trước, chưa phản ánh kết quả 30 epoch mới.
-- `assignment1.docx`: Word v01 tương ứng, giữ nguyên cho tới khi có bản mới đồng bộ.
+- `assignment1.docx`: Word v02 đã sửa cục bộ theo kết quả mới; PDF chưa xuất lại từ bản này.
 - `assignment2.pdf`
 
 Không cần tách báo cáo E1, E2, E3 thành nhiều file; đề yêu cầu một báo cáo chung cho
@@ -34,14 +34,26 @@ Việc chốt tạm không xác nhận đã nộp bài hoặc thay người họ
 thành viên và khai báo hỗ trợ AI. Các gói soạn thảo và nhận xét rà soát được giữ
 trong khu vực làm việc, không cần đưa vào đợt cập nhật báo cáo hiện hành.
 
-Bản Assignment 1 hiện tại được lấy từ `assignment1_report_v01.pdf` và
-`assignment1_report_v01.docx`. Landing page dùng đường dẫn ổn định
-`reports/assignment1.pdf` và `reports/assignment1.docx`.
+## Báo cáo Assignment 1 v02
 
-Ngày 19/10/2026 đã tổng hợp [kết quả A1 mới](../A1/results/epochs30_batch64_seed42_v1/analysis.md),
-tám cấu hình/240 epoch theo protocol đã duyệt. Gói làm báo cáo cho ChatGPT Plus
-đã chuẩn bị; chưa có Word v02 ở máy. Người học đồng ý xuất PDF từ Word mới trước
-khi review nhóm. Chưa thay thế hai tệp v01 bằng kết quả khác hoặc ghi nhãn chúng
-là báo cáo mới. Khi có Word mới, xuất PDF từ chính Word đó, kiểm tra đồng bộ,
-rồi cập nhật hai đường dẫn ổn định; thao tác Git do người học tự thực hiện.
+Word hiện hành được sửa cục bộ từ `assignment1_report_v02.docx` do người học cung
+cấp, theo [kết quả tám cấu hình/240 epoch](../A1/results/epochs30_batch64_seed42_v1/analysis.md).
+Bản gốc ở thư mục người học được giữ nguyên. Bản trong repo đã sửa font tiêu đề
+bằng cách bỏ theme font ghi đè, đặt chữ về Times New Roman/đen; sửa Protocol ID
+thành `a1_cifar100_p100_v1`; thống nhất khoảng cách R-S thành 44,02 điểm phần
+trăm; cập nhật và lưu mục lục bằng Word, bỏ mục lục tự tham chiếu.
+
+Đã dựng 21 trang PNG bằng Word để kiểm tra nội bộ, không xuất PDF. Giữ nguyên
+11 bảng và 8 ảnh; bảng số liệu không đổi, chỉ một ô Protocol ID được sửa.
+Công thức Word được giữ nguyên.
+
+- SHA-256 Word nguồn v02: `73ee7340b8ce02666601824f69eca4cf55f5bfd8f158183a89f93e1082b4361a`.
+- SHA-256 Word v02 đã sửa: `0f8bf22b5be4b015e8fb299fa89c620f391177d913a41180b1c47eb8ae2b558e`.
+- SHA-256 PDF hiện hành v01, chưa thay: `d08e89c583db745c8a61ad539867fdcecda179808e8e465c0586eff25cd0c36e`.
+
+**PDF đang chờ người học xuất lại.** Mở [Word đã sửa](assignment1.docx), xuất
+PDF vào `reports/assignment1.pdf`, rồi kiểm tra đồng bộ trước khi đổi trạng thái
+PDF thành v02. Không dùng PDF người học xuất trước lần sửa này để khẳng định
+khớp Word đã chuẩn hóa. Thao tác Git do người học tự thực hiện; chưa xác nhận
+nhóm đã hoàn tất review hoặc đã nộp bài.
 

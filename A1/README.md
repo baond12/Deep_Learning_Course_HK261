@@ -13,8 +13,9 @@ Giữ Adam, weight decay 1e-4 và tiền xử lý từ pilot. **Lượt chính �
 Xem [phân tích kết quả](results/epochs30_batch64_seed42_v1/analysis.md),
 [bảng tổng hợp](results/epochs30_batch64_seed42_v1/report_summary.csv),
 [kiểm chứng](results/epochs30_batch64_seed42_v1/report_checks.json).
-ViT full đạt test accuracy 86,46%, macro F1 0,8651. Word/PDF mới đang được biên soạn;
-báo cáo hiện tại trong `reports/` vẫn thuộc lượt trước.
+ViT full đạt test accuracy 86,46%, macro F1 0,8651. [Word v02](../reports/assignment1.docx)
+đã chuẩn hóa cục bộ từ bản người học cung cấp. PDF trong `reports/` vẫn là v01,
+đang chờ người học xuất lại từ Word đã sửa; chưa công bố hai bản đã đồng bộ.
 
 Đọc [A1.1 đã chốt](protocol-a1.1.md), [JSON cấu hình](protocol-a1.1.json),
 [hướng dẫn chạy và gửi kết quả](RUN_PROTOCOL.md), [phân tích lựa chọn](../docs/a1-pilot-analysis.md).
