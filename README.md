@@ -36,8 +36,8 @@ Khi đẩy lên GitHub, bật GitHub Pages từ nhánh `main`, chọn thư mục
 
 - `reports/exercises.docx`: báo cáo chung E1–E3, bản v02 đã chốt tạm.
 - `reports/exercises.pdf`: PDF v02 tương ứng, gồm 31 trang.
-- `reports/assignment1.pdf`: báo cáo A1 của lượt thăm dò trước; chưa phản ánh lượt chính mới.
-- `reports/assignment1.docx`: Word A1 v02 đã chuẩn hóa theo lượt chính; PDF chờ người học xuất lại để đồng bộ.
+- `reports/assignment1.pdf`: PDF A1 v02, 21 trang, đã đối chiếu với Word theo lượt chính tám cấu hình/240 epoch.
+- `reports/assignment1.docx`: Word A1 v02 đã chuẩn hóa; Word và PDF đã đồng bộ ngày 19/10/2026.
 - `A1/protocol-a1.1.md`: A1.1 đã chốt sau thăm dò P100; 30 epoch, batch 64, FP32, LR riêng cho ViT full.
 - `A1/RUN_PROTOCOL.md`: lệnh huấn luyện và đánh giá test riêng bằng checkpoint tốt nhất.
 - `A1/results/epochs30_batch64_seed42_v1/analysis.md`: phân tích lượt chính đã hoàn tất, tám cấu hình/240 epoch/80.000 dự đoán.

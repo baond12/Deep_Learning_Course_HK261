@@ -1,11 +1,11 @@
 # Báo cáo học phần
 
-Các đường dẫn ổn định cho báo cáo; trạng thái phiên bản E1–E3 được ghi bên dưới:
+Các đường dẫn ổn định cho báo cáo; trạng thái phiên bản được ghi bên dưới:
 
 - `exercises.pdf`: PDF E1–E3 hiện hành v02, gồm 31 trang.
 - `exercises.docx`: bản Word E1–E3 hiện hành v02.
-- `assignment1.pdf`: PDF A1 v01 của lượt thăm dò trước, chưa phản ánh kết quả 30 epoch mới.
-- `assignment1.docx`: Word v02 đã sửa cục bộ theo kết quả mới; PDF chưa xuất lại từ bản này.
+- `assignment1.pdf`: PDF A1 v02, 21 trang, đã đối chiếu với Word theo kết quả 30 epoch mới.
+- `assignment1.docx`: Word A1 v02 đã sửa cục bộ; Word và PDF đã đồng bộ.
 - `assignment2.pdf`
 
 Không cần tách báo cáo E1, E2, E3 thành nhiều file; đề yêu cầu một báo cáo chung cho
@@ -49,11 +49,15 @@ Công thức Word được giữ nguyên.
 
 - SHA-256 Word nguồn v02: `73ee7340b8ce02666601824f69eca4cf55f5bfd8f158183a89f93e1082b4361a`.
 - SHA-256 Word v02 đã sửa: `0f8bf22b5be4b015e8fb299fa89c620f391177d913a41180b1c47eb8ae2b558e`.
-- SHA-256 PDF hiện hành v01, chưa thay: `d08e89c583db745c8a61ad539867fdcecda179808e8e465c0586eff25cd0c36e`.
+- SHA-256 PDF v02 hiện hành: `c23ac7fa3489ca6bf48e9ee31609cd0dd89c08fd91bf0c619ac67067eaeb42e5`.
 
-**PDF đang chờ người học xuất lại.** Mở [Word đã sửa](assignment1.docx), xuất
-PDF vào `reports/assignment1.pdf`, rồi kiểm tra đồng bộ trước khi đổi trạng thái
-PDF thành v02. Không dùng PDF người học xuất trước lần sửa này để khẳng định
-khớp Word đã chuẩn hóa. Thao tác Git do người học tự thực hiện; chưa xác nhận
-nhóm đã hoàn tất review hoặc đã nộp bài.
+**Word và PDF v02 đã đồng bộ ngày 19/10/2026.** Người học đã xuất
+[PDF 21 trang](assignment1.pdf) từ [Word đã sửa](assignment1.docx). Đã đối chiếu
+nội dung toàn bộ 11 bảng với Word, kiểm tra Protocol ID, mục lục và cách làm tròn;
+dựng và xem cả 21 trang PDF. Tiêu đề và thân bài dùng Times New Roman, công thức
+giữ font toán; chữ màu đen, không phát hiện chữ nằm ngoài khổ trang hoặc lỗi cắt
+bảng. Word không thay đổi sau lần chuẩn hóa. Trang chủ và trang A1 cùng liên kết
+đến hai tệp hiện hành. Chi tiết: [biên bản kiểm tra](../docs/a1-report-v02-review.md).
+Thao tác Git do người học tự thực hiện; chưa xác nhận nhóm đã hoàn tất rà soát
+học thuật hoặc đã nộp bài.
 

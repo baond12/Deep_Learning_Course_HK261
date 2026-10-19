@@ -14,8 +14,9 @@ Xem [phân tích kết quả](results/epochs30_batch64_seed42_v1/analysis.md),
 [bảng tổng hợp](results/epochs30_batch64_seed42_v1/report_summary.csv),
 [kiểm chứng](results/epochs30_batch64_seed42_v1/report_checks.json).
 ViT full đạt test accuracy 86,46%, macro F1 0,8651. [Word v02](../reports/assignment1.docx)
-đã chuẩn hóa cục bộ từ bản người học cung cấp. PDF trong `reports/` vẫn là v01,
-đang chờ người học xuất lại từ Word đã sửa; chưa công bố hai bản đã đồng bộ.
+đã chuẩn hóa cục bộ từ bản người học cung cấp. [PDF v02](../reports/assignment1.pdf)
+gồm 21 trang, do người học xuất từ Word đã sửa; đã đối chiếu bảng số liệu, mục lục,
+font và bố cục ngày 19/10/2026. Word và PDF đã đồng bộ; chưa xác nhận đã nộp bài.
 
 Đọc [A1.1 đã chốt](protocol-a1.1.md), [JSON cấu hình](protocol-a1.1.json),
 [hướng dẫn chạy và gửi kết quả](RUN_PROTOCOL.md), [phân tích lựa chọn](../docs/a1-pilot-analysis.md).

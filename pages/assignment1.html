@@ -34,11 +34,12 @@
           từ đầu, tiền huấn luyện chỉ học đầu phân loại, mở một phần mạng và tinh chỉnh
           toàn bộ. Đã chốt quy trình A1.1 sau thăm dò trên P100; lượt chính gồm
           30 epoch mỗi cấu hình, batch 64, FP32. Đã hoàn tất train/test của cả tám
-          cấu hình và đối chiếu số liệu. Word v02 đã chuẩn hóa; PDF đang chờ xuất
-          lại từ bản Word này để đồng bộ.
+          cấu hình và đối chiếu số liệu. Word và PDF v02 đã đồng bộ; PDF gồm
+          21 trang, được xuất từ bản Word đã chuẩn hóa.
         </p>
         <div class="hero-actions">
           <a class="button button-primary" href="#ket-qua">Xem kết quả chính thức</a>
+          <a class="button button-secondary" href="../reports/assignment1.pdf">Đọc báo cáo PDF v02</a>
           <a class="button button-secondary" href="../reports/assignment1.docx" download>Tải Word v02 đã chuẩn hóa</a>
           <a class="button button-secondary" href="https://github.com/baond12/Deep_Learning_Course_HK261/blob/main/A1/results/epochs30_batch64_seed42_v1/analysis.md">Đọc phân tích kết quả</a>
           <a class="button button-secondary" href="https://github.com/baond12/Deep_Learning_Course_HK261/blob/main/A1/protocol-a1.1.md">Quy trình A1.1 đã chốt</a>
@@ -57,8 +58,8 @@
         <div class="detail-grid">
           <article class="detail-card">
             <span class="card-label">Trạng thái</span>
-            <h3>Word v02 đã chuẩn hóa, PDF chờ đồng bộ</h3>
-            <p>Đủ tám cấu hình, 240 epoch và 80.000 dự đoán test. Word v02 đã đối chiếu bảng kết quả, sửa font tiêu đề, Protocol ID, mục lục và cách làm tròn. PDF ở đường dẫn hiện hành vẫn là v01 của lượt cũ, chờ xuất lại từ Word đã sửa.</p>
+            <h3>Word và PDF v02 đã đồng bộ</h3>
+            <p>Đủ tám cấu hình, 240 epoch và 80.000 dự đoán test. PDF 21 trang do người học xuất từ Word đã chuẩn hóa, đã đối chiếu nội dung bảng, mục lục, font và bố cục ngày 19/10/2026. Bản báo cáo hiện hành phản ánh lượt chính 30 epoch.</p>
           </article>
           <article class="detail-card">
             <span class="card-label">Dataset</span>
@@ -152,13 +153,13 @@
       <section class="section">
         <div class="section-heading">
           <p class="section-kicker">Phiên bản báo cáo</p>
-          <h2>Word v02 và trạng thái PDF</h2>
+          <h2>Word và PDF v02 hiện hành</h2>
         </div>
-        <p>Word v02 trình bày kết quả 30 epoch và đã được chuẩn hóa cục bộ. PDF hiện hành vẫn là bản v01 của lượt thăm dò trước; chưa phải bản xuất từ Word v02 đã sửa. Trạng thái này chưa xác nhận nhóm đã rà soát học thuật hoặc đã nộp bài.</p>
+        <p>Word và PDF v02 cùng trình bày kết quả tám cấu hình, mỗi cấu hình 30 epoch. PDF 21 trang đã được đối chiếu với Word đã sửa về bảng số liệu, Protocol ID, mục lục và cách làm tròn; đã xem bố cục toàn bộ các trang. Trạng thái đồng bộ tệp chưa xác nhận nhóm đã hoàn tất rà soát học thuật hoặc đã nộp bài.</p>
         <div class="hero-actions">
           <a class="button button-secondary" href="../reports/assignment1.docx" download>Word v02 đã sửa</a>
-          <a class="button button-secondary" href="../reports/assignment1.pdf">PDF v01 trước khi đồng bộ</a>
-          <a class="button button-secondary" href="https://github.com/baond12/Deep_Learning_Course_HK261/tree/main/A1/results">Kho kết quả trước lượt chính</a>
+          <a class="button button-secondary" href="../reports/assignment1.pdf">PDF v02 · 21 trang</a>
+          <a class="button button-secondary" href="https://github.com/baond12/Deep_Learning_Course_HK261/tree/main/A1/results/epochs30_batch64_seed42_v1">Kho kết quả của báo cáo</a>
         </div>
       </section>
 
@@ -183,7 +184,7 @@
     <footer class="site-footer">
       <a href="../index.html">Trang chủ</a>
       <a href="../reports/assignment1.docx">Báo cáo Word A1 v02</a>
-      <a href="../reports/assignment1.pdf">PDF A1 v01, chờ đồng bộ</a>
+      <a href="../reports/assignment1.pdf">Báo cáo PDF A1 v02</a>
       <a href="../Exercise/assignment1-vne.pdf">Đề PDF</a>
     </footer>
   </body>

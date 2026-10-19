@@ -1,14 +1,15 @@
-# Kiểm tra sơ bộ báo cáo A1 v02
+# Kiểm tra và đồng bộ báo cáo A1 v02
 
 Nguồn người học cung cấp: `assignment1_report_v02.docx` và
 `assignment1_report_v02.pdf` tại thư mục `D:\master_hcmut\HK261\Deep_Learning`.
 PDF hiện có 21 trang; Word có 11 bảng và 8 ảnh nhúng. Chưa thay hai tệp báo cáo
 hiện hành trong `reports/` bằng bản này tại thời điểm rà soát ban đầu.
 
-**Cập nhật sau khi người học duyệt sửa cục bộ:** đã đưa Word v02 đã sửa vào
-`reports/assignment1.docx`. Người học tự xuất lại PDF, vì vậy PDF trong repo vẫn
-giữ v01 và trang đích ghi rõ trạng thái chờ đồng bộ. Phần “cần chuẩn hóa” bên
-dưới là danh sách phát hiện trước sửa; cả bốn mục đã được xử lý trong Word.
+**Trạng thái hiện hành ngày 19/10/2026:** Word v02 đã sửa nằm tại
+`reports/assignment1.docx`; người học đã xuất lại `reports/assignment1.pdf` từ
+bản Word này. PDF 21 trang đã được kiểm tra và hai tệp đã đồng bộ. Các phát hiện
+trước sửa được giữ bên dưới để truy vết; cả bốn mục đã được xử lý và kiểm tra lại
+trên PDF mới.
 
 ## Những điểm đã đối chiếu
 
@@ -23,7 +24,7 @@ dưới là danh sách phát hiện trước sửa; cả bốn mục đã đư�
 - Đã render và xem toàn bộ 21 trang để kiểm tra bố cục sơ bộ. Có bảng tiếp trang,
   hình và chú thích; chưa coi đây là bản đã được nhóm duyệt học thuật.
 
-## Các điểm cần chuẩn hóa trước khi đồng bộ bản hiện hành
+## Phát hiện trước sửa, đã xử lý
 
 1. **Font tiêu đề:** PDF thực tế dùng `Calibri-Bold` cho các tiêu đề và đề mục,
    trong khi yêu cầu là Times New Roman. Thân bài dùng Times New Roman;
@@ -42,7 +43,7 @@ dưới là danh sách phát hiện trước sửa; cả bốn mục đã đư�
    phần trăm từ hai tỷ lệ đã làm tròn; bảng ghi 44,02 từ số gốc. Đây là sai khác
    làm tròn nhỏ, nên thống nhất lấy số gốc và ghi 44,02.
 
-## Bước tiếp theo
+## Kiểm tra sau sửa
 
 Đã sửa cục bộ trong bản sao Word và giữ nguyên nguồn người học gửi. Đã cập nhật
 và lưu mục lục bằng Word; 21 trang được dựng trực tiếp thành PNG để kiểm tra,
@@ -51,6 +52,21 @@ toàn bộ 8 ảnh và 11 bảng. So sánh tất cả ô bảng cho thấy chỉ
 các ô số liệu khác giữ nguyên.
 
 SHA-256 Word đã sửa: `0f8bf22b5be4b015e8fb299fa89c620f391177d913a41180b1c47eb8ae2b558e`.
-Người học mở `reports/assignment1.docx`, xuất PDF vào `reports/assignment1.pdf`.
-Sau đó kiểm tra đồng bộ và cập nhật trạng thái PDF trên landing page. Việc kiểm
-tra kỹ thuật không thay nhóm xác nhận tác giả, rà soát học thuật hoặc nộp bài.
+Word giữ nguyên mã băm này sau khi người học xuất PDF.
+
+SHA-256 PDF v02: `c23ac7fa3489ca6bf48e9ee31609cd0dd89c08fd91bf0c619ac67067eaeb42e5`.
+
+- PDF gồm 21 trang, đã dựng ảnh và xem toàn bộ; không phát hiện chữ bị cắt,
+  chồng lấp hoặc nằm ngoài khổ trang. Bảng tiếp trang giữ tiêu đề cột.
+- Đối chiếu nội dung 376 ô thuộc 11 bảng với Word; các giá trị không đổi.
+  Tiêu đề cột “Val tốt nhất (%)” xuống hai dòng, đã kiểm tra trực quan.
+- Bảng 10 ghi đúng `a1_cifar100_p100_v1`; đoạn R-S và bảng cùng dùng 44,02.
+- Mục lục ghi Tóm tắt ở trang 4, không còn dòng mục lục tự tham chiếu; số trang
+  các phần phù hợp bản xuất 21 trang.
+- Tiêu đề và thân bài dùng Times New Roman, không còn Calibri. Công thức giữ
+  Cambria Math và ký hiệu hỗ trợ; Cambria còn ở khoảng trắng của mục lục.
+  Mọi đoạn chữ được trích xuất đều màu đen.
+
+Đã cập nhật trạng thái và liên kết Word/PDF v02 trên trang chủ, trang A1 và tài liệu
+repo. Người học tự commit/push. Kiểm tra kỹ thuật không thay nhóm xác nhận tác giả,
+rà soát học thuật hoặc nộp bài.
